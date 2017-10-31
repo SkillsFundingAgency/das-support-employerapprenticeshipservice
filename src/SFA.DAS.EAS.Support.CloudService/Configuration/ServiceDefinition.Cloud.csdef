@@ -2,10 +2,6 @@
 <ServiceDefinition name="SFA.DAS.EAS.Support.CloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2015-04.2.6">
   <WebRole name="SFA.DAS.EAS.Support.Web" vmsize="small">
     <Runtime executionContext="elevated" />
-    <Startup>
-      <Task commandLine="StartUp\IIS.bat" executionContext="elevated" taskType="background">
-      </Task>
-    </Startup>
     <Sites>
       <Site name="Web">
         <Bindings>

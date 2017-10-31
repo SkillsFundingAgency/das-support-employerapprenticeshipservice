@@ -3,7 +3,7 @@
   <Role name="SFA.DAS.EAS.Support.Web">
     <Instances count="2" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="__StorageConnectionString__" />
       <Setting name="EnvironmentName" value="__EnvironmentName__" />
       <Setting name="AccountApiBaseUrl" value="__AccountApiBaseUrl__" />
       <Setting name="AccountApiClientId" value="__AccountApiClientId__" />
