@@ -151,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="StartUp\FindPrivateKey.exe" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -190,6 +191,8 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\PayeSchemes.cshtml" />
     <Content Include="Views\Challenge\Index.cshtml" />
+    <Content Include="StartUp\IIS.bat" />
+    <Content Include="StartUp\IIS.PS1" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
