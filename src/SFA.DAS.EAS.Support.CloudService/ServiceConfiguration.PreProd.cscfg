@@ -26,7 +26,7 @@
   <NetworkConfiguration>
     <VirtualNetworkSite name="__vnet__" />
     <AddressAssignments>
-      <InstanceAddress roleName="Sfa.Das.Console.Web">
+      <InstanceAddress roleName="SFA.DAS.EAS.Support.Web">
         <Subnets>
           <Subnet name="__subnet__" />
         </Subnets>
