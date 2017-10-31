@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="SFA.DAS.EAS.Support.CloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2015-04.2.6">
+  <WebRole name="SFA.DAS.EAS.Support.Web" vmsize="ExtraSmall">
+    <Sites>
+      <Site name="Web">
+        <Bindings>
+          <Binding name="Binding1" endpointName="SimpleEndpoint" />
+        </Bindings>
+      </Site>
+    </Sites>
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+	  
+      <Setting name="AccountApiBaseUrl" />
+      <Setting name="AccountApiClientId" />
+      <Setting name="AccountApiClientSecret" />
+      <Setting name="AccountApiIdentifierUri" />
+      <Setting name="AccountApiTenant" />
+      <Setting name="AccountApiCertificateThumbprint" />
+
+      <Setting name="LevyApiBaseUrl" />
+      <Setting name="LevyApiClientId" />
+      <Setting name="LevyApiClientSecret" />
+      <Setting name="LevyApiIdentifierUri" />
+      <Setting name="LevyApiTenant" />
+      <Setting name="LevyTokenCertificate" />
+      <Setting name="LevyHttpClientBaseUrl" />
+
+      <Setting name="EnvironmentName"/>	  
+    </ConfigurationSettings>
+    <Endpoints>
+      <InputEndpoint name="SimpleEndpoint" protocol="http" port="80" />
+    </Endpoints>
+    <Certificates>
+      <Certificate name="WebSslCert" storeLocation="LocalMachine" storeName="My" />
+    </Certificates>
+  </WebRole>
+</ServiceDefinition>

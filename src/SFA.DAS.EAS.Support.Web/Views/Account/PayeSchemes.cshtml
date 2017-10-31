@@ -1,0 +1,30 @@
+﻿@model Sfa.Das.Console.Web.ViewModels.AccountDetailViewModel
+
+@if (Model.Account != null)
+{
+    <h1>
+        PAYE Schemes
+    </h1>
+
+    if (Model.Account.PayeSchemes.Any())
+    {
+        <p>Added PAYE Schemes</p>
+
+        foreach (var payeScheme in Model.Account.PayeSchemes)
+        {
+        <dl>
+            <dt>@payeScheme.Ref</dt>
+        </dl>
+
+        <hr />
+    }
+    }
+    else
+    {
+        <p>No PAYE schemes availables</p>
+    }
+}
+else
+{
+    <p>Account not found</p>
+}

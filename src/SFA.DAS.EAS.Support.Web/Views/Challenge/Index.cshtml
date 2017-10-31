@@ -1,0 +1,45 @@
+﻿@using Sfa.Das.Console.Web.Helpers
+@model Sfa.Das.Console.Web.Models.ChallengeViewModel
+
+@ShowErrorMessage()
+
+<h1>Finance</h1>
+
+@{ Html.BeginForm(); }
+
+    <p class="lede">Enter the following information to verify the caller's identity:</p>
+
+    <input name="url" type="hidden" value="@Model.Url" />
+    <input name="id" type="hidden" value="@Model.Id" />
+    <input name="firstCharacterPosition" type="hidden" value="@Model.Characters[0]" />
+    <input name="secondCharacterPosition" type="hidden" value="@Model.Characters[1]" />
+
+    <div class="form-group">
+        <label class="form-label" for="challenge1">@ChallengeHelper.GetChallengeMessage(Model.Characters)</label>
+        <input class="form-control single-char focus-switch" name="challenge1" id="challenge1" type="password" maxlength="1" data-next-id="challenge2" />
+        <input class="form-control single-char focus-switch" name="challenge2" id="challenge2" type="password" maxlength="1" data-next-id="balance" />
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="balance">
+            Current levy balance (excluding pence):
+        </label>
+        <input name="balance" id="balance" type="text" class="form-control form-control-1-4" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" class="button" />
+    </div>
+
+@{ Html.EndForm(); }
+
+@helper ShowErrorMessage()
+{
+    if (Model.HasError)
+    {
+        <div class="error-summary">
+            <p>Incorrect information entered.</p>
+        </div>
+
+    }
+}

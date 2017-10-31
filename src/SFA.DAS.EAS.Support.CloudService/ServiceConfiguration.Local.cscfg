@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="SFA.DAS.EAS.Support.CloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2015-04.2.6">
+  <Role name="SFA.DAS.EAS.Support.Web">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="EnvironmentName" value="local" />
+      <Setting name="AccountApiBaseUrl" value="" />
+      <Setting name="AccountApiClientId" value="" />
+      <Setting name="AccountApiClientSecret" value="" />
+      <Setting name="AccountApiIdentifierUri" value="" />
+      <Setting name="AccountApiTenant" value="" />
+      <Setting name="AccountApiCertificateThumbprint" value="" />
+      <Setting name="LevyApiBaseUrl" value="" />
+      <Setting name="LevyApiClientId" value="" />
+      <Setting name="LevyApiClientSecret" value="" />
+      <Setting name="LevyApiIdentifierUri" value="" />
+      <Setting name="LevyApiTenant" value="" />
+      <Setting name="LevyTokenCertificate" value="" />
+      <Setting name="LevyHttpClientBaseUrl" value="" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="WebSslCert" thumbprint="87A28DF77BBA73983918DF4288A132588AE820F4" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>

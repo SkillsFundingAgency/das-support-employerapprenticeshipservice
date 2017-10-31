@@ -1,0 +1,55 @@
+﻿@using System.Globalization
+@model Sfa.Das.Console.Web.ViewModels.FinanceViewModel
+
+@{
+    var culture = new CultureInfo("en-GB");
+}
+
+@if (Model.Account != null)
+{
+    <h1 class="heading-xlarge">Finance</h1>
+
+    <div class="data-wrap">
+        <div class="data">
+            <dl>
+                <dt>Current funds</dt>
+                <dd>@Model.Balance.ToString("C2", culture)</dd>
+            </dl>
+        </div>
+    </div>
+
+    <h2>Transactions</h2>
+
+    if (Model.Account.Transactions.Any())
+    {
+        <table>
+            <tr>
+                <th scope="col">Payment date</th>
+                <th scope="col">Description</th>
+                <th scope="col">Amount</th>
+            </tr>
+            @foreach (var item in Model.Account.Transactions)
+            {
+                <tr>
+                    <td id="transactionPaymentDate">
+                        @item.DateCreated.ToString("dd/MM/yyyy")
+                    </td>
+                    <td id="transactionDescription">
+                        @item.Description
+                    </td>
+                    <td id="transactionAmount">
+                        @item.Amount.ToString("C2", culture)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <p>There are no transactions for this account</p>
+    }
+}
+else
+{
+    <p>Account not found</p>
+}

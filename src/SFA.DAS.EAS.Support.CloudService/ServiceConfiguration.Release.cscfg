@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="SFA.DAS.EAS.Support.CloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2015-04.2.6">
+  <Role name="SFA.DAS.EAS.Support.Web">
+    <Instances count="2" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="EnvironmentName" value="__EnvironmentName__" />
+      <Setting name="AccountApiBaseUrl" value="__AccountApiBaseUrl__" />
+      <Setting name="AccountApiClientId" value="__AccountApiClientId__" />
+      <Setting name="AccountApiClientSecret" value="__AccountApiClientSecret__" />
+      <Setting name="AccountApiIdentifierUri" value="__AccountApiIdentifierUri__" />
+      <Setting name="AccountApiTenant" value="__AccountApiTenant__" />
+      <Setting name="AccountApiCertificateThumbprint" value="__AccountApiCertificateThumbprint__" />
+      <Setting name="LevyApiBaseUrl" value="__LevyApiBaseUrl__" />
+      <Setting name="LevyApiClientId" value="__LevyApiClientId__" />
+      <Setting name="LevyApiClientSecret" value="__LevyApiClientSecret__" />
+      <Setting name="LevyApiIdentifierUri" value="__LevyApiIdentifierUri__" />
+      <Setting name="LevyApiTenant" value="__LevyApiTenant__" />
+      <Setting name="LevyTokenCertificate" value="__LevyTokenCertificate__" />
+      <Setting name="LevyHttpClientBaseUrl" value="__LevyHttpClientBaseUrl__" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="WebSslCert" thumbprint="DFD096B2F4DFF8145754D2314CBA2BC0A40C588F" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+  <NetworkConfiguration>
+    <VirtualNetworkSite name="__vnet__" />
+    <AddressAssignments>
+      <InstanceAddress roleName="Sfa.Das.Console.Web">
+        <Subnets>
+          <Subnet name="__subnet__" />
+        </Subnets>
+      </InstanceAddress>
+    </AddressAssignments>
+    <LoadBalancers>
+      <LoadBalancer name="__ilbname__">
+        <FrontendIPConfiguration type="private" subnet="__subnet__" staticVirtualNetworkIPAddress="10.78.125.126" />
+      </LoadBalancer>
+    </LoadBalancers>
+  </NetworkConfiguration>
+</ServiceConfiguration>
