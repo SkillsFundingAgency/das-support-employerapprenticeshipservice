@@ -1,10 +1,4 @@
 ﻿@model Sfa.Das.Console.Web.ViewModels.AccountDetailViewModel
-@{
-    ViewBag.modelTitle = Model.Account.DasAccountName;
-    ViewBag.accountId = Model.Account.HashedAccountId;
-    ViewBag.currentSection = "account";
-    ViewBag.currentPage = NavPages.Overview;
-}
 
 @if (Model.Account != null)
 {
