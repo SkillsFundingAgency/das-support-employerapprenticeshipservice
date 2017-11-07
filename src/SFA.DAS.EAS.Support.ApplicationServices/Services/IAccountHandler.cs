@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ESFA.DAS.Support.Shared;
 using Sfa.Das.Console.ApplicationServices.Responses;
+using SFA.DAS.EAS.Account.Api.Types;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
 
 namespace Sfa.Das.Console.ApplicationServices.Services
@@ -13,5 +14,6 @@ namespace Sfa.Das.Console.ApplicationServices.Services
 
         Task<AccountFinanceResponse> FindFinance(string id);
         IEnumerable<SearchItem> FindSearchItems();
+        Task<AccountReponse> Find(string id);
     }
 }

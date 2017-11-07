@@ -1,7 +1,7 @@
 ﻿using Sfa.Das.Console.Core.Services;
 using SFA.DAS.EAS.Account.Api.Client;
 
-namespace Sfa.Das.Console.Infrastructure.Settings
+namespace SFA.DAS.EAS.Support.Infrastructure.Settings
 {
     public class AccountsApiConfiguration : IAccountApiConfiguration
     {

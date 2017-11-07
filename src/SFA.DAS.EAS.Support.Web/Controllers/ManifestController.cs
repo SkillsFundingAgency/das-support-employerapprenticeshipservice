@@ -40,7 +40,7 @@ namespace SubSite.Web.Controllers
             yield return new SiteChallenge
             {
                 ChallengeKey = "account/finance",
-                ChallengeUrlFormat = "/account/challenge/{0}"
+                ChallengeUrlFormat = "/challenge/{0}"
             };
         }
 

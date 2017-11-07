@@ -48,6 +48,7 @@
     <Compile Include="ChallengeHandler.cs" />
     <Compile Include="IAccountRepository.cs" />
     <Compile Include="IChallengeHandler.cs" />
+    <Compile Include="Models\AccountResponse.cs" />
     <Compile Include="Models\ChallengePermissionQuery.cs" />
     <Compile Include="Models\ChallengePermissionResponse.cs" />
     <Compile Include="Models\AccountDetailOrganisationsResponse.cs" />

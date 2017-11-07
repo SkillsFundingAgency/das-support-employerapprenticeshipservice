@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web;
+using System.Web.Http.Results;
 using System.Web.Mvc;
-using Sfa.Das.Console.ApplicationServices;
-using Sfa.Das.Console.ApplicationServices.Handlers;
 using Sfa.Das.Console.ApplicationServices.Queries;
+using Sfa.Das.Console.ApplicationServices.Responses;
 using Sfa.Das.Console.Core.Domain.Model;
 using Sfa.Das.Console.Web.Models;
+using SFA.DAS.EAS.Support.ApplicationServices;
 
 namespace Sfa.Das.Console.Web.Controllers
 {
@@ -23,6 +22,11 @@ namespace Sfa.Das.Console.Web.Controllers
         public async Task<ActionResult> Index(string id, string url, bool hasError = false)
         {
             var response = await _handler.Get(id);
+
+            if (response.StatusCode != SearchResponseCodes.Success)
+            {
+                return HttpNotFound($"There was a problem finding the account {id}");
+            }
 
             return View(new ChallengeViewModel { Characters = response.Characters, Id = id, Url = url, HasError = hasError });
         }

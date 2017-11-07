@@ -82,6 +82,24 @@ namespace Sfa.Das.Console.ApplicationServices.Services
             }
         }
 
+        public async Task<AccountReponse> Find(string id)
+        {
+            var response = new AccountReponse
+            {
+                StatusCode = SearchResponseCodes.NoSearchResultsFound
+            };
+
+            var account = await _accountRepository.Get(id, AccountFieldsSelection.None);
+
+            if (account != null)
+            {
+                response.StatusCode = SearchResponseCodes.Success;
+                response.Account = account;
+            }
+
+            return response;
+        }
+
         private SearchItem MapToSearch(AccountDetailViewModel arg)
         {
             var keywords = new List<string>

@@ -1,0 +1,9 @@
+﻿@model Sfa.Das.Console.Core.Domain.Model.Account
+@{Layout = null}
+<h1>
+    @(Model?.DasAccountName)
+    @if (!string.IsNullOrEmpty(Model?.HashedAccountId))
+    {
+        <span>Account ID @(Model?.HashedAccountId)</span>
+    }
+</h1>

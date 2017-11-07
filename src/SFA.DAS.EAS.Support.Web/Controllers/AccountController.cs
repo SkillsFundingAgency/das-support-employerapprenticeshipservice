@@ -32,7 +32,7 @@ namespace Sfa.Das.Console.Web.Controllers
                 return View(vm);
             }
 
-            return new HttpNotFoundResult();
+            return HttpNotFound();
         }
 
         public async Task<ActionResult> PayeSchemes(string id)
@@ -52,6 +52,18 @@ namespace Sfa.Das.Console.Web.Controllers
             return new HttpNotFoundResult();
         }
 
+        public async Task<ActionResult> Header(string id)
+        {
+            var response = await _handler.Find(id);
+
+            if (response.StatusCode != SearchResponseCodes.Success)
+            {
+                return HttpNotFound();
+            }
+
+            return View("SubHeader", response.Account);
+        }
+
         public async Task<ActionResult> Finance(string id)
         {
             var response = await _handler.FindFinance(id);
@@ -67,7 +79,7 @@ namespace Sfa.Das.Console.Web.Controllers
                 return View(vm);
             }
 
-            return new HttpNotFoundResult();
+            return HttpNotFound();
         }
     }
 }

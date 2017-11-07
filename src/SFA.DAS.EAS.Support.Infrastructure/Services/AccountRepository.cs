@@ -121,8 +121,6 @@ namespace Sfa.Das.Console.Infrastructure
                     var transactions = await GetAccountTransactions(response.HashedAccountId);
                     result.Transactions = transactions;
                     return result;
-                default:
-                    break;
             }
 
             return result;

@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
+using Sfa.Das.Console.ApplicationServices;
 using Sfa.Das.Console.ApplicationServices.Queries;
 using Sfa.Das.Console.ApplicationServices.Responses;
 using Sfa.Das.Console.ApplicationServices.Services;
 using Sfa.Das.Console.Core.Domain.Model;
 
-namespace Sfa.Das.Console.ApplicationServices.Handlers
+namespace SFA.DAS.EAS.Support.ApplicationServices
 {
     public class ChallengeHandler : IChallengeHandler
     {

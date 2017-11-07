@@ -2,7 +2,7 @@
 using Sfa.Das.Console.ApplicationServices.Queries;
 using Sfa.Das.Console.ApplicationServices.Responses;
 
-namespace Sfa.Das.Console.ApplicationServices.Handlers
+namespace SFA.DAS.EAS.Support.ApplicationServices
 {
     public interface IChallengeHandler
     {
