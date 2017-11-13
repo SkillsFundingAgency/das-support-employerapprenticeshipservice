@@ -41,6 +41,7 @@ namespace Sfa.Das.Console.Web.Controllers
                 return Content(string.Empty);
             }
 
+            Response.StatusCode = 403;
             var model = new ChallengeViewModel
             {
                 Characters = new List<int> {challengeEntry.Challenge1, challengeEntry.Challenge2},
