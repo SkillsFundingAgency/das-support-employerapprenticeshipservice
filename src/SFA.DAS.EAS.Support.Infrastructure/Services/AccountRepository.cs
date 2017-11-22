@@ -1,79 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Sfa.Das.Console.ApplicationServices;
-using Sfa.Das.Console.ApplicationServices.Services;
-using Sfa.Das.Console.Core.Domain.Model;
-using Sfa.Das.Console.Core.Helpers;
 using SFA.DAS.EAS.Account.Api.Client;
 using SFA.DAS.EAS.Account.Api.Types;
+using SFA.DAS.EAS.Support.ApplicationServices;
+using SFA.DAS.EAS.Support.ApplicationServices.Services;
+using SFA.DAS.EAS.Support.Core.Models;
+using SFA.DAS.EAS.Support.Core.Services;
+using SFA.DAS.NLog.Logger;
 
-namespace Sfa.Das.Console.Infrastructure
+namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {
     public sealed class AccountRepository : IAccountRepository
     {
         private readonly IAccountApiClient _accountApiClient;
-        private readonly IPayeSchemeObfuscator _payeSchemeObfuscator;
         private readonly IDatetimeService _datetimeService;
-
-        public AccountRepository(IAccountApiClient accountApiClient, IPayeSchemeObfuscator payeSchemeObfuscator, IDatetimeService datetimeService)
+        private readonly IPayeSchemeObfuscator _payeSchemeObfuscator;
+        private readonly int _accountsPerPage = 10;
+        private readonly ILog _logger;
+        public AccountRepository(IAccountApiClient accountApiClient, IPayeSchemeObfuscator payeSchemeObfuscator,
+            IDatetimeService datetimeService, ILog logger)
         {
             _accountApiClient = accountApiClient;
             _payeSchemeObfuscator = payeSchemeObfuscator;
             _datetimeService = datetimeService;
+            _logger = logger;
         }
 
-        public async Task<Account> Get(string id, AccountFieldsSelection selection)
+        public async Task<Core.Models.Account> Get(string id, AccountFieldsSelection selection)
         {
             try
             {
-                //_logger.Debug($"IAccountApiClient.GetResource<AccountDetailViewModel>(\"/api/accounts/{id}\");");
+                _logger.Debug($"IAccountApiClient.GetResource<AccountDetailViewModel>(\"/api/accounts/{id}\");");
                 var response = await _accountApiClient.GetResource<AccountDetailViewModel>($"/api/accounts/{id}");
 
                 return await GetAdditionalFields(response, selection);
             }
             catch (Exception e)
             {
-                //_logger.Error(e, $"Account with id {id} not found");
+                _logger.Error(e, $"Account with id {id} not found");
                 return null;
             }
         }
 
-        private IEnumerable<AccountWithBalanceViewModel> FindAll()
+        public async Task<IEnumerable<AccountDetailViewModel>> FindAllDetails()
         {
-            var size = 10;
-
-            var accounts = _accountApiClient.GetPageOfAccounts(1, size);
-            Task.WaitAll(accounts);
-            foreach (var model in accounts.Result.Data)
-            {
-                yield return model;
-            }
-
-            for (int i = 2; i <= accounts.Result.TotalPages; i++)
-            {
-                var page = _accountApiClient.GetPageOfAccounts(i, size);
-                foreach (var model in page.Result.Data)
+            var results = new List<AccountDetailViewModel>();
+            foreach (var account in await FindAll())
+                try
                 {
-                    yield return model;
+                    var viewModel = await _accountApiClient.GetAccount(account.AccountHashId);
+                    results.Add(viewModel);
                 }
-            }
-        }
-
-        public IEnumerable<AccountDetailViewModel> FindAllDetails()
-        {
-            foreach (var account in FindAll())
-            {
-                var task = _accountApiClient.GetAccount(account.AccountHashId);
-                Task.WaitAll(task);
-                var result = task.Result;
-
-                if (result != null)
+                catch (HttpRequestException e)
                 {
-                    yield return result;
+                    _logger.Warn($"The Account API Http request threw an exception:\r\n{e}");
                 }
-            }
+                catch (Exception e)
+                {
+                    _logger.Error(e, $"A general exception has been thrown while requesting employer account detals");
+                }
+
+            return results;
         }
 
         public async Task<decimal> GetAccountBalance(string id)
@@ -82,18 +72,36 @@ namespace Sfa.Das.Console.Infrastructure
             {
                 var response = await _accountApiClient.GetResource<AccountWithBalanceViewModel>($"/api/accounts/{id}");
 
-                //_logger.Debug($"IAccountApiClient.GetResource<AccountWithBalanceViewModel>(\"/api/accounts/{id}\"); {response.Balance}");
+                _logger.Debug($"{nameof(IAccountApiClient)}.{nameof(_accountApiClient.GetResource)}<{nameof(AccountWithBalanceViewModel)}>(\"/api/accounts/{id}\"); {response.Balance}");
 
                 return response.Balance;
             }
             catch (Exception e)
             {
-                //_logger.Error(e, $"Account Balance with id {id} not found");
+                _logger.Error(e, $"Account Balance with id {id} not found");
                 return 0;
             }
         }
 
-        private async Task<Account> GetAdditionalFields(AccountDetailViewModel response, AccountFieldsSelection selection)
+        private async Task<IEnumerable<AccountWithBalanceViewModel>> FindAll()
+        {
+            var results = new List<AccountWithBalanceViewModel>();
+
+
+            var accounts = await _accountApiClient.GetPageOfAccounts(1, _accountsPerPage);
+
+            results.AddRange(accounts.Data);
+
+            for (var i = 2; i <= accounts.TotalPages; i++)
+            {
+                var page = await _accountApiClient.GetPageOfAccounts(i, _accountsPerPage);
+                results.AddRange(page.Data);
+            }
+            return results;
+        }
+
+        private async Task<Core.Models.Account> GetAdditionalFields(
+            AccountDetailViewModel response, AccountFieldsSelection selection)
         {
             var result = MapToAccount(response);
 
@@ -134,7 +142,8 @@ namespace Sfa.Das.Console.Infrastructure
 
             while (financialYearIterator <= endDate)
             {
-                var transactions = await _accountApiClient.GetTransactions(accountId, financialYearIterator.Year, financialYearIterator.Month);
+                var transactions = await _accountApiClient.GetTransactions(accountId, financialYearIterator.Year,
+                    financialYearIterator.Month);
 
                 response.AddRange(transactions);
                 financialYearIterator = financialYearIterator.AddMonths(1);
@@ -145,7 +154,8 @@ namespace Sfa.Das.Console.Infrastructure
 
         private List<TransactionViewModel> GetFilteredTransactions(IEnumerable<TransactionViewModel> response)
         {
-            return response.Where(x => x.Description != null && x.Amount != 0).OrderByDescending(x => x.DateCreated).ToList();
+            return response.Where(x => x.Description != null && x.Amount != 0).OrderByDescending(x => x.DateCreated)
+                .ToList();
         }
 
         private async Task<IEnumerable<PayeSchemeViewModel>> GetPayeSchemes(AccountDetailViewModel response)
@@ -155,7 +165,7 @@ namespace Sfa.Das.Console.Infrastructure
             {
                 var obscured = _payeSchemeObfuscator.ObscurePayeScheme(payeScheme.Id).Replace("/", "%252f");
                 var paye = payeScheme.Id.Replace("/", "%252f");
-                //_logger.Debug($"IAccountApiClient.GetResource<PayeSchemeViewModel>(\"{payeScheme.Href.Replace(paye, obscured)}\");");
+                _logger.Debug($"IAccountApiClient.GetResource<PayeSchemeViewModel>(\"{payeScheme.Href.Replace(paye, obscured)}\");");
                 var payeSchemeViewModel = await _accountApiClient.GetResource<PayeSchemeViewModel>(payeScheme.Href);
 
                 if (IsValidPayeScheme(payeSchemeViewModel))
@@ -180,33 +190,34 @@ namespace Sfa.Das.Console.Infrastructure
             var payeSchemes = await GetPayeSchemes(response);
 
             return payeSchemes.Select(payeScheme => new PayeSchemeViewModel
-            {
-                Ref = _payeSchemeObfuscator.ObscurePayeScheme(payeScheme.Ref),
-                DasAccountId = payeScheme.DasAccountId,
-                AddedDate = payeScheme.AddedDate,
-                RemovedDate = payeScheme.RemovedDate,
-                Name = payeScheme.Name
-            })
+                {
+                    Ref = _payeSchemeObfuscator.ObscurePayeScheme(payeScheme.Ref),
+                    DasAccountId = payeScheme.DasAccountId,
+                    AddedDate = payeScheme.AddedDate,
+                    RemovedDate = payeScheme.RemovedDate,
+                    Name = payeScheme.Name
+                })
                 .ToList();
         }
 
         private bool IsValidPayeScheme(PayeSchemeViewModel result)
         {
-            return result.AddedDate <= DateTime.UtcNow && (result.RemovedDate == null || result.RemovedDate > DateTime.UtcNow);
+            return result.AddedDate <= DateTime.UtcNow &&
+                   (result.RemovedDate == null || result.RemovedDate > DateTime.UtcNow);
         }
 
         private async Task<ICollection<TeamMemberViewModel>> GetAccountTeamMembers(string resultHashedAccountId)
         {
             try
             {
-                //_logger.Debug($"IAccountApiClient.GetAccountUsers(\"{resultHashedAccountId}\");");
+                _logger.Debug($"{nameof(IAccountApiClient)}.{nameof(_accountApiClient.GetAccountUsers)}(\"{resultHashedAccountId}\");");
                 var teamMembers = await _accountApiClient.GetAccountUsers(resultHashedAccountId);
 
                 return teamMembers;
             }
             catch (Exception e)
             {
-                //_logger.Error(e, $"Account Team Member with id {resultHashedAccountId} not found");
+                _logger.Error(e, $"Account Team Member with id {resultHashedAccountId} not found");
                 return new List<TeamMemberViewModel>();
             }
         }
@@ -217,28 +228,26 @@ namespace Sfa.Das.Console.Infrastructure
 
             foreach (var legalEntity in responseLegalEntities)
             {
-                //_logger.Debug($"IAccountApiClient.GetResource<LegalEntityViewModel>(\"{legalEntity.Href}\");");
+                _logger.Debug($"{nameof(IAccountApiClient)}.{nameof(_accountApiClient.GetResource)}<{nameof(LegalEntityViewModel)}>(\"{legalEntity.Href}\");");
                 var legalResponse = await _accountApiClient.GetResource<LegalEntityViewModel>(legalEntity.Href);
 
                 if (legalResponse.AgreementStatus == EmployerAgreementStatus.Signed ||
                     legalResponse.AgreementStatus == EmployerAgreementStatus.Pending ||
                     legalResponse.AgreementStatus == EmployerAgreementStatus.Superseded)
-                {
                     legalEntitiesList.Add(legalResponse);
-                }
             }
             return legalEntitiesList;
         }
 
-        private Account MapToAccount(AccountDetailViewModel accountDetailViewModel)
+        private Core.Models.Account MapToAccount(AccountDetailViewModel accountDetailViewModel)
         {
-            return new Account
+            return new Core.Models.Account
             {
                 AccountId = accountDetailViewModel.AccountId,
                 DasAccountName = accountDetailViewModel.DasAccountName,
                 HashedAccountId = accountDetailViewModel.HashedAccountId,
                 DateRegistered = accountDetailViewModel.DateRegistered,
-                OwnerEmail = accountDetailViewModel.OwnerEmail,
+                OwnerEmail = accountDetailViewModel.OwnerEmail
             };
         }
     }

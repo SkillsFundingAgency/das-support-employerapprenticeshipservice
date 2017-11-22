@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Sfa.Das.Console.Web.Helpers
+namespace SFA.DAS.EAS.Support.Web.Services
 {
     public class ChallengeHelper
     {

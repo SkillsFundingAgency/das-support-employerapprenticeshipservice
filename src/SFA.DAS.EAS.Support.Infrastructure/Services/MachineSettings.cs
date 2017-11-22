@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sfa.Das.Console.Core.Services;
+using SFA.DAS.EAS.Support.Core.Services;
 
-namespace Sfa.Das.Console.Infrastructure.Settings
+namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {
     public sealed class MachineSettings : IProvideSettings
     {

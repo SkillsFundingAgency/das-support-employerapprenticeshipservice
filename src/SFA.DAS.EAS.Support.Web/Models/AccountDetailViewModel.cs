@@ -1,10 +1,8 @@
-﻿using Sfa.Das.Console.Core.Domain.Model;
-
-namespace Sfa.Das.Console.Web.ViewModels
+﻿namespace SFA.DAS.EAS.Support.Web.Models
 {
     public class AccountDetailViewModel
     {
-        public Account Account { get; set; }
+        public Core.Models.Account Account { get; set; }
         public string SearchUrl { get; set; }
     }
 }

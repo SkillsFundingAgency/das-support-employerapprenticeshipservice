@@ -1,4 +1,4 @@
-﻿namespace Sfa.Das.Console.Core.Helpers
+﻿namespace SFA.DAS.EAS.Support.Core.Services
 {
     public interface IPayeSchemeObfuscator
     {

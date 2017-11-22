@@ -1,4 +1,4 @@
-﻿namespace Sfa.Das.Console.ApplicationServices.Responses
+﻿namespace SFA.DAS.EAS.Support.ApplicationServices.Models
 {
     public class ChallengePermissionResponse
     {

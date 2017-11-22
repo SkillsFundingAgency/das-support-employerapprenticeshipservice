@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sfa.Das.Console.ApplicationServices.Services
+namespace SFA.DAS.EAS.Support.ApplicationServices.Services
 {
     public interface IDatetimeService
     {

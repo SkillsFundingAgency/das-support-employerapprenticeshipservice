@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Sfa.Das.Console.Core.Domain.Model;
 
-namespace Sfa.Das.Console.Web.Models
+namespace SFA.DAS.EAS.Support.Web.Models
 {
     public class ChallengeViewModel
     {

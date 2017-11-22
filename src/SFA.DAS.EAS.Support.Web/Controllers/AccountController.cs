@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using Sfa.Das.Console.ApplicationServices.Queries;
-using Sfa.Das.Console.ApplicationServices.Responses;
-using Sfa.Das.Console.ApplicationServices.Services;
-using Sfa.Das.Console.Web.ViewModels;
+using SFA.DAS.EAS.Support.ApplicationServices;
+using SFA.DAS.EAS.Support.ApplicationServices.Models;
+using SFA.DAS.EAS.Support.ApplicationServices.Services;
+using SFA.DAS.EAS.Support.Web.Models;
 
-namespace Sfa.Das.Console.Web.Controllers
+namespace SFA.DAS.EAS.Support.Web.Controllers
 {
     public class AccountController : Controller
     {
@@ -57,9 +55,7 @@ namespace Sfa.Das.Console.Web.Controllers
             var response = await _handler.Find(id);
 
             if (response.StatusCode != SearchResponseCodes.Success)
-            {
                 return HttpNotFound();
-            }
 
             return View("SubHeader", response.Account);
         }
