@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace ESFA.DAS.Support.Shared
+namespace SFA.DAS.Support.Shared
 {
     public class ResultPage<T>
     {

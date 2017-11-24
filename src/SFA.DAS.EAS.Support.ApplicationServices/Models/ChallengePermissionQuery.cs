@@ -1,7 +1,4 @@
-﻿using Sfa.Das.Console.ApplicationServices.Responses;
-using Sfa.Das.Console.Core.Domain.Model;
-
-namespace Sfa.Das.Console.ApplicationServices.Queries
+﻿namespace SFA.DAS.EAS.Support.ApplicationServices.Models
 {
     public class ChallengePermissionQuery
     {

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Sfa.Das.Console.Core.Helpers
+namespace SFA.DAS.EAS.Support.Core.Services
 {
     public class PayeSchemeObfuscator : IPayeSchemeObfuscator
     {

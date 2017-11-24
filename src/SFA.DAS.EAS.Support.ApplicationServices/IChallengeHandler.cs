@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Sfa.Das.Console.ApplicationServices.Queries;
-using Sfa.Das.Console.ApplicationServices.Responses;
+using SFA.DAS.EAS.Support.ApplicationServices.Models;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices
 {

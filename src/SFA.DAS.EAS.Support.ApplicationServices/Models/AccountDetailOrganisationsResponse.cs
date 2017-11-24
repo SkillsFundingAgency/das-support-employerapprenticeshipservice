@@ -1,8 +1,8 @@
-﻿using Sfa.Das.Console.ApplicationServices.Responses;
-using Sfa.Das.Console.Core.Domain.Model;
-
-public class AccountDetailOrganisationsResponse
+﻿namespace SFA.DAS.EAS.Support.ApplicationServices.Models
 {
-    public Account Account { get; set; }
-    public SearchResponseCodes StatusCode { get; set; }
+    public class AccountDetailOrganisationsResponse
+    {
+        public Core.Models.Account Account { get; set; }
+        public SearchResponseCodes StatusCode { get; set; }
+    }
 }

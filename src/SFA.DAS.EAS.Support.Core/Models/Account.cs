@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SFA.DAS.EAS.Account.Api.Types;
 
-namespace Sfa.Das.Console.Core.Domain.Model
+namespace SFA.DAS.EAS.Support.Core.Models
 {
     public class Account
     {

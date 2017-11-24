@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Xml;
-using ESFA.DAS.Support.Shared;
-using Sfa.Das.Console.ApplicationServices.Services;
+using SFA.DAS.EAS.Support.ApplicationServices.Services;
+using SFA.DAS.Support.Shared;
 
-namespace SubSite.Web.Controllers
+namespace SFA.DAS.EAS.Support.Web.Controllers
 {
     [RoutePrefix("api/manifest")]
     public class ManifestController : ApiController
@@ -46,9 +41,9 @@ namespace SubSite.Web.Controllers
 
         [HttpGet]
         [Route("account")]
-        public IEnumerable<SearchItem> Search()
+        public async Task<IEnumerable<SearchItem>> Search()
         {
-            return _handler.FindSearchItems();
+            return await _handler.FindSearchItems();
         }
 
         private IEnumerable<SiteResource> GetResources()

@@ -1,5 +1,5 @@
-﻿using Sfa.Das.Console.Core.Services;
-using SFA.DAS.EAS.Account.Api.Client;
+﻿using SFA.DAS.EAS.Account.Api.Client;
+using SFA.DAS.EAS.Support.Core.Services;
 
 namespace SFA.DAS.EAS.Support.Infrastructure.Settings
 {

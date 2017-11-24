@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ESFA.DAS.Support.Shared;
-using Sfa.Das.Console.ApplicationServices.Responses;
-using SFA.DAS.EAS.Account.Api.Types;
+using SFA.DAS.Support.Shared;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
+using SFA.DAS.Support.Shared;
 
-namespace Sfa.Das.Console.ApplicationServices.Services
+namespace SFA.DAS.EAS.Support.ApplicationServices.Services
 {
     public interface IAccountHandler
     {
@@ -13,7 +12,7 @@ namespace Sfa.Das.Console.ApplicationServices.Services
         Task<AccountPayeSchemesResponse> FindPayeSchemes(string id);
 
         Task<AccountFinanceResponse> FindFinance(string id);
-        IEnumerable<SearchItem> FindSearchItems();
+        Task<IEnumerable<SearchItem>> FindSearchItems();
         Task<AccountReponse> Find(string id);
     }
 }

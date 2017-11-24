@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using Sfa.Das.Console.Core.Domain.Model;
 
-namespace Sfa.Das.Console.ApplicationServices.Responses
+namespace SFA.DAS.EAS.Support.ApplicationServices.Models
 {
     public class ChallengeResponse
     {
-        public Account Account { get; set; }
+        public Core.Models.Account Account { get; set; }
 
         public List<int> Characters { get; set; }
 

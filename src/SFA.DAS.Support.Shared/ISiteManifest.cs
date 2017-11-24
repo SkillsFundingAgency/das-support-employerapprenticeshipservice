@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ESFA.DAS.Support.Shared
+namespace SFA.DAS.Support.Shared
 {
     public interface ISiteManifest
     {

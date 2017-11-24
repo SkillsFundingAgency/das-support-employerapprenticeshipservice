@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sfa.Das.Console.Core.Services
+﻿namespace SFA.DAS.EAS.Support.Core.Services
 {
     public interface IProvideSettings
     {

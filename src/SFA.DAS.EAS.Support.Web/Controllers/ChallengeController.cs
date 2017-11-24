@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web.Http.Results;
 using System.Web.Mvc;
-using Sfa.Das.Console.ApplicationServices.Queries;
-using Sfa.Das.Console.ApplicationServices.Responses;
-using Sfa.Das.Console.Core.Domain.Model;
-using Sfa.Das.Console.Web.Models;
 using SFA.DAS.EAS.Support.ApplicationServices;
+using SFA.DAS.EAS.Support.ApplicationServices.Models;
+using SFA.DAS.EAS.Support.Core.Models;
+using SFA.DAS.EAS.Support.Web.Models;
 
-namespace Sfa.Das.Console.Web.Controllers
+namespace SFA.DAS.EAS.Support.Web.Controllers
 {
     public class ChallengeController : Controller
     {

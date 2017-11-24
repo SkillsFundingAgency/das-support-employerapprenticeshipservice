@@ -1,4 +1,4 @@
-﻿namespace ESFA.DAS.Support.Shared
+﻿namespace SFA.DAS.Support.Shared
 {
     public class SiteChallenge
     {

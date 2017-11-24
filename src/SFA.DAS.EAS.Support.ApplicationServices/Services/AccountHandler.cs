@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Sfa.Das.Console.ApplicationServices.Responses;
-using Sfa.Das.Console.Core.Domain.Model;
 using SFA.DAS.EAS.Account.Api.Types;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
-using ESFA.DAS.Support.Shared;
+using SFA.DAS.EAS.Support.Core.Models;
+using SFA.DAS.Support.Shared;
 
-namespace Sfa.Das.Console.ApplicationServices.Services
+namespace SFA.DAS.EAS.Support.ApplicationServices.Services
 {
     public class AccountHandler : IAccountHandler
     {
@@ -67,19 +66,18 @@ namespace Sfa.Das.Console.ApplicationServices.Services
             {
                 response.StatusCode = SearchResponseCodes.Success;
                 response.Account = account;
-                response.Balance = account.Transactions.Any() ? account.Transactions.First().Balance : await _accountRepository.GetAccountBalance(id);
+                response.Balance = account.Transactions.Any()
+                    ? account.Transactions.First().Balance
+                    : await _accountRepository.GetAccountBalance(id);
             }
 
             return response;
         }
 
-        public IEnumerable<SearchItem> FindSearchItems()
+        public async Task<IEnumerable<SearchItem>> FindSearchItems()
         {
-            var models = _accountRepository.FindAllDetails();
-            foreach (var model in models)
-            {
-                yield return MapToSearch(model);
-            }
+            var models = await _accountRepository.FindAllDetails();
+            return models.Select(MapToSearch).ToList();
         }
 
         public async Task<AccountReponse> Find(string id)
@@ -118,6 +116,5 @@ namespace Sfa.Das.Console.ApplicationServices.Services
                 Keywords = keywords.Where(x => x != null).ToArray()
             };
         }
-
     }
 }

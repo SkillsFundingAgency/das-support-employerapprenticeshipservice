@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Sfa.Das.Console.ApplicationServices.Queries;
-using Sfa.Das.Console.Core.Domain.Model;
+using SFA.DAS.EAS.Support.ApplicationServices.Models;
 
-public interface IChallengeRepository
+namespace SFA.DAS.EAS.Support.ApplicationServices.Services
 {
-    Task<bool> CheckData(Account record, ChallengePermissionQuery message);
+    public interface IChallengeRepository
+    {
+        Task<bool> CheckData(Core.Models.Account record, ChallengePermissionQuery message);
+    }
 }
