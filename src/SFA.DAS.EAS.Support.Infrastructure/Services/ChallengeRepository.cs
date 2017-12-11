@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using SFA.DAS.EAS.Account.Api.Types;
@@ -9,6 +10,7 @@ using SFA.DAS.EAS.Support.ApplicationServices.Services;
 
 namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {
+    [ExcludeFromCodeCoverage]
     public class ChallengeRepository : IChallengeRepository
     {
         private readonly IAccountRepository _accountRepository;
@@ -27,14 +29,13 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             decimal messageBalance;
 
             if (!decimal.TryParse(message.Balance.Replace("£", string.Empty), out messageBalance))
-            {
                 return false;
-            }
 
             return Math.Truncate(balance) == Math.Truncate(Convert.ToDecimal(messageBalance)) && validPayeSchemesData;
         }
 
-        private bool CheckPayeSchemesData(IEnumerable<PayeSchemeViewModel> recordPayeSchemes, ChallengePermissionQuery message)
+        private bool CheckPayeSchemesData(IEnumerable<PayeSchemeViewModel> recordPayeSchemes,
+            ChallengePermissionQuery message)
         {
             var challengeInput = new List<string>
             {
@@ -42,7 +43,12 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                 message.ChallengeElement2.ToLower()
             };
 
-            return recordPayeSchemes.Select(payeSchemeViewModel => payeSchemeViewModel.Ref.Replace("/", string.Empty)).Any(payeSchemaRef => payeSchemaRef[int.Parse(message.FirstCharacterPosition)].ToString().ToLower() == challengeInput[0] && payeSchemaRef[int.Parse(message.SecondCharacterPosition)].ToString().ToLower() == challengeInput[1]);
+            return recordPayeSchemes.Select(payeSchemeViewModel => payeSchemeViewModel.Ref.Replace("/", string.Empty))
+                .Any(payeSchemaRef =>
+                    payeSchemaRef[int.Parse(message.FirstCharacterPosition)].ToString().ToLower() ==
+                    challengeInput[0] &&
+                    payeSchemaRef[int.Parse(message.SecondCharacterPosition)].ToString().ToLower() ==
+                    challengeInput[1]);
         }
     }
 }

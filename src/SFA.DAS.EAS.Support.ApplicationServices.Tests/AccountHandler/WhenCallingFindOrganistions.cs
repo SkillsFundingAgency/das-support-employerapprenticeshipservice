@@ -9,13 +9,12 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.AccountHandler
     [TestFixture]
     public class WhenCallingFindOrganistions : WhenTestingAccountHandler
     {
-       
         [Test]
         public async Task ItShouldReturnAccountInResponseIfFound()
         {
             var accountId = 123L;
             var orgid = accountId.ToString();
-            var account = new Core.Models.Account() { AccountId = accountId };
+            var account = new Core.Models.Account {AccountId = accountId};
 
 
             MockAccountRepository.Setup(r => r.Get(orgid, AccountFieldsSelection.Organisations)).ReturnsAsync(account);
@@ -24,7 +23,6 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.AccountHandler
             Assert.IsNotNull(actual);
             Assert.AreEqual(SearchResponseCodes.Success, actual.StatusCode);
             Assert.IsNotNull(actual.Account);
-
         }
 
         [Test]
@@ -32,7 +30,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.AccountHandler
         {
             var accountId = 123L;
             var orgid = accountId.ToString();
-            var account = new Core.Models.Account() { AccountId = accountId };
+            var account = new Core.Models.Account {AccountId = accountId};
 
 
             MockAccountRepository.Setup(r => r.Get(orgid, AccountFieldsSelection.Organisations))

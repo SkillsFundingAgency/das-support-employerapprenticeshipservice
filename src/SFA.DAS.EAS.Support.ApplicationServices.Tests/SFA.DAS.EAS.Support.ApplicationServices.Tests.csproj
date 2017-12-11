@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountHandler\WhenCallingFind.cs" />
     <Compile Include="AccountHandler\WhenCallingFindFinance.cs" />
     <Compile Include="AccountHandler\WhenCallingFindOrganistions.cs" />
     <Compile Include="AccountHandler\WhenCallingFindPayeSchemes.cs" />
@@ -76,6 +77,10 @@
     <ProjectReference Include="..\SFA.DAS.EAS.Support.Core\SFA.DAS.EAS.Support.Core.csproj">
       <Project>{2924FD38-3A8D-4BBF-ABC3-0E0C21A8E125}</Project>
       <Name>SFA.DAS.EAS.Support.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SFA.DAS.Support.Shared\SFA.DAS.Support.Shared.csproj">
+      <Project>{5FC1F599-1D96-450C-95C6-503F85444B12}</Project>
+      <Name>SFA.DAS.Support.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,13 +14,15 @@ using SFA.DAS.NLog.Logger;
 
 namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {
+    [ExcludeFromCodeCoverage]
     public sealed class AccountRepository : IAccountRepository
     {
         private readonly IAccountApiClient _accountApiClient;
-        private readonly IDatetimeService _datetimeService;
-        private readonly IPayeSchemeObfuscator _payeSchemeObfuscator;
         private readonly int _accountsPerPage = 10;
+        private readonly IDatetimeService _datetimeService;
         private readonly ILog _logger;
+        private readonly IPayeSchemeObfuscator _payeSchemeObfuscator;
+
         public AccountRepository(IAccountApiClient accountApiClient, IPayeSchemeObfuscator payeSchemeObfuscator,
             IDatetimeService datetimeService, ILog logger)
         {
@@ -72,7 +75,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             {
                 var response = await _accountApiClient.GetResource<AccountWithBalanceViewModel>($"/api/accounts/{id}");
 
-                _logger.Debug($"{nameof(IAccountApiClient)}.{nameof(_accountApiClient.GetResource)}<{nameof(AccountWithBalanceViewModel)}>(\"/api/accounts/{id}\"); {response.Balance}");
+                _logger.Debug(
+                    $"{nameof(IAccountApiClient)}.{nameof(_accountApiClient.GetResource)}<{nameof(AccountWithBalanceViewModel)}>(\"/api/accounts/{id}\"); {response.Balance}");
 
                 return response.Balance;
             }
@@ -165,7 +169,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             {
                 var obscured = _payeSchemeObfuscator.ObscurePayeScheme(payeScheme.Id).Replace("/", "%252f");
                 var paye = payeScheme.Id.Replace("/", "%252f");
-                _logger.Debug($"IAccountApiClient.GetResource<PayeSchemeViewModel>(\"{payeScheme.Href.Replace(paye, obscured)}\");");
+                _logger.Debug(
+                    $"IAccountApiClient.GetResource<PayeSchemeViewModel>(\"{payeScheme.Href.Replace(paye, obscured)}\");");
                 var payeSchemeViewModel = await _accountApiClient.GetResource<PayeSchemeViewModel>(payeScheme.Href);
 
                 if (IsValidPayeScheme(payeSchemeViewModel))
@@ -210,7 +215,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
         {
             try
             {
-                _logger.Debug($"{nameof(IAccountApiClient)}.{nameof(_accountApiClient.GetAccountUsers)}(\"{resultHashedAccountId}\");");
+                _logger.Debug(
+                    $"{nameof(IAccountApiClient)}.{nameof(_accountApiClient.GetAccountUsers)}(\"{resultHashedAccountId}\");");
                 var teamMembers = await _accountApiClient.GetAccountUsers(resultHashedAccountId);
 
                 return teamMembers;
@@ -228,7 +234,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
 
             foreach (var legalEntity in responseLegalEntities)
             {
-                _logger.Debug($"{nameof(IAccountApiClient)}.{nameof(_accountApiClient.GetResource)}<{nameof(LegalEntityViewModel)}>(\"{legalEntity.Href}\");");
+                _logger.Debug(
+                    $"{nameof(IAccountApiClient)}.{nameof(_accountApiClient.GetResource)}<{nameof(LegalEntityViewModel)}>(\"{legalEntity.Href}\");");
                 var legalResponse = await _accountApiClient.GetResource<LegalEntityViewModel>(legalEntity.Href);
 
                 if (legalResponse.AgreementStatus == EmployerAgreementStatus.Signed ||

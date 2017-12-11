@@ -17,12 +17,14 @@
 
 using System.Web.Http.Dependencies;
 using StructureMap;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.EAS.Support.Web.DependencyResolution
 {
     /// <summary>
     /// The structure map dependency resolver.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class StructureMapWebApiDependencyResolver : StructureMapWebApiDependencyScope, IDependencyResolver
     {
         #region Constructors and Destructors

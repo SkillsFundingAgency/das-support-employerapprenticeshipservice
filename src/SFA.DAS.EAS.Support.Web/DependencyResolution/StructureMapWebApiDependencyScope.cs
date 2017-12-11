@@ -15,18 +15,16 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http.Dependencies;
-using Microsoft.Practices.ServiceLocation;
 using StructureMap;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.EAS.Support.Web.DependencyResolution
 {
     /// <summary>
     /// The structure map web api dependency scope.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class StructureMapWebApiDependencyScope : StructureMapDependencyScope, IDependencyScope
     {
         public StructureMapWebApiDependencyScope(IContainer container)

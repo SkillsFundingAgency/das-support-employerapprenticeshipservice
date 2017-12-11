@@ -1,5 +1,8 @@
-﻿namespace SFA.DAS.EAS.Support.Core.Models
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace SFA.DAS.EAS.Support.Core.Models
 {
+    [ExcludeFromCodeCoverage]
     public class ChallengeEntry
     {
         public string Id { get; set; }

@@ -17,10 +17,12 @@
 
 using System.Web.Http;
 using SFA.DAS.EAS.Support.Web.DependencyResolution;
+using System.Diagnostics.CodeAnalysis;
 
 [assembly: WebActivatorEx.PostApplicationStartMethod(typeof(SFA.DAS.EAS.Support.Web.App_Start.StructuremapWebApi), "Start")]
 
 namespace SFA.DAS.EAS.Support.Web.App_Start {
+    [ExcludeFromCodeCoverage]
     public static class StructuremapWebApi {
         public static void Start() {
 			var container = StructuremapMvc.StructureMapDependencyScope.Container;

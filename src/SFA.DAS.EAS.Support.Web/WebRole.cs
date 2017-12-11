@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace SFA.DAS.EAS.Support.Web
 {
+    [ExcludeFromCodeCoverage]
     public class WebRole : RoleEntryPoint
     {
         public override bool OnStart()

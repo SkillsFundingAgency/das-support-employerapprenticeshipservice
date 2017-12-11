@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using SFA.DAS.EAS.Account.Api.Types;
 
 namespace SFA.DAS.EAS.Support.Core.Models
 {
+    [ExcludeFromCodeCoverage]
     public class Account
     {
         public long AccountId { get; set; }
