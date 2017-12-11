@@ -42,12 +42,12 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                 message.ChallengeElement2.ToLower()
             };
 
-            return recordPayeSchemes.Select(payeSchemeViewModel => payeSchemeViewModel.Ref.Replace("/", string.Empty))
-                .Any(payeSchemaRef =>
-                    payeSchemaRef[int.Parse(message.FirstCharacterPosition)].ToString().ToLower() ==
-                    challengeInput[0] &&
-                    payeSchemaRef[int.Parse(message.SecondCharacterPosition)].ToString().ToLower() ==
-                    challengeInput[1]);
+            var list = recordPayeSchemes.Select(x => x.Ref.Replace("/", string.Empty));
+            var index1 = int.Parse(message.FirstCharacterPosition);
+            var index2 = int.Parse(message.SecondCharacterPosition);
+
+            return list.Any(x => x[index1].ToString().ToLower() == challengeInput[0] &&
+                                 x[index2].ToString().ToLower() == challengeInput[1]);
         }
     }
 }
