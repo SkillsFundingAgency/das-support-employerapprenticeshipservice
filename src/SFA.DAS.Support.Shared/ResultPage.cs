@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
 namespace SFA.DAS.Support.Shared
 {
+    [ExcludeFromCodeCoverage]
     public class ResultPage<T>
     {
         [JsonProperty("_links")]

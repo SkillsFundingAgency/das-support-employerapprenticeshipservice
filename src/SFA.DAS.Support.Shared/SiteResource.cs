@@ -1,5 +1,8 @@
-﻿namespace SFA.DAS.Support.Shared
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace SFA.DAS.Support.Shared
 {
+    [ExcludeFromCodeCoverage]
     public class SiteResource
     {
         public string ResourceKey { get; set; }
