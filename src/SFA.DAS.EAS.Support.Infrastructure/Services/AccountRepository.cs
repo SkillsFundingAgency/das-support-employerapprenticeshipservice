@@ -14,7 +14,6 @@ using SFA.DAS.NLog.Logger;
 
 namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {
-    [ExcludeFromCodeCoverage]
     public sealed class AccountRepository : IAccountRepository
     {
         private readonly IAccountApiClient _accountApiClient;

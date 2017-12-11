@@ -1,5 +1,15 @@
-﻿namespace SFA.DAS.EAS.Support.Web.Tests.Controllers
+﻿using NUnit.Framework;
+
+namespace SFA.DAS.EAS.Support.Web.Tests.Controllers
 {
+    //ManifestController
+    //ChallengeController
+    //ChallengeHelper
+    [TestFixture]
+    public class WhenTestingAccountController
+    {
+        [Test] public void ItShould() {  Assert.Fail();}
+    }
     //[TestClass]
     //public class HomeControllerTest
     //{

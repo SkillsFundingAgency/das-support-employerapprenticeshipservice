@@ -10,7 +10,6 @@ using SFA.DAS.EAS.Support.ApplicationServices.Services;
 
 namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {
-    [ExcludeFromCodeCoverage]
     public class ChallengeRepository : IChallengeRepository
     {
         private readonly IAccountRepository _accountRepository;
