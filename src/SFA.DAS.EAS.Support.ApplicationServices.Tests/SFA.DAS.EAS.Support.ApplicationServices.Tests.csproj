@@ -57,13 +57,14 @@
     <Compile Include="AccountHandler\WhenCallingFindFinance.cs" />
     <Compile Include="AccountHandler\WhenCallingFindOrganistions.cs" />
     <Compile Include="AccountHandler\WhenCallingFindPayeSchemes.cs" />
-    <Compile Include="WhenTestingAccountDetailOrganisationResponse.cs" />
-    <Compile Include="WhenTestingAccountHandler.cs" />
-    <Compile Include="WhenTestingApplicationServices.cs" />
+    <Compile Include="ChallengeHandler\WhenCallingGet.cs" />
+    <Compile Include="ChallengeHandler\WhenCallingHandle.cs" />
+    <Compile Include="Models\WhenTestingAccountDetailOrganisationResponse.cs" />
+    <Compile Include="AccountHandler\WhenTestingAccountHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WhenTestingChallengeHandler.cs" />
-    <Compile Include="WhenTestingChallengeService.cs" />
-    <Compile Include="WhenTestingDatetimeService.cs" />
+    <Compile Include="ChallengeHandler\WhenTestingChallengeHandler.cs" />
+    <Compile Include="Services\WhenTestingChallengeService.cs" />
+    <Compile Include="Services\WhenTestingDatetimeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

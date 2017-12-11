@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
 
-namespace SFA.DAS.EAS.Support.ApplicationServices.Tests
+namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.Models
 {
     [TestFixture]
     public class WhenTestingAccountDetailOrganisationResponse
