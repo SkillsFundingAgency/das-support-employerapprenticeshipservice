@@ -117,7 +117,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests
         }
 
         [Test]
-        public async Task ItShouldReturnFalseWhenCheckDataHasInvalidBalance()
+        public async Task ItShouldReturnFalseWhenCheckDataHasIncorrectBalance()
         {
             var account = new Core.Models.Account()
             {
@@ -154,6 +154,54 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests
             };
 
             var balance = 999m;
+
+            _accountRepository.Setup(x => x.GetAccountBalance(challengePermissionQuery.Id))
+                .ReturnsAsync(balance);
+
+            var actual = await _unit.CheckData(account, challengePermissionQuery);
+
+            Assert.IsFalse(actual);
+
+        }
+
+        [Test]
+        public async Task ItShouldReturnFalseWhenCheckDataHasInvalidBalance()
+        {
+            var account = new Core.Models.Account()
+            {
+                Transactions = new List<TransactionViewModel>()
+                {
+                    new TransactionViewModel(){ Balance = 300m, },
+                    new TransactionViewModel(){ Balance = 700m},
+
+                },
+                PayeSchemes = new List<PayeSchemeViewModel>()
+                {
+                    new PayeSchemeViewModel()
+                    {
+                        AddedDate = DateTime.Today.AddMonths(-12),
+                        Ref = "123/456789"
+                    },
+                    new PayeSchemeViewModel()
+                    {
+                        AddedDate = DateTime.Today.AddMonths(-12),
+                        Ref = "124/456789"
+                    }
+
+                },
+
+            };
+            var challengePermissionQuery = new ChallengePermissionQuery()
+            {
+                Id = "123",
+                Balance = "£Z000",
+                ChallengeElement1 = "1",
+                ChallengeElement2 = "2",
+                FirstCharacterPosition = "0",
+                SecondCharacterPosition = "1"
+            };
+
+            var balance = 1000m;
 
             _accountRepository.Setup(x => x.GetAccountBalance(challengePermissionQuery.Id))
                 .ReturnsAsync(balance);
