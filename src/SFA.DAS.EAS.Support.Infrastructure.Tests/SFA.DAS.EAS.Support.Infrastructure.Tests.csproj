@@ -78,6 +78,10 @@
     <Compile Include="AccountRepository\WhenCallingFindAllDetails.cs" />
     <Compile Include="AccountRepository\WhenCallingGetAccountBalance.cs" />
     <Compile Include="AccountRepository\WhenCallingGetWithAccountFieldSelectionNone.cs" />
+    <Compile Include="AccountRepository\WhenCallingGetWithAccountFieldsSelectionChallengePayeSchemes.cs" />
+    <Compile Include="AccountRepository\WhenCallingGetWithAccountFieldsSelectionFinance.cs" />
+    <Compile Include="AccountRepository\WhenCallingGetWithAccountFieldsSelectionOrganisations.cs" />
+    <Compile Include="AccountRepository\WhenCallingGetWithAccountFieldsSelectionTeamMembers.cs" />
     <Compile Include="AccountRepository\WhenTestingAccountRepository.cs" />
     <Compile Include="ChallengeRepository\WhenTestingChallengeRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

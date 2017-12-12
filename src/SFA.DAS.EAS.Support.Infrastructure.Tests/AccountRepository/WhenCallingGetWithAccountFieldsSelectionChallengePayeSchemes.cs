@@ -10,10 +10,10 @@ using SFA.DAS.EAS.Support.Core.Models;
 namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
 {
     [TestFixture]
-    public class WhenCallingGetWithAccountFieldSelectionPayeSchemes : WhenTestingAccountRepository
+    public class WhenCallingGetWithAccountFieldsSelectionChallengePayeSchemes : WhenTestingAccountRepository
     {
         [Test]
-        public async Task ItShouldReturnTheAccountWithPayeSchemes()
+        public async Task ItShouldReturnTheAccountWithTheChallengedPayeSchemes()
         {
             var id = "123";
 
@@ -46,6 +46,9 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Setup(x => x.GetResource<AccountDetailViewModel>($"/api/accounts/{id}"))
                 .ReturnsAsync(accountDetailViewModel);
 
+            AccountApiClient.Setup(x => x.GetResource<AccountDetailViewModel>($"/api/accounts/{id}"))
+                .ReturnsAsync(accountDetailViewModel);
+
             var obscuredPayePayeScheme = "123/123456";
 
             PayeSchemeObfuscator.Setup(x => x.ObscurePayeScheme(It.IsAny<string>()))
@@ -64,11 +67,11 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Setup(x => x.GetResource<PayeSchemeViewModel>(It.IsAny<string>()))
                 .ReturnsAsync(payeSchemeViewModel);
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.PayeSchemes);
+            var actual = await Unit.Get(id, AccountFieldsSelection.ChallengePayeSchemes);
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));
 
-            PayeSchemeObfuscator.Verify(x => x.ObscurePayeScheme(It.IsAny<string>()), Times.Exactly(2));
+            PayeSchemeObfuscator.Verify(x => x.ObscurePayeScheme(It.IsAny<string>()), Times.Exactly(1));
 
 
             Assert.IsNotNull(actual);
@@ -78,23 +81,6 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             Assert.IsNull(actual.LegalEntities);
             Assert.IsNull(actual.TeamMembers);
             Assert.IsNull(actual.Transactions);
-
-        }
-        [Test]
-        public async Task ItShouldReturnNullOnException()
-        {
-            string id = "123";
-
-            AccountApiClient.Setup(x => x.GetResource<AccountDetailViewModel>($"/api/accounts/{id}"))
-                .ThrowsAsync(new Exception());
-
-            var actual = await Unit.Get(id, AccountFieldsSelection.PayeSchemes);
-
-            Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Once);
-            Logger.Verify(x => x.Error(It.IsAny<Exception>(), $"Account with id {id} not found"));
-
-            Assert.IsNull(actual);
-
         }
     }
 }

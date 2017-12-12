@@ -4,10 +4,10 @@ using SFA.DAS.EAS.Support.Web.Controllers;
 namespace SFA.DAS.EAS.Support.Web.Tests.Controllers
 {
     [TestFixture]
-    public class WhenTestingAccountController
+    public class WhenTestingManifestController
     {
-        private AccountController _unit;
+        private ManifestController _unit;
         [SetUp] public void Setup() { }
-        [Test] public void ItShould() { Assert.Fail(); }
+        [Test] public void ItShould() {  Assert.Fail();}
     }
 }

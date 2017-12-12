@@ -57,6 +57,7 @@
     <Compile Include="AccountHandler\WhenCallingFindFinance.cs" />
     <Compile Include="AccountHandler\WhenCallingFindOrganistions.cs" />
     <Compile Include="AccountHandler\WhenCallingFindPayeSchemes.cs" />
+    <Compile Include="AccountHandler\WhenCallingFindSearchItems.cs" />
     <Compile Include="ChallengeHandler\WhenCallingGet.cs" />
     <Compile Include="ChallengeHandler\WhenCallingHandle.cs" />
     <Compile Include="Models\WhenTestingAccountDetailOrganisationResponse.cs" />

@@ -3,8 +3,7 @@ using NUnit.Framework;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.AccountHandler
 {
-    [TestFixture]
-    public class WhenTestingAccountHandler
+    public abstract class WhenTestingAccountHandler
     {
         [SetUp]
         public void Setup()

@@ -4,9 +4,9 @@ using SFA.DAS.EAS.Support.Web.Controllers;
 namespace SFA.DAS.EAS.Support.Web.Tests.Controllers
 {
     [TestFixture]
-    public class WhenTestingAccountController
+    public class WhenTestingChallengeController
     {
-        private AccountController _unit;
+        private ChallengeController _unit;
         [SetUp] public void Setup() { }
         [Test] public void ItShould() { Assert.Fail(); }
     }
