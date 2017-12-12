@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,10 +13,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
     [TestFixture]
     public class WhenCallingGetWithAccountFieldsSelectionOrganisations : WhenTestingAccountRepository
     {
-        public void ItShoudFailGracefullyAndLogErrorWhenClientThrowsException()
-        {
-            Assert.Fail("To Do");
-        }
+        
 
         [TestCase(EmployerAgreementStatus.Signed)]
         [TestCase(EmployerAgreementStatus.Pending)]
@@ -109,6 +107,70 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             Assert.IsNull(actual.TeamMembers);
         }
 
+
+        [Test]
+        public async Task ItShoudFailGracefullyAndLogErrorWhenClientThrowsExceptionOnGetResourceLegalEntity()
+        {
+
+            string id = "123";
+
+            var accountResponse = new AccountDetailViewModel()
+            {
+                LegalEntities = new ResourceList(
+                    new List<ResourceViewModel>()
+                    {
+                        new ResourceViewModel(){ Href = "https://tempuri.org/legalEntity/{id}", Id = "ABC"}
+                    }),
+
+            };
+
+            AccountApiClient.Setup(x => x.GetResource<AccountDetailViewModel>($"/api/accounts/{id}"))
+                .ReturnsAsync(accountResponse);
+
+
+            var legalEntity = accountResponse.LegalEntities[0];
+
+            AccountApiClient.Setup(x => x.GetResource<LegalEntityViewModel>(legalEntity.Href))
+                .ThrowsAsync(new Exception());
+
+            var actual = await Unit.Get(id, AccountFieldsSelection.Organisations);
+
+
+            Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));
+            Logger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
+
+
+
+
+            AccountApiClient.Verify(x => x.GetResource<LegalEntityViewModel>(It.IsAny<string>()), Times.Exactly(accountResponse.LegalEntities.Count));
+
+            Assert.IsNull(actual);
+
+        }
+        [Test]
+        public async Task ItShoudFailGracefullyAndLogErrorWhenClientThrowsExceptionOnGetResourceAccount()
+        {
+
+            string id = "123";
+
+           
+            AccountApiClient.Setup(x => x.GetResource<AccountDetailViewModel>($"/api/accounts/{id}"))
+                .ThrowsAsync(new Exception());
+
+
+            var actual = await Unit.Get(id, AccountFieldsSelection.Organisations);
+
+
+            Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Once);
+            Logger.Verify(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
+
+
+            AccountApiClient.Verify(x => x.GetResource<AccountDetailViewModel>(It.IsAny<string>()), Times.Once);
+            AccountApiClient.Verify(x => x.GetResource<LegalEntityViewModel>(It.IsAny<string>()), Times.Never);
+
+            Assert.IsNull(actual);
+
+        }
 
     }
 }

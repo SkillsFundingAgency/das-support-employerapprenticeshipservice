@@ -70,6 +70,7 @@
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
@@ -92,11 +93,14 @@
     <Reference Include="System.Net.Http.WebRequest" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\WhenTestingChallengeController.cs" />
+    <Compile Include="Controllers\Account\WhenTestingFinanceGet.cs" />
+    <Compile Include="Controllers\Account\WhenTestingPayeSchemesGet.cs" />
+    <Compile Include="Controllers\Challenge\WhenTestingChallengeController.cs" />
+    <Compile Include="Controllers\Account\WhenTestingHeaderGet.cs" />
     <Compile Include="Services\WhenTestingChallengeHelper.cs" />
-    <Compile Include="Controllers\WhenTestingManifestController.cs" />
+    <Compile Include="Controllers\Manifest\WhenTestingManifestController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\WhenTestingAccountController.cs" />
+    <Compile Include="Controllers\Account\WhenTestingAccountController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -113,6 +117,10 @@
     <ProjectReference Include="..\SFA.DAS.EAS.Support.Web\SFA.DAS.EAS.Support.Web.csproj">
       <Project>{DF2DF766-951D-4409-B33E-D12EE3A2544E}</Project>
       <Name>SFA.DAS.EAS.Support.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SFA.DAS.Support.Shared\SFA.DAS.Support.Shared.csproj">
+      <Project>{5FC1F599-1D96-450C-95C6-503F85444B12}</Project>
+      <Name>SFA.DAS.Support.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
