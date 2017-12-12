@@ -92,14 +92,14 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
                         AccountFieldsSelection.ChallengePayeSchemes))
                 .ReturnsAsync(account);
 
-            _challengeRepository.Setup(x => x.CheckData(account, message)).ReturnsAsync(true);
+            _challengeRepository.Setup(x => x.CheckData(account, message)).ReturnsAsync(false);
 
             var actual = await _unit.Handle(message);
 
             _challengeRepository.Verify(x => x.CheckData(account, message));
 
             Assert.IsNotNull(actual);
-            Assert.AreEqual(true, actual.IsValid);
+            Assert.AreEqual(false, actual.IsValid);
         }
         [Test]
         public async Task ItShouldReturnAnValidResponseWhenThereIsAMatchThatHasValidData()
