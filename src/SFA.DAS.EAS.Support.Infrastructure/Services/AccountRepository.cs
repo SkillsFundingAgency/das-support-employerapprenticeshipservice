@@ -35,7 +35,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
         {
             try
             {
-                _logger.Debug($"IAccountApiClient.GetResource<AccountDetailViewModel>(\"/api/accounts/{id}\");");
+                _logger.Debug($"{nameof(IAccountApiClient)}.{nameof(IAccountApiClient.GetResource)}<{nameof(AccountDetailViewModel)}>(\"/api/accounts/{id}\");");
+
                 var response = await _accountApiClient.GetResource<AccountDetailViewModel>($"/api/accounts/{id}");
 
                 return await GetAdditionalFields(response, selection);

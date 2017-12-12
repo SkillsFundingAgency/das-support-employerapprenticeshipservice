@@ -6,20 +6,19 @@ using NUnit.Framework;
 using SFA.DAS.EAS.Account.Api.Types;
 using SFA.DAS.EAS.Support.ApplicationServices;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
-using SFA.DAS.EAS.Support.Infrastructure.Services;
 
-namespace SFA.DAS.EAS.Support.Infrastructure.Tests
+namespace SFA.DAS.EAS.Support.Infrastructure.Tests.ChallengeRepository
 {
     [TestFixture]
     public class WhenTestingChallengeRepository
     {
-        private ChallengeRepository _unit;
+        private Services.ChallengeRepository _unit;
         private Mock<IAccountRepository> _accountRepository;
         [SetUp]
         public void Setup()
         {
             _accountRepository = new Mock<IAccountRepository>();
-            _unit = new ChallengeRepository(_accountRepository.Object);
+            _unit = new Services.ChallengeRepository(_accountRepository.Object);
         }
         [Test]
         public async Task ItShouldReturnTrueWhenCheckDataHasValidData()
