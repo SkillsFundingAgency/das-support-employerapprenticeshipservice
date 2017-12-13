@@ -11,13 +11,11 @@ namespace SFA.DAS.EAS.Support.Core.Services
             var response = new StringBuilder(payeSchemeId);
 
             for (var i = 1; i < length - 1; i++)
-            {
                 if (response[i].ToString() != "/")
                 {
                     response.Remove(i, 1);
                     response.Insert(i, "*");
                 }
-            }
 
             return response.ToString();
         }

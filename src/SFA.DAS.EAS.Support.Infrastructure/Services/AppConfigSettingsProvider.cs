@@ -1,9 +1,11 @@
 ﻿using System.Configuration;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure;
 using SFA.DAS.EAS.Support.Core.Services;
 
 namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {
+    [ExcludeFromCodeCoverage]
     public class AppConfigSettingsProvider : IProvideSettings
     {
         private readonly IProvideSettings _baseSettings;
@@ -18,9 +20,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             var setting = GetNullableSetting(settingKey);
 
             if (string.IsNullOrEmpty(setting))
-            {
                 throw new ConfigurationErrorsException($"Setting with key {settingKey} is missing");
-            }
 
             return setting;
         }
@@ -30,9 +30,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             var setting = CloudConfigurationManager.GetSetting(settingKey);
 
             if (string.IsNullOrWhiteSpace(setting))
-            {
                 setting = TryBaseSettingsProvider(settingKey);
-            }
 
             return setting;
         }

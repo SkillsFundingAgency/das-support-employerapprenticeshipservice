@@ -6,7 +6,8 @@ namespace SFA.DAS.EAS.Support.Web.Services
     {
         public static string GetChallengeMessage(List<int> challengeCharacters)
         {
-            return $"{DisplayCharacter(challengeCharacters[0])} & {DisplayCharacter(challengeCharacters[1])} character of a PAYE scheme (excluding the /):";
+            return
+                $"{DisplayCharacter(challengeCharacters[0])} & {DisplayCharacter(challengeCharacters[1])} character of a PAYE scheme (excluding the /):";
         }
 
         private static string DisplayCharacter(int challengeCharacter)
@@ -17,7 +18,6 @@ namespace SFA.DAS.EAS.Support.Web.Services
             if (challengeCharacter < 20)
             {
                 check = challengeCharacter;
-
             }
             else
             {

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Web.Http;
 
 namespace SFA.DAS.EAS.Support.Web
 {
+    [ExcludeFromCodeCoverage]
     public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
@@ -15,9 +14,9 @@ namespace SFA.DAS.EAS.Support.Web
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                "DefaultApi",
+                "api/{controller}/{id}",
+                new {id = RouteParameter.Optional}
             );
         }
     }

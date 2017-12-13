@@ -23,7 +23,9 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution {
     using StructureMap.Graph;
     using StructureMap.Pipeline;
     using StructureMap.TypeRules;
+    using System.Diagnostics.CodeAnalysis;
 
+    [ExcludeFromCodeCoverage]
     public class ControllerConvention : IRegistrationConvention {
         #region Public Methods and Operators
 

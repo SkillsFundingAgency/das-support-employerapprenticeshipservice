@@ -1,5 +1,8 @@
-﻿namespace SFA.DAS.Support.Shared
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace SFA.DAS.Support.Shared
 {
+    [ExcludeFromCodeCoverage]
     public class SearchItem
     {
         public string SearchId { get; set; }

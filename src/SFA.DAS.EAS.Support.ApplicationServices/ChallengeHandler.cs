@@ -8,10 +8,11 @@ namespace SFA.DAS.EAS.Support.ApplicationServices
     public class ChallengeHandler : IChallengeHandler
     {
         private readonly IAccountRepository _accountRepository;
-        private readonly IChallengeService _challengeService;
         private readonly IChallengeRepository _challengeRepository;
+        private readonly IChallengeService _challengeService;
 
-        public ChallengeHandler(IAccountRepository accountRepository, IChallengeService challengeService, IChallengeRepository challengeRepository)
+        public ChallengeHandler(IAccountRepository accountRepository, IChallengeService challengeService,
+            IChallengeRepository challengeRepository)
         {
             _accountRepository = accountRepository;
             _challengeService = challengeService;
@@ -55,9 +56,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices
                 || !int.TryParse(message.Balance.Split('.')[0].Replace("£", string.Empty), out balance)
                 || message.ChallengeElement1.Length != 1
                 || message.ChallengeElement2.Length != 1)
-            {
                 return response;
-            }
 
             var record = await _accountRepository.Get(message.Id, AccountFieldsSelection.ChallengePayeSchemes);
 

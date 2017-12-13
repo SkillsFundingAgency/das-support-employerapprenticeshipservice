@@ -22,11 +22,15 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             var response = await _handler.Get(id);
 
             if (response.StatusCode != SearchResponseCodes.Success)
-            {
                 return HttpNotFound($"There was a problem finding the account {id}");
-            }
 
-            return View(new ChallengeViewModel { Characters = response.Characters, Id = id, Url = url, HasError = hasError });
+            return View(new ChallengeViewModel
+            {
+                Characters = response.Characters,
+                Id = id,
+                Url = url,
+                HasError = hasError
+            });
         }
 
         [HttpPost]
@@ -35,9 +39,7 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             var response = await _handler.Handle(Map(challengeEntry));
 
             if (response.IsValid)
-            {
                 return Content(string.Empty);
-            }
 
             Response.StatusCode = 403;
             var model = new ChallengeViewModel

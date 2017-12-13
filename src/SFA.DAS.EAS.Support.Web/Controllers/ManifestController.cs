@@ -32,11 +32,11 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
 
         private IEnumerable<SiteChallenge> GetChallenges()
         {
-            yield return new SiteChallenge
+            return new List<SiteChallenge>(){new SiteChallenge
             {
                 ChallengeKey = "account/finance",
                 ChallengeUrlFormat = "/challenge/{0}"
-            };
+            }};
         }
 
         [HttpGet]
@@ -48,26 +48,27 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
 
         private IEnumerable<SiteResource> GetResources()
         {
-            yield return new SiteResource
+            return new List<SiteResource>()
             {
-                ResourceTitle = "Organisations",
-                ResourceKey = "account",
-                ResourceUrlFormat = "/account/{0}",
-                SearchItemsUrl = "/api/manifest/account"
-            };
-
-            yield return new SiteResource
-            {
-                ResourceTitle = "Finance",
-                ResourceKey = "account/finance",
-                ResourceUrlFormat = "/account/finance/{0}",
-                Challenge = "account/finance"
-            };
-
-            yield return new SiteResource
-            {
-                ResourceKey = "account/header",
-                ResourceUrlFormat = "/account/header/{0}"
+                new SiteResource
+                {
+                    ResourceTitle = "Organisations",
+                    ResourceKey = "account",
+                    ResourceUrlFormat = "/account/{0}",
+                    SearchItemsUrl = "/api/manifest/account"
+                },
+                new SiteResource
+                {
+                    ResourceTitle = "Finance",
+                    ResourceKey = "account/finance",
+                    ResourceUrlFormat = "/account/finance/{0}",
+                    Challenge = "account/finance"
+                },
+                new SiteResource
+                {
+                    ResourceKey = "account/header",
+                    ResourceUrlFormat = "/account/header/{0}"
+                }
             };
         }
 

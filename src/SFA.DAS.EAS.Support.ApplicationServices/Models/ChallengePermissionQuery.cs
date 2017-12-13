@@ -1,5 +1,8 @@
-﻿namespace SFA.DAS.EAS.Support.ApplicationServices.Models
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace SFA.DAS.EAS.Support.ApplicationServices.Models
 {
+    [ExcludeFromCodeCoverage]
     public class ChallengePermissionQuery
     {
         public string Id { get; set; }

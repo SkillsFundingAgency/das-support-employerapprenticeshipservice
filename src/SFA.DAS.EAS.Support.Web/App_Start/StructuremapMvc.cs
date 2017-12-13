@@ -30,7 +30,9 @@ namespace SFA.DAS.EAS.Support.Web.App_Start {
 	using SFA.DAS.EAS.Support.Web.DependencyResolution;
 
     using StructureMap;
-    
+    using System.Diagnostics.CodeAnalysis;
+
+    [ExcludeFromCodeCoverage]
 	public static class StructuremapMvc {
         #region Public Properties
 

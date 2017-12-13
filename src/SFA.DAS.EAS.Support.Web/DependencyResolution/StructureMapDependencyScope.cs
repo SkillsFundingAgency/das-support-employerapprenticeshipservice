@@ -24,10 +24,12 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution {
     using Microsoft.Practices.ServiceLocation;
 
     using StructureMap;
-	
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
     /// The structure map dependency scope.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class StructureMapDependencyScope : ServiceLocatorImplBase {
         #region Constants and Fields
 

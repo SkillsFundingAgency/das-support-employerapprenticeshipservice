@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Web;
 using SFA.DAS.EAS.Account.Api.Client;
 using SFA.DAS.EAS.Support.ApplicationServices;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
@@ -11,6 +12,7 @@ using StructureMap.Configuration.DSL;
 
 namespace SFA.DAS.EAS.Support.Web.DependencyResolution
 {
+    [ExcludeFromCodeCoverage]
     public class InfrastuctureRegistry : Registry
     {
         public InfrastuctureRegistry()
