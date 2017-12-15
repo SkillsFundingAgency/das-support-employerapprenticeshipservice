@@ -95,6 +95,8 @@
   <ItemGroup>
     <Compile Include="Controllers\Account\WhenTestingFinanceGet.cs" />
     <Compile Include="Controllers\Account\WhenTestingPayeSchemesGet.cs" />
+    <Compile Include="Controllers\Challenge\WhenCallingIndexGet.cs" />
+    <Compile Include="Controllers\Challenge\WhenCallingIndexPost.cs" />
     <Compile Include="Controllers\Challenge\WhenTestingChallengeController.cs" />
     <Compile Include="Controllers\Account\WhenTestingHeaderGet.cs" />
     <Compile Include="Services\WhenTestingChallengeHelper.cs" />
