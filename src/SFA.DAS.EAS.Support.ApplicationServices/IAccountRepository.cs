@@ -9,6 +9,6 @@ namespace SFA.DAS.EAS.Support.ApplicationServices
     {
         Task<Core.Models.Account> Get(string id, AccountFieldsSelection selection);
         Task<decimal> GetAccountBalance(string id);
-        Task<IEnumerable<AccountDetailViewModel>> FindAllDetails();
+        Task<IEnumerable<Core.Models.Account>> FindAllDetails();
     }
 }

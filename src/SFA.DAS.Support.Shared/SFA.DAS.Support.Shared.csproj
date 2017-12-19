@@ -45,11 +45,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISiteManifest.cs" />
+    <Compile Include="LinkDefinition.cs" />
     <Compile Include="NavItem.cs" />
     <Compile Include="PageLinks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultPage.cs" />
+    <Compile Include="SearchColumnDefinition.cs" />
     <Compile Include="SearchItem.cs" />
+    <Compile Include="SearchResultMetadata.cs" />
     <Compile Include="SiteChallenge.cs" />
     <Compile Include="SiteManifest.cs" />
     <Compile Include="SiteResource.cs" />

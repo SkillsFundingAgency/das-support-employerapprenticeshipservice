@@ -48,25 +48,75 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             }
         }
 
-        public async Task<IEnumerable<AccountDetailViewModel>> FindAllDetails()
+        public async Task<IEnumerable<Core.Models.Account>> FindAllDetails()
         {
-            var results = new List<AccountDetailViewModel>();
-            foreach (var account in await FindAll())
+            var results = new List<Core.Models.Account>();
+            try
+            {
+                var pageNumber = 1;
+                var accountFirstPageModel = await _accountApiClient.GetPageOfAccounts(pageNumber, _accountsPerPage);
+
+                if (accountFirstPageModel?.Data?.Count > 0)
+                {
+                    var accountsFirstPageDetails = await GetAccountModelDetails(accountFirstPageModel.Data);
+                    results.AddRange(accountsFirstPageDetails);
+
+                    pageNumber ++ ;
+                    while (accountFirstPageModel.TotalPages > pageNumber)
+                    {
+                        try
+                        {
+                            var accountPageModel = await _accountApiClient.GetPageOfAccounts(pageNumber, _accountsPerPage);
+                            if (accountPageModel?.Data?.Count > 0)
+                            {
+                                var accountsDetails = await GetAccountModelDetails(accountPageModel.Data);
+                                results.AddRange(results);
+                            }
+                        }
+                        catch (HttpRequestException e)
+                        {
+                            _logger.Warn($"The Account API Http request threw an exception while fetching Page {pageNumber} - Exception :\r\n{e}");
+                        }
+                        catch (Exception e)
+                        {
+                            _logger.Error(e, $"A general exception has been thrown while requesting employer account details");
+                        }
+
+                        pageNumber++;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Exception while loading all account details");
+
+                throw;
+            }
+            
+            return results;
+        }
+
+        private async Task<IEnumerable<Core.Models.Account>> GetAccountModelDetails(IEnumerable<AccountWithBalanceViewModel> accounts)
+        {
+            var accountsWithDetails = new List<Core.Models.Account>();
+
+            foreach (var account in accounts)
+            {
                 try
                 {
-                    var viewModel = await _accountApiClient.GetAccount(account.AccountHashId);
-                    results.Add(viewModel);
-                }
-                catch (HttpRequestException e)
-                {
-                    _logger.Warn($"The Account API Http request threw an exception:\r\n{e}");
+                    var accountViewModel = await _accountApiClient.GetAccount(account.AccountHashId);
+                    var accountWithDetails = await GetAdditionalFields(accountViewModel, AccountFieldsSelection.Organisations);
+                    accountsWithDetails.Add(accountWithDetails);
                 }
                 catch (Exception e)
                 {
-                    _logger.Error(e, $"A general exception has been thrown while requesting employer account detals");
+                    _logger.Error(e, $"Exception while retrieving details for account ID {account.AccountHashId}");
                 }
 
-            return results;
+            }
+
+            return accountsWithDetails;
         }
 
         public async Task<decimal> GetAccountBalance(string id)
@@ -87,25 +137,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             }
         }
 
-        private async Task<IEnumerable<AccountWithBalanceViewModel>> FindAll()
-        {
-            var results = new List<AccountWithBalanceViewModel>();
-
-
-            var accounts = await _accountApiClient.GetPageOfAccounts(1, _accountsPerPage);
-
-            results.AddRange(accounts.Data);
-
-            for (var i = 2; i <= accounts.TotalPages; i++)
-            {
-                var page = await _accountApiClient.GetPageOfAccounts(i, _accountsPerPage);
-                results.AddRange(page.Data);
-            }
-            return results;
-        }
-
-        private async Task<Core.Models.Account> GetAdditionalFields(
-            AccountDetailViewModel response, AccountFieldsSelection selection)
+        private async Task<Core.Models.Account> GetAdditionalFields(AccountDetailViewModel response, AccountFieldsSelection selection)
         {
             var result = MapToAccount(response);
 
@@ -195,13 +227,13 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             var payeSchemes = await GetPayeSchemes(response);
 
             return payeSchemes.Select(payeScheme => new PayeSchemeViewModel
-                {
-                    Ref = _payeSchemeObfuscator.ObscurePayeScheme(payeScheme.Ref),
-                    DasAccountId = payeScheme.DasAccountId,
-                    AddedDate = payeScheme.AddedDate,
-                    RemovedDate = payeScheme.RemovedDate,
-                    Name = payeScheme.Name
-                })
+            {
+                Ref = _payeSchemeObfuscator.ObscurePayeScheme(payeScheme.Ref),
+                DasAccountId = payeScheme.DasAccountId,
+                AddedDate = payeScheme.AddedDate,
+                RemovedDate = payeScheme.RemovedDate,
+                Name = payeScheme.Name
+            })
                 .ToList();
         }
 

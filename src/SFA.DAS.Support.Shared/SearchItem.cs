@@ -9,6 +9,8 @@ namespace SFA.DAS.Support.Shared
 
         public string[] Keywords { get; set; }
 
-        public string Html { get; set; }
+        public string SearchResultJson { get; set; }
+
+        public string SearchResultCategory { get; set; }
     }
 }

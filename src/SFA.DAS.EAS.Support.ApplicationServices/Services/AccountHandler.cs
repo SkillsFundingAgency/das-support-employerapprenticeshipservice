@@ -11,10 +11,12 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
     public class AccountHandler : IAccountHandler
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly IMapAccountSearch _mapAccountSearch;
 
-        public AccountHandler(IAccountRepository accountRepository)
+        public AccountHandler(IAccountRepository accountRepository, IMapAccountSearch mapAccountSearch)
         {
             _accountRepository = accountRepository;
+            _mapAccountSearch = mapAccountSearch;
         }
 
         public async Task<AccountDetailOrganisationsResponse> FindOrganisations(string id)
@@ -77,7 +79,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
         public async Task<IEnumerable<SearchItem>> FindSearchItems()
         {
             var models = await _accountRepository.FindAllDetails();
-            return models.Select(MapToSearch).ToList();
+            return models.Select(x => _mapAccountSearch.Map(x)).ToList();
         }
 
         public async Task<AccountReponse> Find(string id)
@@ -96,25 +98,6 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
             }
 
             return response;
-        }
-
-        private SearchItem MapToSearch(AccountDetailViewModel arg)
-        {
-            var keywords = new List<string>
-            {
-                arg.HashedAccountId,
-                arg.DasAccountName,
-                arg.OwnerEmail
-            };
-
-            keywords.AddRange(arg.PayeSchemes.Select(x => x.Id));
-
-            return new SearchItem
-            {
-                SearchId = $"ACC-{arg.DasAccountId}",
-                Html = $"<div><a href=\"/resource/?key=account&id={arg.DasAccountId}\">{arg.DasAccountName}</a></div>",
-                Keywords = keywords.Where(x => x != null).ToArray()
-            };
         }
     }
 }

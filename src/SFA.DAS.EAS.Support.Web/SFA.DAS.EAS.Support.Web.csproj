@@ -243,7 +243,7 @@
       <Name>SFA.DAS.EAS.Support.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\SFA.DAS.Support.Shared\SFA.DAS.Support.Shared.csproj">
-      <Project>{5FC1F599-1D96-450C-95C6-503F85444B12}</Project>
+      <Project>{5fc1f599-1d96-450c-95c6-503f85444b12}</Project>
       <Name>SFA.DAS.Support.Shared</Name>
     </ProjectReference>
   </ItemGroup>

@@ -35,8 +35,9 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Manifest
         {
             _accountHandler.Setup(x => x.FindSearchItems()).ReturnsAsync(new List<SearchItem>
             {
-                new SearchItem {Html = "", Keywords = new[] {"", ""}, SearchId = "123"}
+                new SearchItem {SearchResultJson = "", Keywords = new[] {"", ""}, SearchId = "123"}
             }.AsEnumerable());
+
             var actual = await _unit.Search();
             CollectionAssert.IsNotEmpty(actual);
         }
