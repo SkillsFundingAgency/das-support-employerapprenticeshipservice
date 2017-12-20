@@ -34,6 +34,9 @@
     <Reference Include="SFA.DAS.EAS.Account.Api.Types, Version=1.0.0.36226, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SFA.DAS.Account.Api.Types.1.0.0.36226\lib\net45\SFA.DAS.EAS.Account.Api.Types.dll</HintPath>
     </Reference>
+    <Reference Include="SFA.DAS.Support.Shared, Version=1.0.0.49994, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.Support.Shared.1.0.0.49994\lib\net462\SFA.DAS.Support.Shared.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -68,10 +71,6 @@
     <ProjectReference Include="..\SFA.DAS.EAS.Support.Core\SFA.DAS.EAS.Support.Core.csproj">
       <Project>{99F6DD4A-CD1C-4D45-A2C9-ED2F89D1FB84}</Project>
       <Name>SFA.DAS.EAS.Support.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SFA.DAS.Support.Shared\SFA.DAS.Support.Shared.csproj">
-      <Project>{5FC1F599-1D96-450C-95C6-503F85444B12}</Project>
-      <Name>SFA.DAS.Support.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

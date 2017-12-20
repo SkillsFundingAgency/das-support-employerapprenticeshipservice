@@ -100,6 +100,9 @@
     <Reference Include="SFA.DAS.NLog.Targets.Redis, Version=1.0.0.43242, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SFA.DAS.NLog.Targets.Redis.1.0.0.43242\lib\net45\SFA.DAS.NLog.Targets.Redis.dll</HintPath>
     </Reference>
+    <Reference Include="SFA.DAS.Support.Shared, Version=1.0.0.49994, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.Support.Shared.1.0.0.49994\lib\net462\SFA.DAS.Support.Shared.dll</HintPath>
+    </Reference>
     <Reference Include="StackExchange.Redis, Version=1.1.608.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\StackExchange.Redis.1.1.608\lib\net46\StackExchange.Redis.dll</HintPath>
     </Reference>
@@ -241,10 +244,6 @@
     <ProjectReference Include="..\SFA.DAS.EAS.Support.Infrastructure\SFA.DAS.EAS.Support.Infrastructure.csproj">
       <Project>{9a31db97-209c-48ef-ae2a-b4a4f761f670}</Project>
       <Name>SFA.DAS.EAS.Support.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SFA.DAS.Support.Shared\SFA.DAS.Support.Shared.csproj">
-      <Project>{5FC1F599-1D96-450C-95C6-503F85444B12}</Project>
-      <Name>SFA.DAS.Support.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
