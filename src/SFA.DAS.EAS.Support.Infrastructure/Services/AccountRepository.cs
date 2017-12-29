@@ -22,8 +22,10 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
         private readonly ILog _logger;
         private readonly IPayeSchemeObfuscator _payeSchemeObfuscator;
 
-        public AccountRepository(IAccountApiClient accountApiClient, IPayeSchemeObfuscator payeSchemeObfuscator,
-            IDatetimeService datetimeService, ILog logger)
+        public AccountRepository(IAccountApiClient accountApiClient, 
+            IPayeSchemeObfuscator payeSchemeObfuscator, 
+            IDatetimeService datetimeService, 
+            ILog logger)
         {
             _accountApiClient = accountApiClient;
             _payeSchemeObfuscator = payeSchemeObfuscator;
@@ -69,8 +71,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                             var accountPageModel = await _accountApiClient.GetPageOfAccounts(pageNumber, _accountsPerPage);
                             if (accountPageModel?.Data?.Count > 0)
                             {
-                                var accountsDetails = await GetAccountModelDetails(accountPageModel.Data);
-                                results.AddRange(results);
+                                var accountsDetail = await GetAccountModelDetails(accountPageModel.Data);
+                                results.AddRange(accountsDetail);
                             }
                         }
                         catch (HttpRequestException e)

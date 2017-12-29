@@ -11,12 +11,10 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
     public class AccountHandler : IAccountHandler
     {
         private readonly IAccountRepository _accountRepository;
-        private readonly IMapAccountSearch _mapAccountSearch;
 
-        public AccountHandler(IAccountRepository accountRepository, IMapAccountSearch mapAccountSearch)
+        public AccountHandler(IAccountRepository accountRepository)
         {
             _accountRepository = accountRepository;
-            _mapAccountSearch = mapAccountSearch;
         }
 
         public async Task<AccountDetailOrganisationsResponse> FindOrganisations(string id)
@@ -76,10 +74,10 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
             return response;
         }
 
-        public async Task<IEnumerable<SearchItem>> FindSearchItems()
+        public async Task<IEnumerable<AccountSearchModel>> FindSearchItems()
         {
             var models = await _accountRepository.FindAllDetails();
-            return models.Select(x => _mapAccountSearch.Map(x)).ToList();
+            return models.Select(x => Map(x)).ToList();
         }
 
         public async Task<AccountReponse> Find(string id)
@@ -98,6 +96,16 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
             }
 
             return response;
+        }
+
+        public AccountSearchModel Map(Core.Models.Account account)
+        {
+            return new AccountSearchModel
+            {
+                Account = account.DasAccountName,
+                AccountID = account.HashedAccountId,
+                SearchType =SearchCategory.Account
+            };
         }
     }
 }

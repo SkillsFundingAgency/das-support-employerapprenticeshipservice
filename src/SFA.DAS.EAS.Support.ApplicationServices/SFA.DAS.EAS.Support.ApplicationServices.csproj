@@ -59,7 +59,6 @@
     <Compile Include="Models\AccountFinanceResponse.cs" />
     <Compile Include="Models\SearchResponseCodes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AccountSearchMapper.cs" />
     <Compile Include="Services\ChallengeService.cs" />
     <Compile Include="Services\DatetimeService.cs" />
     <Compile Include="Services\IAccountHandler.cs" />
@@ -67,7 +66,6 @@
     <Compile Include="Services\IDatetimeService.cs" />
     <Compile Include="Services\IChallengeService.cs" />
     <Compile Include="Services\AccountHandler.cs" />
-    <Compile Include="Services\IMapAccountSearch.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SFA.DAS.EAS.Support.Core\SFA.DAS.EAS.Support.Core.csproj">

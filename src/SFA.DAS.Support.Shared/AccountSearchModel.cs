@@ -4,17 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SFA.DAS.EAS.Support.Core.Models
+namespace SFA.DAS.Support.Shared
 {
-    public class SearchAccountModel
+    public class AccountSearchModel
     {
-        public string  Id { get; set; }
-
         public string Account { get; set; }
 
         public string AccountID { get; set; }
 
-        public string Owner { get; set; }
+        public SearchCategory SearchType { get; set; }
 
     }
 }

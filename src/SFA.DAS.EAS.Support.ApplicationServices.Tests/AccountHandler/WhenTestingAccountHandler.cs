@@ -8,16 +8,14 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.AccountHandler
     {
         protected ApplicationServices.Services.AccountHandler Unit;
         protected Mock<IAccountRepository> MockAccountRepository;
-        protected Mock<IMapAccountSearch> MockMapAccountSearch;
         protected readonly string Id = "123";
 
         [SetUp]
         public void Setup()
         {
             MockAccountRepository = new Mock<IAccountRepository>();
-            MockMapAccountSearch = new Mock<IMapAccountSearch>();
 
-            Unit = new ApplicationServices.Services.AccountHandler(MockAccountRepository.Object, MockMapAccountSearch.Object);
+            Unit = new ApplicationServices.Services.AccountHandler(MockAccountRepository.Object);
         }
 
       

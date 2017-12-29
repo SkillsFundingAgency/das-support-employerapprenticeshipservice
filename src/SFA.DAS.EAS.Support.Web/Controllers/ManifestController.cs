@@ -28,7 +28,6 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
                 Version = GetVersion(),
                 Resources = GetResources(),
                 Challenges = GetChallenges(),
-                SearchResultsMetadata = GetSearchResultsMetadata(),
                 BaseUrl = Url.Content("~/")
             };
 
@@ -52,7 +51,8 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
                     ResourceTitle = "Organisations",
                     ResourceKey = "account",
                     ResourceUrlFormat = "/account/{0}",
-                    SearchItemsUrl = "/api/manifest/account"
+                    SearchItemsUrl = "/api/manifest/account",
+                    SearchCategory = SearchCategory.Account
                 },
                 new SiteResource
                 {
@@ -77,44 +77,7 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
                 ChallengeUrlFormat = "/challenge/{0}"
             }};
         }
-        private IEnumerable<SearchResultMetadata> GetSearchResultsMetadata()
-        {
-            var accountLink = new LinkDefinition
-            {
-                Format = "/resource/?key=account&id={0}",
-                MapColumnName = nameof(SearchAccountModel.AccountID)
-            };
-
-            return new List<SearchResultMetadata>()
-            {
-
-               new SearchResultMetadata
-                {
-                  SearchResultCategory = GlobalConstants.SearchResultCategory,
-                  ColumnDefinitions = new List<SearchColumnDefinition>
-                  {
-                      new SearchColumnDefinition
-                      {
-                          Name = nameof(SearchAccountModel.Account),
-                          Link = accountLink
-                      },
-                      new SearchColumnDefinition
-                      {
-                          Name = nameof(SearchAccountModel.Owner),
-                      },
-                      new SearchColumnDefinition
-                      {
-                           Name = nameof(SearchAccountModel.AccountID),
-                           DisplayName = "Account ID",
-                           Link = accountLink
-                      }
-                  }
-
-                }
-            };
-
-        }
-
+       
         private string GetVersion()
         {
             var assembly = Assembly.GetExecutingAssembly();

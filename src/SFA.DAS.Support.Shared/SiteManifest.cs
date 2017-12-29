@@ -10,6 +10,5 @@ namespace SFA.DAS.Support.Shared
         public IEnumerable<SiteResource> Resources { get; set; }
         public string BaseUrl { get; set; }
         public IEnumerable<SiteChallenge> Challenges { get; set; }
-        public IEnumerable<SearchResultMetadata> SearchResultsMetadata { get; set; }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http.Results;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
+using SFA.DAS.EAS.Support.Core.Models;
 using SFA.DAS.EAS.Support.Web.Controllers;
 using SFA.DAS.Support.Shared;
 
@@ -33,48 +35,63 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Manifest
         [Test]
         public async Task ItShouldReturnAllOfTheSearchItems()
         {
-            _accountHandler.Setup(x => x.FindSearchItems()).ReturnsAsync(new List<SearchItem>
+            _accountHandler.Setup(x => x.FindSearchItems()).ReturnsAsync(new List<AccountSearchModel>
             {
-                new SearchItem {SearchResultJson = "", Keywords = new[] {"", ""}, SearchId = "123"}
+                new AccountSearchModel { Account = "VALTECH", AccountID="ABCDEF"}
             }.AsEnumerable());
 
             var actual = await _unit.Search();
-            CollectionAssert.IsNotEmpty(actual);
+
+            Assert.IsNotNull(actual);
+            var result = (JsonResult<IEnumerable<AccountSearchModel>>)actual;
+            CollectionAssert.IsNotEmpty(result.Content);
         }
         [Test]
         public void ItShouldReturnTheSiteManifest()
         {
             var actual = _unit.Get();
+
             Assert.IsNotNull(actual);
-            Assert.IsNotNull(actual.Challenges);
-            Assert.IsNotNull(actual.Resources);
-            Assert.IsNotNull(actual.BaseUrl);
-            Assert.IsNotNull(actual.Version);
+
+            var result = (JsonResult<SiteManifest>)actual;
+            Assert.IsNotNull(result.Content.Challenges);
+            Assert.IsNotNull(result.Content.Resources);
+            Assert.IsNotNull(result.Content.BaseUrl);
+            Assert.IsNotNull(result.Content.Version);
         }
 
         [Test]
         public void ItShouldReturnTheSiteManifestContaintResources()
         {
             var actual = _unit.Get();
-            Assert.IsNotEmpty(actual.Resources);
-            Assert.IsNotNull(actual.Resources.FirstOrDefault(x => x.ResourceKey == "account/finance"));
-            Assert.IsNotNull(actual.Resources.FirstOrDefault(x => x.ResourceKey == "account/header"));
-            Assert.IsNotNull(actual.Resources.FirstOrDefault(x => x.ResourceKey == "account"));
 
+            Assert.IsNotNull(actual);
+
+            var result = (JsonResult<SiteManifest>)actual;
+
+            Assert.IsNotEmpty(result.Content.Resources);
+            Assert.IsNotNull(result.Content.Resources.FirstOrDefault(x => x.ResourceKey == "account/finance"));
+            Assert.IsNotNull(result.Content.Resources.FirstOrDefault(x => x.ResourceKey == "account/header"));
+            Assert.IsNotNull(result.Content.Resources.FirstOrDefault(x => x.ResourceKey == "account"));
         }
 
         [Test]
         public void ItShouldReturnTheSiteManifestHavingABaseUrl()
         {
             var actual = _unit.Get();
-            Assert.IsNotNull(actual.BaseUrl);
+            Assert.IsNotNull(actual);
+            var result = (JsonResult<SiteManifest>)actual;
+
+            Assert.IsNotNull(result.Content.BaseUrl);
         }
 
         [Test]
         public void ItShouldReturnTheSiteManifestHAvingAVersion()
         {
             var actual = _unit.Get();
-            Assert.IsNotNull(actual.Version);
+            Assert.IsNotNull(actual);
+            var result = (JsonResult<SiteManifest>)actual;
+            Assert.IsNotNull(result.Content.Version);
         }
     }
 }

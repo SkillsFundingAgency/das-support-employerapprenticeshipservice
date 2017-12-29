@@ -41,8 +41,6 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
                 var empUserApiSettings = ctx.GetInstance<IAccountApiConfiguration>();
                 return new AccountApiClient(empUserApiSettings);
             });
-
-            For<IMapAccountSearch>().Use<AccountSearchMapper>();
         }
     }
 }
