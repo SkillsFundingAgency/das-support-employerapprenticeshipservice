@@ -15,13 +15,25 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SFA.DAS.EAS.Support.Web.DependencyResolution {
+using Newtonsoft.Json;
+
+namespace SFA.DAS.EAS.Support.Web.DependencyResolution
+{
+    using Microsoft.Azure;
+    using SFA.DAS.Configuration;
+    using SFA.DAS.Configuration.AzureTableStorage;
+    using SFA.DAS.EAS.Account.Api.Client;
+    using SFA.DAS.EAS.Support.Web.Configuration;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
     using System.Diagnostics.CodeAnalysis;
 
     [ExcludeFromCodeCoverage]
     public class DefaultRegistry : Registry {
+
+        private const string ServiceName = "SFA.DAS.Support.EAS";
+        private const string Version = "1.0";
+      
         #region Constructors and Destructors
 
         public DefaultRegistry() {
@@ -31,7 +43,31 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution {
                     scan.WithDefaultConventions();
 					scan.With(new ControllerConvention());
                 });
-            //For<IExample>().Use<Example>();
+
+            WebConfiguration configuration = GetConfiguration();
+           
+
+            For<IWebConfiguration>().Use(configuration);
+            For<IAccountApiConfiguration>().Use(configuration.AccountApi);
+            
+        }
+
+        private WebConfiguration GetConfiguration()
+        {
+            var environment = CloudConfigurationManager.GetSetting("EnvironmentName") ?? 
+                              "local";
+            var storageConnectionString = CloudConfigurationManager.GetSetting("ConfigurationStorageConnectionString") ??
+                                          "UseDevelopmentStorage=true";
+
+            var configurationRepository = new AzureTableStorageConfigurationRepository(storageConnectionString); ;
+
+            var configurationOptions = new ConfigurationOptions(ServiceName, environment, Version);
+
+            var configurationService = new ConfigurationService(configurationRepository, configurationOptions);
+
+            var webConfiguration = configurationService.Get<WebConfiguration>();
+
+            return webConfiguration;
         }
 
         #endregion
