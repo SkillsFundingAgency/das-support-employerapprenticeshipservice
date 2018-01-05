@@ -48,7 +48,6 @@
     <Compile Include="Models\ChallengeEntry.cs" />
     <Compile Include="Models\AccountFieldsSelection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IProvideSettings.cs" />
     <Compile Include="Services\PayeSchemeObfuscator.cs" />
     <Compile Include="Services\IPayeSchemeObfuscator.cs" />
   </ItemGroup>

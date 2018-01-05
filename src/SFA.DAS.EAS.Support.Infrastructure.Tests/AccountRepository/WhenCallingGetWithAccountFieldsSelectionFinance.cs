@@ -72,7 +72,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
              * See ASCS-83 for a fix
              */
             var now = DateTime.Now;
-            var yearOffset = (now.Month >= 4) ? -1 : 0;
+            var yearOffset = (now.Month <= 4) ? -1 : 0;
             var startOfFinancialYear = new DateTime(now.Year + yearOffset, 4, 1);
 
             DatetimeService.Setup(x => x.GetBeginningFinancialYear(It.IsAny<DateTime>()))

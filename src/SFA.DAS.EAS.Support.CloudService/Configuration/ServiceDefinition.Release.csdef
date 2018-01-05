@@ -12,23 +12,10 @@
     </Sites>
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
-
-      <Setting name="AccountApiBaseUrl" />
-      <Setting name="AccountApiClientId" />
-      <Setting name="AccountApiClientSecret" />
-      <Setting name="AccountApiIdentifierUri" />
-      <Setting name="AccountApiTenant" />
-      <Setting name="AccountApiCertificateThumbprint" />
-
-      <Setting name="LevyApiBaseUrl" />
-      <Setting name="LevyApiClientId" />
-      <Setting name="LevyApiClientSecret" />
-      <Setting name="LevyApiIdentifierUri" />
-      <Setting name="LevyApiTenant" />
-      <Setting name="LevyTokenCertificate" />
-      <Setting name="LevyHttpClientBaseUrl" />
-
+      <Setting name="ConfigurationStorageConnectionString" />
+      <Setting name="LoggingRedisConnectionString" />
       <Setting name="EnvironmentName"/>
+      <Setting name="InstrumentationKey"/>
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="Endpoint1" protocol="https" port="443" certificate="WebSslCert" loadBalancer="das-seas-ilb" />
