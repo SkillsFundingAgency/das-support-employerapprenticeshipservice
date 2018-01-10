@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "SFA.DAS.EAS.Support.CloudService", "SFA.DAS.EAS.Support.CloudService\SFA.DAS.EAS.Support.CloudService.ccproj", "{E33EAE3E-3261-4031-B074-2F80FBD5588B}"
 EndProject
@@ -12,8 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.EAS.Support.Core", "SFA.DAS.EAS.Support.Core\SFA.DAS.EAS.Support.Core.csproj", "{99F6DD4A-CD1C-4D45-A2C9-ED2F89D1FB84}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.EAS.Support.ApplicationServices", "SFA.DAS.EAS.Support.ApplicationServices\SFA.DAS.EAS.Support.ApplicationServices.csproj", "{84CD1351-253C-43D7-886D-A5E9CA3606CA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Support.Shared", "SFA.DAS.Support.Shared\SFA.DAS.Support.Shared.csproj", "{5FC1F599-1D96-450C-95C6-503F85444B12}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.EAS.Support.ApplicationServices.Tests", "SFA.DAS.EAS.Support.ApplicationServices.Tests\SFA.DAS.EAS.Support.ApplicationServices.Tests.csproj", "{797FE417-B556-4C32-8980-77B18EC685D6}"
 EndProject
@@ -51,10 +49,6 @@ Global
 		{84CD1351-253C-43D7-886D-A5E9CA3606CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84CD1351-253C-43D7-886D-A5E9CA3606CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84CD1351-253C-43D7-886D-A5E9CA3606CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5FC1F599-1D96-450C-95C6-503F85444B12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FC1F599-1D96-450C-95C6-503F85444B12}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5FC1F599-1D96-450C-95C6-503F85444B12}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5FC1F599-1D96-450C-95C6-503F85444B12}.Release|Any CPU.Build.0 = Release|Any CPU
 		{797FE417-B556-4C32-8980-77B18EC685D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{797FE417-B556-4C32-8980-77B18EC685D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{797FE417-B556-4C32-8980-77B18EC685D6}.Release|Any CPU.ActiveCfg = Release|Any CPU

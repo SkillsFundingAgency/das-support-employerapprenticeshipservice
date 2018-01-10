@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.Core.Models;
 using SFA.DAS.Support.Shared;
+using SFA.DAS.Support.Shared.SearchIndexModel;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices.Services
 {

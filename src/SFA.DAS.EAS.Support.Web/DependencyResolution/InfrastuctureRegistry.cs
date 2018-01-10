@@ -33,8 +33,8 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
 
             For<IAccountRepository>().Use<AccountRepository>();
             For<IChallengeRepository>().Use<ChallengeRepository>();
-            For<IProvideSettings>().Use(c => new AppConfigSettingsProvider(new MachineSettings()));
-            For<IAccountApiConfiguration>().Use<AccountsApiConfiguration>();
+            //For<IProvideSettings>().Use(c => new AppConfigSettingsProvider(new MachineSettings()));
+            For<IAccountApiConfiguration>().Use<Infrastructure.Settings.AccountApiConfiguration>();
 
             For<IAccountApiClient>().Use("", ctx =>
             {

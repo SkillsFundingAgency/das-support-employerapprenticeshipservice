@@ -7,6 +7,7 @@ using SFA.DAS.EAS.Support.ApplicationServices.Services;
 using SFA.DAS.EAS.Support.Core.Models;
 using SFA.DAS.EmployerUsers.Support.Core.Domain.Model;
 using SFA.DAS.Support.Shared;
+using SFA.DAS.Support.Shared.SearchIndexModel;
 
 namespace SFA.DAS.EAS.Support.Web.Controllers
 {

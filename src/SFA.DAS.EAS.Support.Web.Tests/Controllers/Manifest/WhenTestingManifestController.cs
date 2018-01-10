@@ -8,6 +8,7 @@ using SFA.DAS.EAS.Support.ApplicationServices.Services;
 using SFA.DAS.EAS.Support.Core.Models;
 using SFA.DAS.EAS.Support.Web.Controllers;
 using SFA.DAS.Support.Shared;
+using SFA.DAS.Support.Shared.SearchIndexModel;
 
 namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Manifest
 {
@@ -29,8 +30,6 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Manifest
         private ManifestController _unit;
         private Mock<IAccountHandler> _accountHandler;
         private Mock<System.Web.Http.Routing.UrlHelper> _urlHelper;
-
-        
 
         [Test]
         public async Task ItShouldReturnAllOfTheSearchItems()
