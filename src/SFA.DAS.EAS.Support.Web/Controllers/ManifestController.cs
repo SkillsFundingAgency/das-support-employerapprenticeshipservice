@@ -4,7 +4,10 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
+using SFA.DAS.EAS.Support.Core.Models;
+using SFA.DAS.EmployerUsers.Support.Core.Domain.Model;
 using SFA.DAS.Support.Shared;
+using SFA.DAS.Support.Shared.SearchIndexModel;
 
 namespace SFA.DAS.EAS.Support.Web.Controllers
 {
@@ -19,31 +22,25 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
         }
 
         [Route("")]
-        public SiteManifest Get()
+        public IHttpActionResult Get()
         {
-            return new SiteManifest
+            var manifest = new SiteManifest
             {
                 Version = GetVersion(),
                 Resources = GetResources(),
                 Challenges = GetChallenges(),
                 BaseUrl = Url.Content("~/")
             };
-        }
 
-        private IEnumerable<SiteChallenge> GetChallenges()
-        {
-            return new List<SiteChallenge>(){new SiteChallenge
-            {
-                ChallengeKey = "account/finance",
-                ChallengeUrlFormat = "/challenge/{0}"
-            }};
+            return Json(manifest);
         }
 
         [HttpGet]
         [Route("account")]
-        public async Task<IEnumerable<SearchItem>> Search()
+        public async Task<IHttpActionResult> Search()
         {
-            return await _handler.FindSearchItems();
+            var accounts = await _handler.FindSearchItems();
+            return Json(accounts);
         }
 
         private IEnumerable<SiteResource> GetResources()
@@ -55,7 +52,8 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
                     ResourceTitle = "Organisations",
                     ResourceKey = "account",
                     ResourceUrlFormat = "/account/{0}",
-                    SearchItemsUrl = "/api/manifest/account"
+                    SearchItemsUrl = "/api/manifest/account",
+                    SearchCategory = SearchCategory.Account
                 },
                 new SiteResource
                 {
@@ -72,6 +70,15 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             };
         }
 
+        private IEnumerable<SiteChallenge> GetChallenges()
+        {
+            return new List<SiteChallenge>(){new SiteChallenge
+            {
+                ChallengeKey = "account/finance",
+                ChallengeUrlFormat = "/challenge/{0}"
+            }};
+        }
+       
         private string GetVersion()
         {
             var assembly = Assembly.GetExecutingAssembly();

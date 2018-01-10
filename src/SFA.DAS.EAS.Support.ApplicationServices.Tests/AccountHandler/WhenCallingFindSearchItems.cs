@@ -14,45 +14,23 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.AccountHandler
         [Test]
         public async Task ItShouldReturnAnAccountForEachItemInResponseIfFound()
         {
-            var accountDetailViewModels = new List<AccountDetailViewModel>
+            var accountDetailModels = new List<Core.Models.Account>
             {
-                new AccountDetailViewModel
+                new Core.Models.Account
                 {
                     AccountId = 123,
-                    PayeSchemes = new ResourceList(new List<ResourceViewModel>
-                    {
-                        new ResourceViewModel {Id = Guid.NewGuid().ToString()}
-                    }),
-                    Balance = 0m,
-                    DasAccountName = "Account 1",
-                    DateRegistered = DateTime.MaxValue,
-                    HashedAccountId = "ASDASD",
-                    LegalEntities = new ResourceList(new List<ResourceViewModel>
-                    {
-                        new ResourceViewModel {Id = Guid.NewGuid().ToString()}
-                    }),
-                    OwnerEmail = "owner1@tempuri.org"
+                    OwnerEmail = "owner1@tempuri.org",
+                    HashedAccountId ="ABC78"
                 },
-                new AccountDetailViewModel
+                new Core.Models.Account
                 {
                     AccountId = 124,
-                    PayeSchemes = new ResourceList(new List<ResourceViewModel>
-                    {
-                        new ResourceViewModel {Id = Guid.NewGuid().ToString()}
-                    }),
-                    Balance = 0m,
-                    DasAccountName = "Account 2",
-                    DateRegistered = DateTime.MaxValue,
-                    HashedAccountId = "DFDFD",
-                    LegalEntities = new ResourceList(new List<ResourceViewModel>
-                    {
-                        new ResourceViewModel {Id = Guid.NewGuid().ToString()}
-                    }),
-                    OwnerEmail = "owner2@tempuri.org"
+                    OwnerEmail = "owner2@tempuri.org",
+                    HashedAccountId ="DEF12"
                 }
             };
 
-            MockAccountRepository.Setup(r => r.FindAllDetails()).ReturnsAsync(accountDetailViewModels);
+            MockAccountRepository.Setup(r => r.FindAllDetails()).ReturnsAsync(accountDetailModels);
 
             var actual = await Unit.FindSearchItems();
             Assert.IsNotNull(actual);
@@ -62,9 +40,9 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.AccountHandler
         [Test]
         public async Task ItShouldReturnAnEmptyCollectionIfNotFound()
         {
-            var accountDetailViewModels = new List<AccountDetailViewModel>();
+            var accountDetailModels = new List<Core.Models.Account>();
 
-            MockAccountRepository.Setup(r => r.FindAllDetails()).ReturnsAsync(accountDetailViewModels);
+            MockAccountRepository.Setup(r => r.FindAllDetails()).ReturnsAsync(accountDetailModels);
 
             var actual = await Unit.FindSearchItems();
             Assert.IsNotNull(actual);

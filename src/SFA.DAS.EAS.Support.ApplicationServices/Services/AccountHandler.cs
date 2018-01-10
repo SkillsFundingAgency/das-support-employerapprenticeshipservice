@@ -5,6 +5,7 @@ using SFA.DAS.EAS.Account.Api.Types;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.Core.Models;
 using SFA.DAS.Support.Shared;
+using SFA.DAS.Support.Shared.SearchIndexModel;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices.Services
 {
@@ -74,10 +75,10 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
             return response;
         }
 
-        public async Task<IEnumerable<SearchItem>> FindSearchItems()
+        public async Task<IEnumerable<AccountSearchModel>> FindSearchItems()
         {
             var models = await _accountRepository.FindAllDetails();
-            return models.Select(MapToSearch).ToList();
+            return models.Select(x => Map(x)).ToList();
         }
 
         public async Task<AccountReponse> Find(string id)
@@ -98,22 +99,13 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
             return response;
         }
 
-        private SearchItem MapToSearch(AccountDetailViewModel arg)
+        public AccountSearchModel Map(Core.Models.Account account)
         {
-            var keywords = new List<string>
+            return new AccountSearchModel
             {
-                arg.HashedAccountId,
-                arg.DasAccountName,
-                arg.OwnerEmail
-            };
-
-            keywords.AddRange(arg.PayeSchemes.Select(x => x.Id));
-
-            return new SearchItem
-            {
-                SearchId = $"ACC-{arg.DasAccountId}",
-                Html = $"<div><a href=\"/resource/?key=account&id={arg.DasAccountId}\">{arg.DasAccountName}</a></div>",
-                Keywords = keywords.Where(x => x != null).ToArray()
+                Account = account.DasAccountName,
+                AccountID = account.HashedAccountId,
+                SearchType =SearchCategory.Account
             };
         }
     }
