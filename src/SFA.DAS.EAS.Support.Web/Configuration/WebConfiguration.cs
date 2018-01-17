@@ -7,5 +7,8 @@ namespace SFA.DAS.EAS.Support.Web.Configuration
     {
         [JsonRequired]
         public AccountApiConfiguration AccountApi { get;set; }
+        [JsonRequired]
+        
+        public SiteConnectorSettings SiteConnector { get; set; }
     }
 }

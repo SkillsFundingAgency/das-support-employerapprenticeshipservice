@@ -49,7 +49,9 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
 
             For<IWebConfiguration>().Use(configuration);
             For<IAccountApiConfiguration>().Use(configuration.AccountApi);
-            
+            For<ISiteConnectorSettings>().Use(configuration.SiteConnector);
+
+
         }
 
         private WebConfiguration GetConfiguration()
