@@ -1,9 +1,16 @@
 ﻿@model SFA.DAS.EAS.Support.Core.Models.Account
-@{ Layout = null; }
-<h1>
-    @(Model?.DasAccountName)
-    @if (!string.IsNullOrEmpty(Model?.HashedAccountId))
-    {
-        <span>Account ID @(Model?.HashedAccountId)</span>
-    }
-</h1>
+@{
+    Layout = null;
+}
+
+<div class="grid-row">
+    <div class="column-full">
+        <h1 class="heading-large">
+            @(Model?.DasAccountName)
+            @if (!string.IsNullOrEmpty(Model?.HashedAccountId))
+            {
+                <span class="heading-secondary"> Account ID @(Model?.HashedAccountId)</span>
+            }
+        </h1>
+    </div>
+</div>
