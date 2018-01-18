@@ -16,9 +16,8 @@ namespace SFA.DAS.EAS.Support.Web
             config.Routes.MapHttpRoute( 
                 name: "DefaultApi", 
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new {id = RouteParameter.Optional}, 
-                constraints: null,
-                handler:  new TokenValidationHandler());
+                defaults: new {id = RouteParameter.Optional}
+                );
         }
     }
 }

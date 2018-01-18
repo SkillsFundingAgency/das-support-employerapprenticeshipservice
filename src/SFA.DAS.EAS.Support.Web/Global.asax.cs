@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
-using SFA.DAS.EAS.Support.Web.Configuration;
 using SFA.DAS.NLog.Logger;
 
 namespace SFA.DAS.EAS.Support.Web
@@ -14,7 +11,6 @@ namespace SFA.DAS.EAS.Support.Web
     [ExcludeFromCodeCoverage]
     public class Global : HttpApplication
     {
-        //public static Collection<DelegatingHandler> ConfigurationMessageHandlers;
 
         private void Application_Start(object sender, EventArgs e)
         {
@@ -27,9 +23,10 @@ namespace SFA.DAS.EAS.Support.Web
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
+            var siteConnectorSettings = ioc.GetService<ISiteConnectorSettings>();
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new TokenValidationHandler(siteConnectorSettings, logger));
+            GlobalFilters.Filters.Add(new TokenValidationFilter(siteConnectorSettings, logger));
 
-            GlobalConfiguration.Configuration.MessageHandlers.Add(new TokenValidationHandler());
-        
             logger.Info("Web role started");
         }
 
@@ -40,4 +37,6 @@ namespace SFA.DAS.EAS.Support.Web
             logger.Error(ex, "App_Error");
         }
     }
+
+
 }

@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Selectors;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 using Microsoft.IdentityModel.Protocols;
 using SFA.DAS.NLog.Logger;
 
+
 namespace SFA.DAS.EAS.Support.Web
 {
-    [ExcludeFromCodeCoverage]
-    public class TokenValidationHandler : DelegatingHandler
+    public class TokenValidationFilter : FilterAttribute, IAuthorizationFilter
     {
         private readonly ILog _logger;
         private static string _audience = string.Empty;
@@ -31,53 +29,66 @@ namespace SFA.DAS.EAS.Support.Web
         private readonly string scopeClaimType = "http://schemas.microsoft.com/identity/claims/scope";
         private readonly string _scope = string.Empty;
         const string AuthorityBaseUrl = "https://login.microsoftonline.com/";
-
-        public TokenValidationHandler(ISiteConnectorSettings settings, ILog logger)
+        public TokenValidationFilter(ISiteConnectorSettings settings, ILog logger)
         {
             _logger = logger;
-
             _tenant = settings.Tenant;
             _audience = settings.Audience;
             _authority = $"{AuthorityBaseUrl}{_tenant}";
             _scope = settings.Scope;
         }
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
-            CancellationToken cancellationToken)
+        public void OnAuthorization(System.Web.Mvc.AuthorizationContext filterContext)
         {
-            string jwtToken = null;
-            var authHeader = request.Headers.Authorization;
-            if (authHeader != null) jwtToken = authHeader.Parameter;
+            var request = filterContext.HttpContext.Request;
 
+            var authHeader = request.Headers["Authorization"];
+            if (authHeader == null)
+            {
+                _logger.Warn($"No Authorization header was provided by the caller");
+                filterContext.Result = new HttpUnauthorizedResult();
+                return;
+            }
+            var jwtToken = authHeader.Split(' ').LastOrDefault();
             if (jwtToken == null)
             {
                 _logger.Warn($"No token was found in the Authorization header");
-                var response = BuildResponseErrorMessage(HttpStatusCode.Unauthorized);
-                return response;
+                filterContext.Result = new HttpUnauthorizedResult();
+                return;
             }
 
-            if (DateTime.UtcNow.Subtract(_stsMetadataRetrievalTime).TotalHours > 24
-                    || string.IsNullOrEmpty(_issuer)
-                    || _signingTokens == null)
+            CancellationToken cancellationToken = new CancellationToken();
+            if (
+                DateTime.UtcNow.Subtract(_stsMetadataRetrievalTime).TotalHours > 24 ||
+                string.IsNullOrEmpty(_issuer) ||
+                _signingTokens == null
+                )
             {
                 try
                 {
 
                     var stsDiscoveryEndpoint = $"{_authority}/.well-known/openid-configuration";
                     var configManager = new ConfigurationManager<OpenIdConnectConfiguration>(stsDiscoveryEndpoint);
-                    var config = await configManager.GetConfigurationAsync(cancellationToken);
+                    var config = Task.Run(
+                       async () => await configManager.GetConfigurationAsync(cancellationToken).ConfigureAwait(false), 
+                                            cancellationToken).Result;
+
                     _issuer = config.Issuer;
                     _signingTokens = config.SigningTokens.ToList();
-                    _stsMetadataRetrievalTime = DateTime.UtcNow;
 
+
+
+                    _stsMetadataRetrievalTime = DateTime.UtcNow;
                 }
                 catch (Exception e)
                 {
                     _logger.Error(e, $"Exception occured obtaining configuration from authority");
-                    return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                    filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                    return;
                 }
             }
             var issuer = _issuer;
             var signingTokens = _signingTokens;
+
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var validationParameters = new TokenValidationParameters
@@ -100,33 +111,20 @@ namespace SFA.DAS.EAS.Support.Web
                 if (ClaimsPrincipal.Current.FindFirst(scopeClaimType) != null &&
                     ClaimsPrincipal.Current.FindFirst(scopeClaimType).Value != _scope)
                 {
-                    _logger.Warn($"The supplied token does not provide the required scope" );
-                    var response = BuildResponseErrorMessage(HttpStatusCode.Forbidden);
-                    return response;
+                    _logger.Warn($"The supplied token does not provide the required scope");
+                    filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.Forbidden);
                 }
-
-                return await base.SendAsync(request, cancellationToken);
             }
             catch (SecurityTokenValidationException e)
             {
                 _logger.Error(e, $"The supplied token is not valid. ");
-                var response = BuildResponseErrorMessage(HttpStatusCode.Unauthorized);
-                return response;
+                filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
             catch (Exception e)
             {
-                _logger.Error(e , $"An exception has occurred validating the supplied token");
-                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                _logger.Error(e, $"An exception has occurred validating the supplied token");
+                filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
-        }
-
-        private HttpResponseMessage BuildResponseErrorMessage(HttpStatusCode statusCode)
-        {
-            var response = new HttpResponseMessage(statusCode);
-            var parameter = "authorization_uri=\"" + _authority + "\"" + "," + "resource_id=" + _audience;
-            var authenticateHeader = new AuthenticationHeaderValue("Bearer", parameter);
-            response.Headers.WwwAuthenticate.Add(authenticateHeader);
-            return response;
         }
     }
 }
