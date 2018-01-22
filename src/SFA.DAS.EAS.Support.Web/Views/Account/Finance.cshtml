@@ -9,11 +9,11 @@
 {
     <h1 class="heading-xlarge">Finance</h1>
     <div id="tabs-container">
-        <ul class="tabs-menu">
+        <ul class="js-tabs">
             <li class="current"><a href="#tab-1">PAYE schemes</a></li>
             <li class=""><a href="#tab-2">Transactions</a></li>
         </ul>
-        <div id="tab-1" class="tab-content">
+        <div id="tab-1" class="js-tab-pane">
 
             <table class="responsive">
                 <thead>
@@ -29,7 +29,7 @@
 
         </div>
 
-        <div id="tab-2" class="tab-content" style="display: none;">
+        <div id="tab-2" class="js-tab-pane" style="display: none;">
             <div class="data data__purple-block">
                 <span class="data-item bold-xlarge">@Model.Balance.ToString("C2", culture)</span>
                 <span class="data-item bold-xsmall">Current balance</span>
