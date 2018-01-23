@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.EAS.Support.Web
+﻿namespace SFA.DAS.EAS.Support.Web.Configuration
 {
     public class SiteConnectorSettings : ISiteConnectorSettings
     {

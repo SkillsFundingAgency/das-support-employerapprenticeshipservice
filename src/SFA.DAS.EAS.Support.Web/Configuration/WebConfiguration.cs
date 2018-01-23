@@ -9,6 +9,6 @@ namespace SFA.DAS.EAS.Support.Web.Configuration
         public AccountApiConfiguration AccountApi { get;set; }
         [JsonRequired]
         
-        public SiteConnectorSettings SiteConnector { get; set; }
+        public SiteConnectorSettings SiteValidator { get; set; }
     }
 }
