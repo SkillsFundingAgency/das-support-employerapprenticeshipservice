@@ -13,7 +13,6 @@ namespace SFA.DAS.EAS.Support.Web
     [ExcludeFromCodeCoverage]
     public class Global : HttpApplication
     {
-
         private void Application_Start(object sender, EventArgs e)
         {
             MvcHandler.DisableMvcResponseHeader = true;
@@ -26,7 +25,8 @@ namespace SFA.DAS.EAS.Support.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             var siteConnectorSettings = ioc.GetService<ISiteValidatorSettings>();
-            GlobalConfiguration.Configuration.MessageHandlers.Add(new TokenValidationHandler(siteConnectorSettings, logger));
+            GlobalConfiguration.Configuration.MessageHandlers.Add(
+                new TokenValidationHandler(siteConnectorSettings, logger));
             GlobalFilters.Filters.Add(new TokenValidationFilter(siteConnectorSettings, logger));
 
             logger.Info("Web role started");
@@ -39,6 +39,4 @@ namespace SFA.DAS.EAS.Support.Web
             logger.Error(ex, "App_Error");
         }
     }
-
-
 }

@@ -7,13 +7,13 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.Services
     [TestFixture]
     public class WhenTestingDatetimeService
     {
-        private DatetimeService _unit;
-
         [SetUp]
         public void Setup()
         {
             _unit = new DatetimeService();
         }
+
+        private DatetimeService _unit;
 
         [TestCase("1-Apr-2016", "1-Apr-2016")]
         [TestCase("1-May-2016", "1-Apr-2016")]
@@ -31,8 +31,8 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.Services
         [TestCase("1-Apr-2017", "1-Apr-2017")]
         public void ItShouldTestTheBehaviour(string testDate, string expected)
         {
-            Assert.AreEqual(DateTime.Parse(expected), 
-                    _unit.GetBeginningFinancialYear(DateTime.Parse(testDate)));
+            Assert.AreEqual(DateTime.Parse(expected),
+                _unit.GetBeginningFinancialYear(DateTime.Parse(testDate)));
         }
     }
 }

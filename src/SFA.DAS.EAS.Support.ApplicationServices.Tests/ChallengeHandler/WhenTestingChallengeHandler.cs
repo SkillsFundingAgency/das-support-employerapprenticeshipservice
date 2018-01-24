@@ -7,11 +7,6 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
     [TestFixture]
     public class WhenTestingChallengeHandler
     {
-        protected IChallengeHandler _unit;
-        protected Mock<IAccountRepository> _accountRepository;
-        protected Mock<IChallengeService> _challengeService;
-        protected Mock<IChallengeRepository> _challengeRepository;
-
         [SetUp]
         public void Setup()
         {
@@ -22,5 +17,10 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
             _unit = new ApplicationServices.ChallengeHandler(_accountRepository.Object, _challengeService.Object,
                 _challengeRepository.Object);
         }
+
+        protected IChallengeHandler _unit;
+        protected Mock<IAccountRepository> _accountRepository;
+        protected Mock<IChallengeService> _challengeService;
+        protected Mock<IChallengeRepository> _challengeRepository;
     }
 }

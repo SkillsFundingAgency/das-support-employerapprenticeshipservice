@@ -7,8 +7,29 @@ using SFA.DAS.EAS.Support.Core.Models;
 namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
 {
     [TestFixture]
-    public class WhenCallingGet: WhenTestingChallengeHandler
+    public class WhenCallingGet : WhenTestingChallengeHandler
     {
+        [Test]
+        public async Task ItShouldReturnAnAccountAndSuccessWhenQueryHasAMatch()
+        {
+            const string id = "123";
+            var account = new Core.Models.Account
+            {
+                HashedAccountId = "ASDAS",
+                AccountId = 123
+            };
+            _accountRepository.Setup(x =>
+                    x.Get(id,
+                        AccountFieldsSelection.PayeSchemes))
+                .ReturnsAsync(account);
+
+            var actual = await _unit.Get(id);
+
+
+            Assert.IsNotNull(actual);
+            Assert.IsNotNull(actual.Account);
+            Assert.AreEqual(SearchResponseCodes.Success, actual.StatusCode);
+        }
 
         [Test]
         public async Task ItShouldReturnNoSearchResultsFoundWhenQueryHasNoMatch()
@@ -24,28 +45,5 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
             Assert.IsNotNull(actual);
             Assert.AreEqual(SearchResponseCodes.NoSearchResultsFound, actual.StatusCode);
         }
-        [Test]
-        public async Task ItShouldReturnAnAccountAndSuccessWhenQueryHasAMatch()
-        {
-            const string id = "123";
-            var account = new Core.Models.Account
-            {
-                HashedAccountId = "ASDAS",
-                AccountId = 123,
-
-            };
-            _accountRepository.Setup(x =>
-                    x.Get(id,
-                        AccountFieldsSelection.PayeSchemes))
-                .ReturnsAsync(account);
-
-            var actual = await _unit.Get(id);
-
-
-            Assert.IsNotNull(actual);
-            Assert.IsNotNull(actual.Account);
-            Assert.AreEqual(SearchResponseCodes.Success, actual.StatusCode);
-        }
-       
     }
 }

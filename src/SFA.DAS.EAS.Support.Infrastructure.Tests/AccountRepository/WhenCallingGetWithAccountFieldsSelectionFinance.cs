@@ -15,26 +15,28 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
         [Test]
         public async Task ItShouldReturntheMatchingAccountWithTransaction()
         {
-            string id = "123";
+            var id = "123";
 
-            var accountDetailViewModel = new AccountDetailViewModel()
+            var accountDetailViewModel = new AccountDetailViewModel
             {
                 AccountId = 123,
                 Balance = 0m,
                 PayeSchemes = new ResourceList(
-                    new List<ResourceViewModel>()
+                    new List<ResourceViewModel>
                     {
-                        new ResourceViewModel()
+                        new ResourceViewModel
                         {
-                            Id = "123/123456", Href = "https://tempuri.org/payescheme/{1}"
+                            Id = "123/123456",
+                            Href = "https://tempuri.org/payescheme/{1}"
                         }
                     }),
                 LegalEntities = new ResourceList(
-                    new List<ResourceViewModel>()
+                    new List<ResourceViewModel>
                     {
-                        new ResourceViewModel()
+                        new ResourceViewModel
                         {
-                            Id = "TempUri Limited", Href = "https://tempuri.org/organisation/{1}"
+                            Id = "TempUri Limited",
+                            Href = "https://tempuri.org/organisation/{1}"
                         }
                     }),
 
@@ -53,7 +55,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
                 .Returns(obscuredPayePayeScheme);
 
 
-            var payeSchemeViewModel = new PayeSchemeViewModel()
+            var payeSchemeViewModel = new PayeSchemeViewModel
             {
                 AddedDate = DateTime.Today.AddMonths(-4),
                 Ref = "123/123456",
@@ -72,7 +74,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
              * See ASCS-83 for a fix
              */
             var now = DateTime.Now;
-            var yearOffset = (now.Month <= 4) ? -1 : 0;
+            var yearOffset = now.Month <= 4 ? -1 : 0;
             var startOfFinancialYear = new DateTime(now.Year + yearOffset, 4, 1);
 
             DatetimeService.Setup(x => x.GetBeginningFinancialYear(It.IsAny<DateTime>()))
@@ -87,27 +89,31 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             //    3 - 4 = -1 + 1           = 0
             //                             = 12 (4,5,6,7,8,9,10,11,12,1,2,3)
 
-            var monthsToQuery = ((now.Year - startOfFinancialYear.Year) * 12) +
-                                    (now.Month - startOfFinancialYear.Month) + 1; ;
+            var monthsToQuery = (now.Year - startOfFinancialYear.Year) * 12 +
+                                (now.Month - startOfFinancialYear.Month) + 1;
+            ;
 
-            decimal isNotZero = 100m;
-            DateTime isTxDateCreated = DateTime.Today;
-            var transactionsViewModel = new TransactionsViewModel()
+            var isNotZero = 100m;
+            var isTxDateCreated = DateTime.Today;
+            var transactionsViewModel = new TransactionsViewModel
             {
-                   new TransactionViewModel()
-                   {
-                       Description = "Is Not Null", Amount = isNotZero
-                       , DateCreated = isTxDateCreated
-                   }, new TransactionViewModel()
+                new TransactionViewModel
                 {
-                    Description = "Is Not Null 2", Amount = isNotZero
-                    , DateCreated = isTxDateCreated
+                    Description = "Is Not Null",
+                    Amount = isNotZero,
+                    DateCreated = isTxDateCreated
+                },
+                new TransactionViewModel
+                {
+                    Description = "Is Not Null 2",
+                    Amount = isNotZero,
+                    DateCreated = isTxDateCreated
                 }
             };
 
             AccountApiClient.Setup(x => x.GetTransactions(accountDetailViewModel.HashedAccountId,
-                It.IsAny<int>(),
-                It.IsAny<int>()))
+                    It.IsAny<int>(),
+                    It.IsAny<int>()))
                 .ReturnsAsync(transactionsViewModel
                 );
 
@@ -119,7 +125,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
                 .Verify(x => x.ObscurePayeScheme(It.IsAny<string>()), Times.Exactly(2));
 
             AccountApiClient
-                .Verify(x => x.GetTransactions(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(monthsToQuery));
+                .Verify(x => x.GetTransactions(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()),
+                    Times.Exactly(monthsToQuery));
 
             Assert.IsNotNull(actual);
             Assert.IsNotNull(actual.PayeSchemes);
@@ -129,7 +136,6 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
 
             Assert.IsNull(actual.LegalEntities);
             Assert.IsNull(actual.TeamMembers);
-
         }
     }
 }

@@ -11,48 +11,9 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
     public class WhenCallingIndexGet : WhenTestingChallengeController
     {
         [Test]
-        public async Task ItShouldReturnTheChallengeViewWithAModelWhenThereIsAMatch()
-        {
-            var challengeResponse = new ChallengeResponse()
-            {
-                Account = new Core.Models.Account() { AccountId = 123, HashedAccountId = "ERERER", DasAccountName = "Test Account"},
-                StatusCode = SearchResponseCodes.Success
-            };
-
-            var id = "123";
-
-            MockChallengeHandler.Setup(x => x.Get(id))
-                .ReturnsAsync(challengeResponse);
-
-            var actual = await Unit.Index(id, "http:/temprui.org/callback", false);
-
-            Assert.IsInstanceOf<ViewResult>(actual);
-            var viewResult = (ViewResult)actual;
-            Assert.IsInstanceOf<ChallengeViewModel>( viewResult.Model);
-        }
-        [Test]
-        public async Task ItShouldReturnHttpNoFoundWhenTheSearchFails()
-        {
-            var challengeResponse = new ChallengeResponse()
-            {
-                Account = null,
-                StatusCode = SearchResponseCodes.SearchFailed
-            };
-
-            var id = "123";
-
-            MockChallengeHandler.Setup(x => x.Get(id))
-                .ReturnsAsync(challengeResponse);
-
-            var actual = await Unit.Index(id, "http:/temprui.org/callback", false);
-
-            Assert.IsInstanceOf<HttpNotFoundResult>(actual);
-
-        }
-        [Test]
         public async Task ItShouldReturnHttpNoFoundWhenThereIsNotAMatch()
         {
-            var challengeResponse = new ChallengeResponse()
+            var challengeResponse = new ChallengeResponse
             {
                 Account = null,
                 StatusCode = SearchResponseCodes.NoSearchResultsFound
@@ -66,7 +27,51 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
             var actual = await Unit.Index(id, "http:/temprui.org/callback", false);
 
             Assert.IsInstanceOf<HttpNotFoundResult>(actual);
-            
+        }
+
+        [Test]
+        public async Task ItShouldReturnHttpNoFoundWhenTheSearchFails()
+        {
+            var challengeResponse = new ChallengeResponse
+            {
+                Account = null,
+                StatusCode = SearchResponseCodes.SearchFailed
+            };
+
+            var id = "123";
+
+            MockChallengeHandler.Setup(x => x.Get(id))
+                .ReturnsAsync(challengeResponse);
+
+            var actual = await Unit.Index(id, "http:/temprui.org/callback", false);
+
+            Assert.IsInstanceOf<HttpNotFoundResult>(actual);
+        }
+
+        [Test]
+        public async Task ItShouldReturnTheChallengeViewWithAModelWhenThereIsAMatch()
+        {
+            var challengeResponse = new ChallengeResponse
+            {
+                Account = new Core.Models.Account
+                {
+                    AccountId = 123,
+                    HashedAccountId = "ERERER",
+                    DasAccountName = "Test Account"
+                },
+                StatusCode = SearchResponseCodes.Success
+            };
+
+            var id = "123";
+
+            MockChallengeHandler.Setup(x => x.Get(id))
+                .ReturnsAsync(challengeResponse);
+
+            var actual = await Unit.Index(id, "http:/temprui.org/callback", false);
+
+            Assert.IsInstanceOf<ViewResult>(actual);
+            var viewResult = (ViewResult) actual;
+            Assert.IsInstanceOf<ChallengeViewModel>(viewResult.Model);
         }
     }
 }

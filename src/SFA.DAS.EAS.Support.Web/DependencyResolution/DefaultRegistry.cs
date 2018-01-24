@@ -24,6 +24,7 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
     using SFA.DAS.Configuration.AzureTableStorage;
     using SFA.DAS.EAS.Account.Api.Client;
     using SFA.DAS.EAS.Support.Web.Configuration;
+    using SFA.DAS.Support.Shared.SiteConnection;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
     using System.Diagnostics.CodeAnalysis;
@@ -49,7 +50,7 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
 
             For<IWebConfiguration>().Use(configuration);
             For<IAccountApiConfiguration>().Use(configuration.AccountApi);
-            For<ISiteConnectorSettings>().Use(configuration.SiteValidator);
+            For<ISiteValidatorSettings>().Use(configuration.SiteValidator);
 
 
         }

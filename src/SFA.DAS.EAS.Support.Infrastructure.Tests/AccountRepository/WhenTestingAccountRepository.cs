@@ -10,11 +10,11 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
 {
     public abstract class WhenTestingAccountRepository
     {
-        protected IAccountRepository Unit;
         protected Mock<IAccountApiClient> AccountApiClient;
-        protected Mock<IPayeSchemeObfuscator> PayeSchemeObfuscator;
         protected Mock<IDatetimeService> DatetimeService;
         protected Mock<ILog> Logger;
+        protected Mock<IPayeSchemeObfuscator> PayeSchemeObfuscator;
+        protected IAccountRepository Unit;
 
         [SetUp]
         public void Setup()
@@ -28,7 +28,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
                 PayeSchemeObfuscator.Object,
                 DatetimeService.Object,
                 Logger.Object
-                );
+            );
         }
     }
 }

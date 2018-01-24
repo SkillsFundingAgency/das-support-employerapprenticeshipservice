@@ -17,24 +17,26 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
         {
             var id = "123";
 
-            var accountDetailViewModel = new AccountDetailViewModel()
+            var accountDetailViewModel = new AccountDetailViewModel
             {
                 AccountId = 123,
                 Balance = 0m,
                 PayeSchemes = new ResourceList(
-                    new List<ResourceViewModel>()
+                    new List<ResourceViewModel>
                     {
-                        new ResourceViewModel()
+                        new ResourceViewModel
                         {
-                            Id = "123/123456", Href = "https://tempuri.org/payescheme/{1}"
+                            Id = "123/123456",
+                            Href = "https://tempuri.org/payescheme/{1}"
                         }
                     }),
                 LegalEntities = new ResourceList(
-                    new List<ResourceViewModel>()
+                    new List<ResourceViewModel>
                     {
-                        new ResourceViewModel()
+                        new ResourceViewModel
                         {
-                            Id = "TempUri Limited", Href = "https://tempuri.org/organisation/{1}"
+                            Id = "TempUri Limited",
+                            Href = "https://tempuri.org/organisation/{1}"
                         }
                     }),
                 HashedAccountId = "DFGH",
@@ -55,7 +57,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
                 .Returns(obscuredPayePayeScheme);
 
 
-            var payeSchemeViewModel = new PayeSchemeViewModel()
+            var payeSchemeViewModel = new PayeSchemeViewModel
             {
                 AddedDate = DateTime.Today.AddMonths(-4),
                 Ref = "123/123456",
