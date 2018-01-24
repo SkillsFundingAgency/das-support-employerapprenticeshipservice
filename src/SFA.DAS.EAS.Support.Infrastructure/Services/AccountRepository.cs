@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -22,9 +21,9 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
         private readonly ILog _logger;
         private readonly IPayeSchemeObfuscator _payeSchemeObfuscator;
 
-        public AccountRepository(IAccountApiClient accountApiClient, 
-            IPayeSchemeObfuscator payeSchemeObfuscator, 
-            IDatetimeService datetimeService, 
+        public AccountRepository(IAccountApiClient accountApiClient,
+            IPayeSchemeObfuscator payeSchemeObfuscator,
+            IDatetimeService datetimeService,
             ILog logger)
         {
             _accountApiClient = accountApiClient;
@@ -37,7 +36,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
         {
             try
             {
-                _logger.Debug($"{nameof(IAccountApiClient)}.{nameof(IAccountApiClient.GetResource)}<{nameof(AccountDetailViewModel)}>(\"/api/accounts/{id}\");");
+                _logger.Debug(
+                    $"{nameof(IAccountApiClient)}.{nameof(IAccountApiClient.GetResource)}<{nameof(AccountDetailViewModel)}>(\"/api/accounts/{id}\");");
 
                 var response = await _accountApiClient.GetResource<AccountDetailViewModel>($"/api/accounts/{id}");
 
@@ -63,12 +63,13 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                     var accountsFirstPageDetails = await GetAccountModelDetails(accountFirstPageModel.Data);
                     results.AddRange(accountsFirstPageDetails);
 
-                    pageNumber ++ ;
+                    pageNumber++;
                     while (accountFirstPageModel.TotalPages > pageNumber)
                     {
                         try
                         {
-                            var accountPageModel = await _accountApiClient.GetPageOfAccounts(pageNumber, _accountsPerPage);
+                            var accountPageModel =
+                                await _accountApiClient.GetPageOfAccounts(pageNumber, _accountsPerPage);
                             if (accountPageModel?.Data?.Count > 0)
                             {
                                 var accountsDetail = await GetAccountModelDetails(accountPageModel.Data);
@@ -77,17 +78,18 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                         }
                         catch (HttpRequestException e)
                         {
-                            _logger.Warn($"The Account API Http request threw an exception while fetching Page {pageNumber} - Exception :\r\n{e}");
+                            _logger.Warn(
+                                $"The Account API Http request threw an exception while fetching Page {pageNumber} - Exception :\r\n{e}");
                         }
                         catch (Exception e)
                         {
-                            _logger.Error(e, $"A general exception has been thrown while requesting employer account details");
+                            _logger.Error(e,
+                                $"A general exception has been thrown while requesting employer account details");
                         }
 
                         pageNumber++;
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -95,30 +97,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
 
                 throw;
             }
-            
+
             return results;
-        }
-
-        private async Task<IEnumerable<Core.Models.Account>> GetAccountModelDetails(IEnumerable<AccountWithBalanceViewModel> accounts)
-        {
-            var accountsWithDetails = new List<Core.Models.Account>();
-
-            foreach (var account in accounts)
-            {
-                try
-                {
-                    var accountViewModel = await _accountApiClient.GetAccount(account.AccountHashId);
-                    var accountWithDetails = await GetAdditionalFields(accountViewModel, AccountFieldsSelection.Organisations);
-                    accountsWithDetails.Add(accountWithDetails);
-                }
-                catch (Exception e)
-                {
-                    _logger.Error(e, $"Exception while retrieving details for account ID {account.AccountHashId}");
-                }
-
-            }
-
-            return accountsWithDetails;
         }
 
         public async Task<decimal> GetAccountBalance(string id)
@@ -139,7 +119,29 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             }
         }
 
-        private async Task<Core.Models.Account> GetAdditionalFields(AccountDetailViewModel response, AccountFieldsSelection selection)
+        private async Task<IEnumerable<Core.Models.Account>> GetAccountModelDetails(
+            IEnumerable<AccountWithBalanceViewModel> accounts)
+        {
+            var accountsWithDetails = new List<Core.Models.Account>();
+
+            foreach (var account in accounts)
+                try
+                {
+                    var accountViewModel = await _accountApiClient.GetAccount(account.AccountHashId);
+                    var accountWithDetails =
+                        await GetAdditionalFields(accountViewModel, AccountFieldsSelection.Organisations);
+                    accountsWithDetails.Add(accountWithDetails);
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, $"Exception while retrieving details for account ID {account.AccountHashId}");
+                }
+
+            return accountsWithDetails;
+        }
+
+        private async Task<Core.Models.Account> GetAdditionalFields(AccountDetailViewModel response,
+            AccountFieldsSelection selection)
         {
             var result = MapToAccount(response);
 
@@ -229,13 +231,13 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             var payeSchemes = await GetPayeSchemes(response);
 
             return payeSchemes.Select(payeScheme => new PayeSchemeViewModel
-            {
-                Ref = _payeSchemeObfuscator.ObscurePayeScheme(payeScheme.Ref),
-                DasAccountId = payeScheme.DasAccountId,
-                AddedDate = payeScheme.AddedDate,
-                RemovedDate = payeScheme.RemovedDate,
-                Name = payeScheme.Name
-            })
+                {
+                    Ref = _payeSchemeObfuscator.ObscurePayeScheme(payeScheme.Ref),
+                    DasAccountId = payeScheme.DasAccountId,
+                    AddedDate = payeScheme.AddedDate,
+                    RemovedDate = payeScheme.RemovedDate,
+                    Name = payeScheme.Name
+                })
                 .ToList();
         }
 
@@ -277,6 +279,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                     legalResponse.AgreementStatus == EmployerAgreementStatus.Superseded)
                     legalEntitiesList.Add(legalResponse);
             }
+
             return legalEntitiesList;
         }
 

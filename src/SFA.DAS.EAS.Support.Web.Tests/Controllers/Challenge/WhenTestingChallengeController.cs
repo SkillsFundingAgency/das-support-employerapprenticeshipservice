@@ -9,16 +9,15 @@ using SFA.DAS.EAS.Support.Web.Controllers;
 
 namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
 {
-    
     public abstract class WhenTestingChallengeController
     {
-        protected ChallengeController Unit;
         protected Mock<IChallengeHandler> MockChallengeHandler;
-        protected RouteData RouteData;
         protected Mock<HttpContextBase> MockContextBase;
         protected Mock<HttpRequestBase> MockRequestBase;
         protected Mock<HttpResponseBase> MockResponseBase;
         protected Mock<IPrincipal> MockUser;
+        protected RouteData RouteData;
+        protected ChallengeController Unit;
         protected ControllerContext UnitControllerContext;
 
         [SetUp]

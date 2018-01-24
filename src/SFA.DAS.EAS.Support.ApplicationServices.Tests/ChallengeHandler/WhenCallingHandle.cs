@@ -9,7 +9,6 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
     [TestFixture]
     public class WhenCallingHandle : WhenTestingChallengeHandler
     {
-
         private const string ValidBalance = "£123";
         private const string InvalidBalance = "£ABC";
         private const string EmptyBalance = "";
@@ -28,25 +27,20 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
         [TestCase(NullBalance, ValidElement1, ValidElement2)]
         [TestCase(ValidBalance, NullElement1, ValidElement2)]
         [TestCase(ValidBalance, ValidElement1, NullElement2)]
-
-
         [TestCase(ValidBalance, ValidElement1, InvalidElement2)]
         [TestCase(ValidBalance, InvalidElement1, ValidElement2)]
         [TestCase(InvalidBalance, ValidElement1, ValidElement2)]
-
-
         [TestCase(ValidBalance, ValidElement1, EmptyElement2)]
         [TestCase(ValidBalance, EmptyElement1, ValidElement2)]
         [TestCase(EmptyBalance, ValidElement1, ValidElement2)]
-
-
-        public async Task ItShouldReturnAnInvalidResponseIfTheQueryIsNotValid(string balance, string element1, string element2)
+        public async Task ItShouldReturnAnInvalidResponseIfTheQueryIsNotValid(string balance, string element1,
+            string element2)
         {
-            var message = new ChallengePermissionQuery()
+            var message = new ChallengePermissionQuery
             {
                 Balance = balance,
                 ChallengeElement1 = element1,
-                ChallengeElement2 = element2,
+                ChallengeElement2 = element2
             };
             var actual = await _unit.Handle(message);
             Assert.IsNotNull(actual);
@@ -56,11 +50,11 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
         [Test]
         public async Task ItShouldReturnAnInvalidResponseIfAValidQueryHasNoMatch()
         {
-            var message = new ChallengePermissionQuery()
+            var message = new ChallengePermissionQuery
             {
                 Balance = "£1000",
                 ChallengeElement1 = "1",
-                ChallengeElement2 = "2",
+                ChallengeElement2 = "2"
             };
             _accountRepository.Setup(x =>
                     x.Get(message.Id,
@@ -71,21 +65,21 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
             Assert.IsNotNull(actual);
             Assert.AreEqual(false, actual.IsValid);
         }
+
         [Test]
         public async Task ItShouldReturnAnInvalidResponseWhenThereIsAMatchThatHasInvalidData()
         {
-            var message = new ChallengePermissionQuery()
+            var message = new ChallengePermissionQuery
             {
                 Id = "123",
                 Balance = "£1000",
                 ChallengeElement1 = "1",
-                ChallengeElement2 = "2",
+                ChallengeElement2 = "2"
             };
             var account = new Core.Models.Account
             {
                 HashedAccountId = "ASDAS",
-                AccountId = 123,
-
+                AccountId = 123
             };
             _accountRepository.Setup(x =>
                     x.Get(message.Id,
@@ -101,21 +95,21 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
             Assert.IsNotNull(actual);
             Assert.AreEqual(false, actual.IsValid);
         }
+
         [Test]
         public async Task ItShouldReturnAnValidResponseWhenThereIsAMatchThatHasValidData()
         {
-            var message = new ChallengePermissionQuery()
+            var message = new ChallengePermissionQuery
             {
                 Id = "123",
                 Balance = "£1000",
                 ChallengeElement1 = "1",
-                ChallengeElement2 = "2",
+                ChallengeElement2 = "2"
             };
             var account = new Core.Models.Account
             {
                 HashedAccountId = "ASDAS",
-                AccountId = 123,
-
+                AccountId = 123
             };
             _accountRepository.Setup(x =>
                     x.Get(message.Id,

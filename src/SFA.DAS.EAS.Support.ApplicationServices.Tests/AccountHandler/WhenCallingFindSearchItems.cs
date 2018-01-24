@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
-using SFA.DAS.EAS.Account.Api.Types;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.AccountHandler
 {
@@ -20,13 +18,13 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.AccountHandler
                 {
                     AccountId = 123,
                     OwnerEmail = "owner1@tempuri.org",
-                    HashedAccountId ="ABC78"
+                    HashedAccountId = "ABC78"
                 },
                 new Core.Models.Account
                 {
                     AccountId = 124,
                     OwnerEmail = "owner2@tempuri.org",
-                    HashedAccountId ="DEF12"
+                    HashedAccountId = "DEF12"
                 }
             };
 

@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SFA.DAS.EAS.Account.Api.Types;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.Core.Models;
-using SFA.DAS.Support.Shared;
 using SFA.DAS.Support.Shared.SearchIndexModel;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices.Services
@@ -105,7 +103,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
             {
                 Account = account.DasAccountName,
                 AccountID = account.HashedAccountId,
-                SearchType =SearchCategory.Account
+                SearchType = SearchCategory.Account
             };
         }
     }

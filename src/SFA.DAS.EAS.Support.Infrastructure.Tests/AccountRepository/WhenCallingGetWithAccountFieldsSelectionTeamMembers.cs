@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
@@ -13,58 +12,23 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
     public class WhenCallingGetWithAccountFieldsSelectionTeamMembers : WhenTestingAccountRepository
     {
         [Test]
-        public async Task ItShouldReturnTheMatchingAccountWithTeamMembers()
+        public async Task
+            ItShouldReturnTheMatchingAccountWithAnEmptyListOfTeamMembersWhenAnExceptionIsThrownObtainingTheTeeamMembers()
         {
-            string id = "123";
+            var id = "123";
 
-            var accountDetailViewModel = new AccountDetailViewModel()
+            var accountDetailViewModel = new AccountDetailViewModel
             {
                 HashedAccountId = "ASDAS",
-                AccountId = 123,
+                AccountId = 123
             };
             AccountApiClient.Setup(x => x.GetResource<AccountDetailViewModel>($"/api/accounts/{id}"))
                 .ReturnsAsync(accountDetailViewModel);
 
-            var teamMemberResponse = new List<TeamMemberViewModel>()
+            var teamMemberResponse = new List<TeamMemberViewModel>
             {
-                new TeamMemberViewModel(){ Email = "member.1.@tempuri.org"},
-                new TeamMemberViewModel(){ Email = "member.1.@tempuri.org"}
-            };
-            AccountApiClient.Setup(x => x.GetAccountUsers(accountDetailViewModel.HashedAccountId))
-                .ReturnsAsync(teamMemberResponse);
-
-            var actual = await Unit.Get(id, AccountFieldsSelection.TeamMembers);
-
-            
-            Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));
-
-            
-
-            Assert.IsNotNull(actual);
-            Assert.IsNotNull(actual.TeamMembers);
-            Assert.AreEqual(teamMemberResponse.Count , actual.TeamMembers.Count);
-            Assert.IsNull(actual.Transactions);
-            Assert.IsNull(actual.PayeSchemes);
-            Assert.IsNull(actual.LegalEntities);
-        }
-
-        [Test]
-        public async Task ItShouldReturnTheMatchingAccountWithAnEmptyListOfTeamMembersWhenAnExceptionIsThrownObtainingTheTeeamMembers()
-        {
-            string id = "123";
-
-            var accountDetailViewModel = new AccountDetailViewModel()
-            {
-                HashedAccountId = "ASDAS",
-                AccountId = 123,
-            };
-            AccountApiClient.Setup(x => x.GetResource<AccountDetailViewModel>($"/api/accounts/{id}"))
-                .ReturnsAsync(accountDetailViewModel);
-
-            var teamMemberResponse = new List<TeamMemberViewModel>()
-            {
-                new TeamMemberViewModel(){ Email = "member.1.@tempuri.org"},
-                new TeamMemberViewModel(){ Email = "member.1.@tempuri.org"}
+                new TeamMemberViewModel {Email = "member.1.@tempuri.org"},
+                new TeamMemberViewModel {Email = "member.1.@tempuri.org"}
             };
             AccountApiClient.Setup(x => x.GetAccountUsers(accountDetailViewModel.HashedAccountId))
                 .ThrowsAsync(new Exception("Some Exception"));
@@ -75,7 +39,6 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));
 
 
-
             Assert.IsNotNull(actual);
             Assert.IsNotNull(actual.TeamMembers);
             CollectionAssert.IsEmpty(actual.TeamMembers);
@@ -84,6 +47,39 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             Assert.IsNull(actual.LegalEntities);
         }
 
+        [Test]
+        public async Task ItShouldReturnTheMatchingAccountWithTeamMembers()
+        {
+            var id = "123";
+
+            var accountDetailViewModel = new AccountDetailViewModel
+            {
+                HashedAccountId = "ASDAS",
+                AccountId = 123
+            };
+            AccountApiClient.Setup(x => x.GetResource<AccountDetailViewModel>($"/api/accounts/{id}"))
+                .ReturnsAsync(accountDetailViewModel);
+
+            var teamMemberResponse = new List<TeamMemberViewModel>
+            {
+                new TeamMemberViewModel {Email = "member.1.@tempuri.org"},
+                new TeamMemberViewModel {Email = "member.1.@tempuri.org"}
+            };
+            AccountApiClient.Setup(x => x.GetAccountUsers(accountDetailViewModel.HashedAccountId))
+                .ReturnsAsync(teamMemberResponse);
+
+            var actual = await Unit.Get(id, AccountFieldsSelection.TeamMembers);
+
+
+            Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));
+
+
+            Assert.IsNotNull(actual);
+            Assert.IsNotNull(actual.TeamMembers);
+            Assert.AreEqual(teamMemberResponse.Count, actual.TeamMembers.Count);
+            Assert.IsNull(actual.Transactions);
+            Assert.IsNull(actual.PayeSchemes);
+            Assert.IsNull(actual.LegalEntities);
+        }
     }
 }
- 

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Schema.Generation;
 
 namespace SFA.DAS.EAS.Support.Web.Tests.Configuration
 {
+    [ExcludeFromCodeCoverage]
     public class FormatSchemaProvider : JSchemaGenerationProvider
     {
         public override JSchema GetSchema(JSchemaTypeGenerationContext context)

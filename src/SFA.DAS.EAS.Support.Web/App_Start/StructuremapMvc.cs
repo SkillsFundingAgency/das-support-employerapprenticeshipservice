@@ -23,7 +23,8 @@ using WebActivatorEx;
 [assembly: ApplicationShutdownMethod(typeof(StructuremapMvc), "End")]
 
 namespace SFA.DAS.EAS.Support.Web.App_Start {
-	using System.Web.Mvc;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Web.Mvc;
 
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
@@ -31,6 +32,7 @@ namespace SFA.DAS.EAS.Support.Web.App_Start {
 
     using StructureMap;
     
+    [ExcludeFromCodeCoverage]
 	public static class StructuremapMvc {
         #region Public Properties
 

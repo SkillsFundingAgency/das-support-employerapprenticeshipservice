@@ -13,7 +13,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
         [Test]
         public async Task ItShouldReturnJustTheAccount()
         {
-            string id = "123";
+            var id = "123";
 
             AccountApiClient.Setup(x => x.GetResource<AccountDetailViewModel>($"/api/accounts/{id}"))
                 .ReturnsAsync(new AccountDetailViewModel());
@@ -27,12 +27,12 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             Assert.IsNull(actual.LegalEntities);
             Assert.IsNull(actual.TeamMembers);
             Assert.IsNull(actual.Transactions);
-
         }
+
         [Test]
         public async Task ItShouldReturnNullOnException()
         {
-            string id = "123";
+            var id = "123";
 
             AccountApiClient.Setup(x => x.GetResource<AccountDetailViewModel>($"/api/accounts/{id}"))
                 .ThrowsAsync(new Exception());
@@ -43,7 +43,6 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             Logger.Verify(x => x.Error(It.IsAny<Exception>(), $"Account with id {id} not found"));
 
             Assert.IsNull(actual);
-
         }
     }
 }

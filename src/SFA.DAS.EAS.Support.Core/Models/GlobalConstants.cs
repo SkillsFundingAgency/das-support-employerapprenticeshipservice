@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace SFA.DAS.EmployerUsers.Support.Core.Domain.Model
+﻿namespace SFA.DAS.EmployerUsers.Support.Core.Domain.Model
 {
     public class GlobalConstants
     {

@@ -9,21 +9,27 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.Services
     [TestFixture]
     public class WhenTestingChallengeService
     {
-        private ChallengeService _unit;
-
         [SetUp]
         public void Setup()
         {
             _unit = new ChallengeService();
         }
+
+        private ChallengeService _unit;
+
         [Test]
         public void ItShouldObtainAnIndexlistFromTheListOfPayeSchemDetails()
         {
-            var payeSchemeViewModels = new List<PayeSchemeViewModel>()
+            var payeSchemeViewModels = new List<PayeSchemeViewModel>
             {
-                { new PayeSchemeViewModel(){AddedDate = DateTime.Today.AddMonths(-12),
-                    Name = "Account 123", DasAccountId = "123", Ref = "123/123456",
-                    RemovedDate = null}}
+                new PayeSchemeViewModel
+                {
+                    AddedDate = DateTime.Today.AddMonths(-12),
+                    Name = "Account 123",
+                    DasAccountId = "123",
+                    Ref = "123/123456",
+                    RemovedDate = null
+                }
             };
 
             var actual = _unit.GetPayeSchemesCharacters(payeSchemeViewModels);

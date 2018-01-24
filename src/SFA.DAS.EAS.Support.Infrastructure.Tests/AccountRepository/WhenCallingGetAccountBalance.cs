@@ -10,35 +10,10 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
     [TestFixture]
     public class WhenCallingGetAccountBalance : WhenTestingAccountRepository
     {
-
-        [Test]
-        public async Task ItShouldReturnTheMatchingAccountBalanceValue()
-        {
-            string id = "123";
-            var response = new AccountWithBalanceViewModel()
-            {
-                AccountId = 123,
-                AccountHashId = "ERWERW",
-                AccountName = "Test Account",
-                Balance = 0m,
-                Href = "https://tempuri.org/account/{id}",
-                IsLevyPayer = true
-            };
-
-            AccountApiClient.Setup(x => x.GetResource<AccountWithBalanceViewModel>($"/api/accounts/{id}"))
-                .ReturnsAsync(response);
-
-            var actual = await Unit.GetAccountBalance(id);
-
-            Logger.Verify(x => x.Debug($"{nameof(IAccountApiClient)}.{nameof(IAccountApiClient.GetResource)}<{nameof(AccountWithBalanceViewModel)}>(\"/api/accounts/{id}\"); {response.Balance}"));
-            Assert.AreEqual(response.Balance, actual);
-        }
-
-
         [Test]
         public async Task ItShouldReturnAZeroBalanceWhenTheClientThrowsAnException()
         {
-            string id = "123";
+            var id = "123";
 
             var exception = new Exception("Some exception");
 
@@ -57,5 +32,29 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             Assert.AreEqual(0, actual);
         }
 
+        [Test]
+        public async Task ItShouldReturnTheMatchingAccountBalanceValue()
+        {
+            var id = "123";
+            var response = new AccountWithBalanceViewModel
+            {
+                AccountId = 123,
+                AccountHashId = "ERWERW",
+                AccountName = "Test Account",
+                Balance = 0m,
+                Href = "https://tempuri.org/account/{id}",
+                IsLevyPayer = true
+            };
+
+            AccountApiClient.Setup(x => x.GetResource<AccountWithBalanceViewModel>($"/api/accounts/{id}"))
+                .ReturnsAsync(response);
+
+            var actual = await Unit.GetAccountBalance(id);
+
+            Logger.Verify(x =>
+                x.Debug(
+                    $"{nameof(IAccountApiClient)}.{nameof(IAccountApiClient.GetResource)}<{nameof(AccountWithBalanceViewModel)}>(\"/api/accounts/{id}\"); {response.Balance}"));
+            Assert.AreEqual(response.Balance, actual);
+        }
     }
 }

@@ -3,10 +3,8 @@ using System.Web;
 using SFA.DAS.EAS.Account.Api.Client;
 using SFA.DAS.EAS.Support.ApplicationServices;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
-using SFA.DAS.EAS.Support.Core.Services;
 using SFA.DAS.EAS.Support.Infrastructure.DependencyResolution;
 using SFA.DAS.EAS.Support.Infrastructure.Services;
-using SFA.DAS.EAS.Support.Infrastructure.Settings;
 using SFA.DAS.NLog.Logger;
 using StructureMap.Configuration.DSL;
 
@@ -35,7 +33,6 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
             For<IChallengeRepository>().Use<ChallengeRepository>();
 
             For<IAccountApiClient>().Use<AccountApiClient>();
-
         }
     }
 }

@@ -5,6 +5,7 @@ using Newtonsoft.Json.Schema.Generation;
 using NUnit.Framework;
 using SFA.DAS.EAS.Support.Infrastructure.Settings;
 using SFA.DAS.EAS.Support.Web.Configuration;
+using SFA.DAS.Support.Shared.SiteConnection;
 
 namespace SFA.DAS.EAS.Support.Web.Tests.Configuration
 {
@@ -22,6 +23,12 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Configuration
                     ClientId = "12312312-140e-4f9f-807b-112312312375",
                     ClientSecret = "--- configuration value goes here ---",
                     IdentifierUri = "--- configuration value goes here ---",
+                    Tenant = "--- configuration value goes here ---"
+                },
+                SiteValidator = new SiteValidatorSettings
+                {
+                    Audience = "--- configuration value goes here ---",
+                    Scope = "--- configuration value goes here ---",
                     Tenant = "--- configuration value goes here ---"
                 }
             };
@@ -79,4 +86,3 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Configuration
         }
     }
 }
-
