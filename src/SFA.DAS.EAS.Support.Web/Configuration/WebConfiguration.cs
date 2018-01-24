@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SFA.DAS.EAS.Support.Infrastructure.Settings;
+using SFA.DAS.Support.Shared.SiteConnection;
 
 namespace SFA.DAS.EAS.Support.Web.Configuration
 {
@@ -9,6 +10,6 @@ namespace SFA.DAS.EAS.Support.Web.Configuration
         public AccountApiConfiguration AccountApi { get;set; }
         [JsonRequired]
         
-        public SiteConnectorSettings SiteValidator { get; set; }
+        public SiteValidatorSettings SiteValidator { get; set; }
     }
 }
