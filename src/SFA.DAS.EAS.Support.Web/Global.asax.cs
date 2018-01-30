@@ -37,14 +37,14 @@ namespace SFA.DAS.EAS.Support.Web
         }
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
         {
-            if (HttpContext.Current == null) return;
+            //if (HttpContext.Current == null) return;
 
-            new HttpContextPolicyProvider(
-                new List<IHttpContextPolicy>()
-                {
-                    new ResponseHeaderRestrictionPolicy()
-                }
-            ).Apply(new HttpContextWrapper(HttpContext.Current), PolicyConcern.HttpResponse);
+            //new HttpContextPolicyProvider(
+            //    new List<IHttpContextPolicy>()
+            //    {
+            //        new ResponseHeaderRestrictionPolicy()
+            //    }
+            //).Apply(new HttpContextWrapper(HttpContext.Current), PolicyConcern.HttpResponse);
         }
         protected void Application_Error(object sender, EventArgs e)
         {
