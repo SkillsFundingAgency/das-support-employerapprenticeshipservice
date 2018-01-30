@@ -35,43 +35,46 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
     using System.Web.Mvc;
 
     [ExcludeFromCodeCoverage]
-    public class DefaultRegistry : Registry {
+    public class DefaultRegistry : Registry
+    {
 
         private const string ServiceName = "SFA.DAS.Support.EAS";
         private const string Version = "1.0";
-      
+
         #region Constructors and Destructors
 
-        public DefaultRegistry() {
+        public DefaultRegistry()
+        {
             Scan(
-                scan => {
+                scan =>
+                {
                     scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
-					scan.With(new ControllerConvention());
+                    scan.With(new ControllerConvention());
                 });
-
-            
-            For<ILoggingPropertyFactory>().Use<LoggingPropertyFactory>();
-
-            HttpContextBase conTextBase = null;
-            if (HttpContext.Current != null)
-                conTextBase = new HttpContextWrapper(HttpContext.Current);
-
-            For<IWebLoggingContext>().Use(x => new WebLoggingContext(conTextBase));
-
-            For<ILog>().Use(x => new NLogLogger(
-                x.ParentType,
-                x.GetInstance<IWebLoggingContext>(),
-                x.GetInstance<ILoggingPropertyFactory>().GetProperties())).AlwaysUnique();
-
-            //var logger = DependencyResolver.Current.GetService<ILog>();
 
             try
             {
+                For<ILoggingPropertyFactory>().Use<LoggingPropertyFactory>();
+
+                HttpContextBase conTextBase = null;
+                if (HttpContext.Current != null)
+                    conTextBase = new HttpContextWrapper(HttpContext.Current);
+
+                For<IWebLoggingContext>().Use(x => new WebLoggingContext(conTextBase));
+
+                For<ILog>().Use(x => new NLogLogger(
+                    x.ParentType,
+                    x.GetInstance<IWebLoggingContext>(),
+                    x.GetInstance<ILoggingPropertyFactory>().GetProperties())).AlwaysUnique();
+
+                //var logger = DependencyResolver.Current.GetService<ILog>();
+
+
                 //logger.Debug($"Starting Configuration");
-            
+
                 WebConfiguration configuration = GetConfiguration();
-           
+
 
                 For<IWebConfiguration>().Use(configuration);
                 For<IAccountApiConfiguration>().Use(configuration.AccountApi);
@@ -87,7 +90,7 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
 
         private WebConfiguration GetConfiguration()
         {
-            var environment = CloudConfigurationManager.GetSetting("EnvironmentName") ?? 
+            var environment = CloudConfigurationManager.GetSetting("EnvironmentName") ??
                               "LOCAL";
             var storageConnectionString = CloudConfigurationManager.GetSetting("ConfigurationStorageConnectionString") ??
                                           "UseDevelopmentStorage=true";

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using SFA.DAS.EAS.Support.Core.Services;
 using StructureMap.Configuration.DSL;
 
@@ -9,7 +10,13 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
     {
         public CoreRegistry()
         {
-            For<IPayeSchemeObfuscator>().Use<PayeSchemeObfuscator>();
+            try
+            {
+                For<IPayeSchemeObfuscator>().Use<PayeSchemeObfuscator>();
+            }
+            catch (Exception e)
+            {
+            }
         }
     }
 }

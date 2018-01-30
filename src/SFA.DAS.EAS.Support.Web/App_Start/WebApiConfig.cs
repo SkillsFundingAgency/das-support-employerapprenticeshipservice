@@ -15,7 +15,7 @@ namespace SFA.DAS.EAS.Support.Web
 
             config.Routes.MapHttpRoute(
                 "DefaultApi",
-                "eas/api/{controller}/{id}",
+                "api/{controller}/{id}",
                 new {id = RouteParameter.Optional}
             );
         }

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using SFA.DAS.EAS.Account.Api.Client;
 using SFA.DAS.EAS.Support.ApplicationServices;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
@@ -12,9 +13,16 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
     {
         public InfrastuctureRegistry()
         {
-            For<IAccountRepository>().Use<AccountRepository>();
-            For<IChallengeRepository>().Use<ChallengeRepository>();
-            For<IAccountApiClient>().Use<AccountApiClient>();
+            try
+            {
+                For<IAccountRepository>().Use<AccountRepository>();
+                For<IChallengeRepository>().Use<ChallengeRepository>();
+                For<IAccountApiClient>().Use<AccountApiClient>();
+            }
+            catch (Exception e)
+            {
+                
+            }
         }
     }
 }
