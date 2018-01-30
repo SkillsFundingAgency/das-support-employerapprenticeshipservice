@@ -18,37 +18,40 @@ namespace SFA.DAS.EAS.Support.Web
         private void Application_Start(object sender, EventArgs e)
         {
 
-            var ioc = DependencyResolver.Current;
-            var logger = ioc.GetService<ILog>();
-            logger.Info("Starting Web Role");
+            //var ioc = DependencyResolver.Current;
+            //var logger = ioc.GetService<ILog>();
+            //logger.Info("Starting Web Role");
 
-            MvcHandler.DisableMvcResponseHeader = true;
+            //MvcHandler.DisableMvcResponseHeader = true;
 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            var siteConnectorSettings = ioc.GetService<ISiteValidatorSettings>();
-            GlobalConfiguration.Configuration.MessageHandlers.Add(new TokenValidationHandler(siteConnectorSettings, logger));
-            GlobalFilters.Filters.Add(new TokenValidationFilter(siteConnectorSettings, logger));
+            //var siteConnectorSettings = ioc.GetService<ISiteValidatorSettings>();
+            //GlobalConfiguration.Configuration.MessageHandlers.Add(new TokenValidationHandler(siteConnectorSettings, logger));
+            //GlobalFilters.Filters.Add(new TokenValidationFilter(siteConnectorSettings, logger));
 
-            logger.Info("Web role started");
+            //logger.Info("Web role started");
         }
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
         {
-            if (HttpContext.Current == null) return;
+            //if (HttpContext.Current == null) return;
 
-            new HttpContextPolicyProvider(
-                new List<IHttpContextPolicy>()
-                {
-                    new ResponseHeaderRestrictionPolicy()
-                }
-            ).Apply(new HttpContextWrapper(HttpContext.Current), PolicyConcern.HttpResponse);
+            //new HttpContextPolicyProvider(
+            //    new List<IHttpContextPolicy>()
+            //    {
+            //        new ResponseHeaderRestrictionPolicy()
+            //    }
+            //).Apply(new HttpContextWrapper(HttpContext.Current), PolicyConcern.HttpResponse);
         }
         protected void Application_Error(object sender, EventArgs e)
         {
             var ex = Server.GetLastError().GetBaseException();
-            var logger = DependencyResolver.Current.GetService<ILog>();
+            //var logger = DependencyResolver.Current.GetService<ILog>();
+            var logger = new NLogLogger(typeof(HttpApplication));
+
+
             logger.Error(ex, "App_Error");
         }
     }
