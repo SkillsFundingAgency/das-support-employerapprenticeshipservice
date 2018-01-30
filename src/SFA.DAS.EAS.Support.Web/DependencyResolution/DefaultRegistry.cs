@@ -45,7 +45,10 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
 
         public DefaultRegistry()
         {
-            Scan(
+            
+            try
+            {
+                Scan(
                 scan =>
                 {
                     scan.TheCallingAssembly();
@@ -53,8 +56,6 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
                     scan.With(new ControllerConvention());
                 });
 
-            try
-            {
                 For<ILoggingPropertyFactory>().Use<LoggingPropertyFactory>();
 
                 HttpContextBase conTextBase = null;
