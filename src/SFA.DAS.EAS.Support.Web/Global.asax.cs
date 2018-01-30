@@ -17,18 +17,19 @@ namespace SFA.DAS.EAS.Support.Web
     {
         private void Application_Start(object sender, EventArgs e)
         {
-            MvcHandler.DisableMvcResponseHeader = true;
+
             var ioc = DependencyResolver.Current;
             var logger = ioc.GetService<ILog>();
             logger.Info("Starting Web Role");
+
+            MvcHandler.DisableMvcResponseHeader = true;
 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             var siteConnectorSettings = ioc.GetService<ISiteValidatorSettings>();
-            GlobalConfiguration.Configuration.MessageHandlers.Add(
-                new TokenValidationHandler(siteConnectorSettings, logger));
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new TokenValidationHandler(siteConnectorSettings, logger));
             GlobalFilters.Filters.Add(new TokenValidationFilter(siteConnectorSettings, logger));
 
             logger.Info("Web role started");
@@ -36,7 +37,7 @@ namespace SFA.DAS.EAS.Support.Web
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
         {
             if (HttpContext.Current == null) return;
-            
+
             new HttpContextPolicyProvider(
                 new List<IHttpContextPolicy>()
                 {
