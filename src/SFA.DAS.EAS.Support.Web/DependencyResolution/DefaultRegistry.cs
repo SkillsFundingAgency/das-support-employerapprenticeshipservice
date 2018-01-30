@@ -16,7 +16,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using Newtonsoft.Json;
 
 namespace SFA.DAS.EAS.Support.Web.DependencyResolution
 {
@@ -32,7 +31,6 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
     using StructureMap.Graph;
     using System.Diagnostics.CodeAnalysis;
     using System.Web;
-    using System.Web.Mvc;
 
     [ExcludeFromCodeCoverage]
     public class DefaultRegistry : Registry
@@ -45,7 +43,9 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
 
         public DefaultRegistry()
         {
-            
+            //var logger = DependencyResolver.Current.GetService<ILog>();
+            //logger.Debug($"Starting DefaultRegistry");
+
             try
             {
                 Scan(
@@ -69,11 +69,7 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
                     x.GetInstance<IWebLoggingContext>(),
                     x.GetInstance<ILoggingPropertyFactory>().GetProperties())).AlwaysUnique();
 
-                //var logger = DependencyResolver.Current.GetService<ILog>();
-
-
-                //logger.Debug($"Starting Configuration");
-
+             
                 WebConfiguration configuration = GetConfiguration();
 
 
