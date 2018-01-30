@@ -26,10 +26,10 @@ namespace SFA.DAS.EAS.Support.Web
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            var siteConnectorSettings = ioc.GetService<ISiteValidatorSettings>();
-            GlobalConfiguration.Configuration.MessageHandlers.Add(
-                new TokenValidationHandler(siteConnectorSettings, logger));
-            GlobalFilters.Filters.Add(new TokenValidationFilter(siteConnectorSettings, logger));
+            //var siteConnectorSettings = ioc.GetService<ISiteValidatorSettings>();
+            //GlobalConfiguration.Configuration.MessageHandlers.Add(
+            //    new TokenValidationHandler(siteConnectorSettings, logger));
+            //GlobalFilters.Filters.Add(new TokenValidationFilter(siteConnectorSettings, logger));
 
             logger.Info("Web role started");
         }
