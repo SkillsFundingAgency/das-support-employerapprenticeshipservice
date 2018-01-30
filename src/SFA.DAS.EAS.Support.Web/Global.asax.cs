@@ -35,6 +35,8 @@ namespace SFA.DAS.EAS.Support.Web
         }
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
         {
+            if (HttpContext.Current == null) return;
+            
             new HttpContextPolicyProvider(
                 new List<IHttpContextPolicy>()
                 {
