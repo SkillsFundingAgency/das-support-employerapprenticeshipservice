@@ -64,11 +64,11 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
                 x.GetInstance<IWebLoggingContext>(),
                 x.GetInstance<ILoggingPropertyFactory>().GetProperties())).AlwaysUnique();
 
-            var logger = DependencyResolver.Current.GetService<ILog>();
+            //var logger = DependencyResolver.Current.GetService<ILog>();
 
             try
             {
-                logger.Debug($"Starting Configuration");
+                //logger.Debug($"Starting Configuration");
             
                 WebConfiguration configuration = GetConfiguration();
            
@@ -79,7 +79,7 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
             }
             catch (Exception ex)
             {
-                logger.Error(ex,$"Configuration exception occured");
+                //logger.Error(ex,$"Configuration exception occured");
             }
 
 
