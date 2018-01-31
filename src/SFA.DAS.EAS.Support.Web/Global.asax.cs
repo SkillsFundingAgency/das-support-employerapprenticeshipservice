@@ -15,68 +15,28 @@ namespace SFA.DAS.EAS.Support.Web
     {
         private void Application_Start(object sender, EventArgs e)
         {
+            MvcHandler.DisableMvcResponseHeader = true;
             var ioc = DependencyResolver.Current;
             var logger = ioc.GetService<ILog>();
             logger.Info("Starting Web Role");
-
-            MvcHandler.DisableMvcResponseHeader = true;
 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             var siteConnectorSettings = ioc.GetService<ISiteValidatorSettings>();
-            GlobalConfiguration.Configuration.MessageHandlers.Add(new TokenValidationHandler(siteConnectorSettings, logger));
+            GlobalConfiguration.Configuration.MessageHandlers.Add(
+                new TokenValidationHandler(siteConnectorSettings, logger));
             GlobalFilters.Filters.Add(new TokenValidationFilter(siteConnectorSettings, logger));
 
             logger.Info("Web role started");
         }
-       
-       
+
         protected void Application_Error(object sender, EventArgs e)
         {
             var ex = Server.GetLastError().GetBaseException();
-            BuildAndLogExceptionReport(ex);
-        }
-
-        private void BuildAndLogExceptionReport(Exception ex)
-        {
-
-            var logger =  new NLogLogger(typeof(HttpApplication));
-            ; // DependencyResolver.Current.GetService<ILog>();
-
-            var exceptionReport = $"An Unhandled exception was caught by {nameof(Application_Error)}\r\n";
-            exceptionReport += TryAddUserContext();
-            exceptionReport += TryAddHttpRequestContext();
-            exceptionReport += "\r\nException Stack Trace follows:\r\n\r\n";
-            logger.Error(ex, exceptionReport);
-
-        }
-
-        private string TryAddHttpRequestContext()
-        {
-            try
-            {
-                return
-                    $"Host Address: {HttpContext.Current?.Request?.UserHostAddress ?? "Unknown"}\r\nHttp Method: {HttpContext.Current?.Request?.HttpMethod ?? "Unknown"}\r\nRawUrl: {HttpContext.Current?.Request?.RawUrl ?? "Unknown"}";
-            }
-            catch (Exception e)
-            {
-                return "The HttpRequest is not available in this context.";
-            }
-        }
-
-
-        private string TryAddUserContext()
-        {
-            try
-            {
-                return $"User Name: {HttpContext.Current?.User?.Identity?.Name ?? "Unknown"}\r\n";
-            }
-            catch (Exception e)
-            {
-                return "The HttpRequest is not available in this context.";
-            }
+            var logger = DependencyResolver.Current.GetService<ILog>();
+            logger.Error(ex, "App_Error");
         }
     }
 }

@@ -42,7 +42,7 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Account
             };
             var id = "123";
             AccountHandler.Setup(x => x.FindOrganisations(id)).ReturnsAsync(reponse);
-            var actual = await Unit.Index("123", null);
+            var actual = await Unit.Index("123");
 
             Assert.IsNotNull(actual);
             Assert.IsNotNull(actual);
@@ -69,7 +69,7 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Account
             };
             var id = "123";
             AccountHandler.Setup(x => x.FindOrganisations(id)).ReturnsAsync(reponse);
-            var actual = await Unit.Index("123", null);
+            var actual = await Unit.Index("123");
             Assert.IsNotNull(actual);
             Assert.IsInstanceOf<HttpNotFoundResult>(actual);
         }
@@ -90,7 +90,7 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Account
             };
             var id = "123";
             AccountHandler.Setup(x => x.FindOrganisations(id)).ReturnsAsync(reponse);
-            var actual = await Unit.Index("123", null);
+            var actual = await Unit.Index("123");
 
             Assert.IsNotNull(actual);
             Assert.IsInstanceOf<HttpNotFoundResult>(actual);

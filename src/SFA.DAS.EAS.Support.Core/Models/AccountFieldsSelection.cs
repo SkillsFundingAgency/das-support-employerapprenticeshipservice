@@ -7,7 +7,6 @@
         TeamMembers = 2,
         Finance = 3,
         ChallengePayeSchemes = 4,
-        RawPayeSchemes = 5,
         None
     }
 }

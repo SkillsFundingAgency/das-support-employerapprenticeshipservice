@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.EAS.Support.Core.Models
+﻿namespace SFA.DAS.EmployerUsers.Support.Core.Domain.Model
 {
     public class GlobalConstants
     {
