@@ -52,16 +52,11 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution {
 
         public IContainer Container { get; set; }
 
-        public IContainer CurrentNestedContainer
-        {
-            get
-            {
-                if (HttpContext == null)
-                    return null;
+        public IContainer CurrentNestedContainer {
+            get {
                 return (IContainer)HttpContext.Items[NestedContainerKey];
             }
-            set
-            {
+            set {
                 HttpContext.Items[NestedContainerKey] = value;
             }
         }
@@ -70,13 +65,9 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution {
 
         #region Properties
 
-        private HttpContextBase HttpContext
-        {
-            get
-            {
+        private HttpContextBase HttpContext {
+            get {
                 var ctx = Container.TryGetInstance<HttpContextBase>();
-                if (ctx == null && System.Web.HttpContext.Current == null)
-                    return null;
                 return ctx ?? new HttpContextWrapper(System.Web.HttpContext.Current);
             }
         }

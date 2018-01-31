@@ -15,7 +15,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
+using Newtonsoft.Json;
 
 namespace SFA.DAS.EAS.Support.Web.DependencyResolution
 {
@@ -23,72 +23,42 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
     using SFA.DAS.Configuration;
     using SFA.DAS.Configuration.AzureTableStorage;
     using SFA.DAS.EAS.Account.Api.Client;
-    using SFA.DAS.EAS.Support.Infrastructure.DependencyResolution;
     using SFA.DAS.EAS.Support.Web.Configuration;
-    using SFA.DAS.NLog.Logger;
     using SFA.DAS.Support.Shared.SiteConnection;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
     using System.Diagnostics.CodeAnalysis;
-    using System.Web;
 
     [ExcludeFromCodeCoverage]
-    public class DefaultRegistry : Registry
-    {
+    public class DefaultRegistry : Registry {
 
         private const string ServiceName = "SFA.DAS.Support.EAS";
         private const string Version = "1.0";
-
+      
         #region Constructors and Destructors
 
-        public DefaultRegistry()
-        {
-            //var logger = DependencyResolver.Current.GetService<ILog>();
-            //logger.Debug($"Starting DefaultRegistry");
-
-            try
-            {
-                Scan(
-                scan =>
-                {
+        public DefaultRegistry() {
+            Scan(
+                scan => {
                     scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
-                    scan.With(new ControllerConvention());
+					scan.With(new ControllerConvention());
                 });
 
-                For<ILoggingPropertyFactory>().Use<LoggingPropertyFactory>();
+            WebConfiguration configuration = GetConfiguration();
+           
 
-                HttpContextBase conTextBase = null;
-                if (HttpContext.Current != null)
-                    conTextBase = new HttpContextWrapper(HttpContext.Current);
-
-                For<IWebLoggingContext>().Use(x => new WebLoggingContext(conTextBase));
-
-                For<ILog>().Use(x => new NLogLogger(
-                    x.ParentType,
-                    x.GetInstance<IWebLoggingContext>(),
-                    x.GetInstance<ILoggingPropertyFactory>().GetProperties())).AlwaysUnique();
-
-             
-                WebConfiguration configuration = GetConfiguration();
-
-
-                For<IWebConfiguration>().Use(configuration);
-                For<IAccountApiConfiguration>().Use(configuration.AccountApi);
-                For<ISiteValidatorSettings>().Use(configuration.SiteValidator);
-            }
-            catch (Exception ex)
-            {
-                //logger.Error(ex,$"Configuration exception occured");
-            }
+            For<IWebConfiguration>().Use(configuration);
+            For<IAccountApiConfiguration>().Use(configuration.AccountApi);
+            For<ISiteValidatorSettings>().Use(configuration.SiteValidator);
 
 
         }
 
         private WebConfiguration GetConfiguration()
         {
-            var environment = CloudConfigurationManager.GetSetting("EnvironmentName") ??
-                              "LOCAL";
+            var environment = CloudConfigurationManager.GetSetting("EnvironmentName") ?? 
+                              "local";
             var storageConnectionString = CloudConfigurationManager.GetSetting("ConfigurationStorageConnectionString") ??
                                           "UseDevelopmentStorage=true";
 
