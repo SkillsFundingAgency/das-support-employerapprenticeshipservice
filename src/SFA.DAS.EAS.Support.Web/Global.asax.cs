@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Web;
 using System.Web.Http;
@@ -8,7 +7,6 @@ using System.Web.Routing;
 using SFA.DAS.NLog.Logger;
 using SFA.DAS.Support.Shared.Authentication;
 using SFA.DAS.Support.Shared.SiteConnection;
-using SFA.DAS.Web.Policy;
 
 namespace SFA.DAS.EAS.Support.Web
 {
@@ -33,15 +31,7 @@ namespace SFA.DAS.EAS.Support.Web
 
             logger.Info("Web role started");
         }
-        protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
-        {
-            new HttpContextPolicyProvider(
-                new List<IHttpContextPolicy>()
-                {
-                    new ResponseHeaderRestrictionPolicy()
-                }
-            ).Apply(new HttpContextWrapper(HttpContext.Current), PolicyConcern.HttpResponse);
-        }
+
         protected void Application_Error(object sender, EventArgs e)
         {
             var ex = Server.GetLastError().GetBaseException();
