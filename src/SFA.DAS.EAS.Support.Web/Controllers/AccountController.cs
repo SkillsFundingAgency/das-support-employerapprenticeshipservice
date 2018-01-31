@@ -15,7 +15,7 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             _handler = handler;
         }
 
-        public async Task<ActionResult> Index(string id)
+        public async Task<ActionResult> Index(string id, string parent)
         {
             var response = await _handler.FindOrganisations(id);
 
