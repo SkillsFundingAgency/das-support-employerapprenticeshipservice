@@ -15,8 +15,8 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Models
 
         public string Balance { get; set; }
 
-        public string FirstCharacterPosition { get; set; }
+        public int FirstCharacterPosition { get; set; }
 
-        public string SecondCharacterPosition { get; set; }
+        public int SecondCharacterPosition { get; set; }
     }
 }

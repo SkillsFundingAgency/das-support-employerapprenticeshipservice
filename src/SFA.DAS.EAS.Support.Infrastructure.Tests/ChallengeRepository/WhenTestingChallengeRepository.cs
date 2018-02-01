@@ -51,9 +51,9 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.ChallengeRepository
                 Id = "123",
                 Balance = "£1000",
                 ChallengeElement1 = "1",
-                ChallengeElement2 = "2",
-                FirstCharacterPosition = "0",
-                SecondCharacterPosition = "1"
+                ChallengeElement2 = "4",
+                FirstCharacterPosition = 0,
+                SecondCharacterPosition = 3
             };
 
             var balance = 999m;
@@ -86,7 +86,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.ChallengeRepository
                     new PayeSchemeViewModel
                     {
                         AddedDate = DateTime.Today.AddMonths(-12),
-                        Ref = "124/456789"
+                        Ref = "124/AA6789"
                     }
                 }
             };
@@ -95,9 +95,9 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.ChallengeRepository
                 Id = "123",
                 Balance = "£Z000",
                 ChallengeElement1 = "1",
-                ChallengeElement2 = "2",
-                FirstCharacterPosition = "0",
-                SecondCharacterPosition = "1"
+                ChallengeElement2 = "A",
+                FirstCharacterPosition = 0,
+                SecondCharacterPosition = 4
             };
 
             var balance = 1000m;
@@ -139,9 +139,9 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.ChallengeRepository
                 Id = "123",
                 Balance = "£1000",
                 ChallengeElement1 = "1",
-                ChallengeElement2 = "2",
-                FirstCharacterPosition = "1",
-                SecondCharacterPosition = "2"
+                ChallengeElement2 = "A",
+                FirstCharacterPosition = 0,
+                SecondCharacterPosition = 1
             };
 
             var balance = 1000m;
@@ -174,7 +174,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.ChallengeRepository
                     new PayeSchemeViewModel
                     {
                         AddedDate = DateTime.Today.AddMonths(-12),
-                        Ref = "124/456789"
+                        Ref = "124/45A789"
                     }
                 }
             };
@@ -183,9 +183,9 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.ChallengeRepository
                 Id = "123",
                 Balance = "£1000",
                 ChallengeElement1 = "1",
-                ChallengeElement2 = "2",
-                FirstCharacterPosition = "0",
-                SecondCharacterPosition = "1"
+                ChallengeElement2 = "A",
+                FirstCharacterPosition = 0,
+                SecondCharacterPosition = 5
             };
 
             var balance = 1000m;
