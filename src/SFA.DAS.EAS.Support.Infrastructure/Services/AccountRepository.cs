@@ -126,7 +126,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                 try
                 {
                     var accountViewModel = await _accountApiClient.GetAccount(account.AccountHashId);
-                    var accountWithDetails = await GetAdditionalFields(accountViewModel, AccountFieldsSelection.RawPayeSchemes);
+                    var accountWithDetails = await GetAdditionalFields(accountViewModel, AccountFieldsSelection.RawSearchPayeSchemes);
                     accountsWithDetails.Add(accountWithDetails);
                 }
                 catch (Exception e)
@@ -159,8 +159,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                     var challengePayeSchemes = await GetPayeSchemes(response);
                     result.PayeSchemes = challengePayeSchemes;
                     return result;
-                case AccountFieldsSelection.RawPayeSchemes:
-                    result.PayeSchemes = await GetRawPayeSchemes(response);
+                case AccountFieldsSelection.RawSearchPayeSchemes:
+                    result.PayeSchemes = await GetRawSearchPayeSchemes(response);
                     return result;
                 case AccountFieldsSelection.Finance:
                     var payeSchemeData = await GetObscuredPayeSchemes(response);
@@ -225,13 +225,12 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             return result.OrderBy(x => x.Ref);
         }
 
-
-        private async Task<IEnumerable<PayeSchemeViewModel>> GetRawPayeSchemes(AccountDetailViewModel response)
+        private async Task<IEnumerable<PayeSchemeViewModel>> GetRawSearchPayeSchemes(AccountDetailViewModel response)
         {
             var payeSchemes = await GetPayeSchemes(response);
             return payeSchemes.Select(payeScheme => new PayeSchemeViewModel
             {
-                Ref = payeScheme.Ref,
+                Ref = payeScheme.Ref.Replace("/", string.Empty),
                 DasAccountId = payeScheme.DasAccountId,
                 AddedDate = payeScheme.AddedDate,
                 RemovedDate = payeScheme.RemovedDate,
