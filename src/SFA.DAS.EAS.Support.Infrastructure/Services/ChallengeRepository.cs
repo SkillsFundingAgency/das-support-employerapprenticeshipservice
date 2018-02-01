@@ -42,8 +42,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             };
 
             var list = recordPayeSchemes.Select(x => x.Ref.Replace("/", string.Empty));
-            var index1 = int.Parse(message.FirstCharacterPosition);
-            var index2 = int.Parse(message.SecondCharacterPosition);
+            var index1 = message.FirstCharacterPosition;
+            var index2 = message.SecondCharacterPosition;
 
             return list.Any(x => x[index1].ToString().ToLower() == challengeInput[0] &&
                                  x[index2].ToString().ToLower() == challengeInput[1]);

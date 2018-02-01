@@ -4,10 +4,10 @@ namespace SFA.DAS.EAS.Support.Web.Services
 {
     public class ChallengeHelper
     {
-        public static string GetChallengeMessage(List<int> challengeCharacters)
+        public static string GetChallengeMessage(List<int> challengeCharacterPositions)
         {
             return
-                $"{DisplayCharacter(challengeCharacters[0])} & {DisplayCharacter(challengeCharacters[1])} character of a PAYE scheme (excluding the /):";
+                $"{DisplayCharacter(challengeCharacterPositions[0])} & {DisplayCharacter(challengeCharacterPositions[1])} character of a PAYE scheme (excluding the /):";
         }
 
         private static string DisplayCharacter(int challengeCharacter)

@@ -12,7 +12,6 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
     [TestFixture]
     public class WhenCallingFindAllDetails : WhenTestingAccountRepository
     {
-        [Ignore("TODO")]
         [Test]
         public async Task ItShouldReturnAnEmptyListIfGetAccountsThrowsAnException()
         {
@@ -50,15 +49,13 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Verify(x => x.GetPageOfAccounts(It.IsAny<int>(), It.IsAny<int>(), null), Times.Exactly(2));
             AccountApiClient.Verify(x => x.GetAccount(It.IsAny<string>()), Times.Exactly(2));
 
-            Logger.Verify(x =>
-                x.Error(e, $"A general exception has been thrown while requesting employer account detals"));
+            Logger.Verify(x => x.Error(e, $"Exception while retrieving details for account ID {accountWithBalanceViewModels.First().AccountHashId}"));
 
             Assert.IsNotNull(actual);
             var list = actual.ToList();
             CollectionAssert.IsEmpty(list);
         }
 
-        [Ignore("TODO")]
         [Test]
         public async Task ItShouldReturnAnEmptyListIfGetAccountsThrowsAnHttpRequestException()
         {
@@ -96,7 +93,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Verify(x => x.GetPageOfAccounts(It.IsAny<int>(), It.IsAny<int>(), null), Times.Exactly(2));
             AccountApiClient.Verify(x => x.GetAccount(It.IsAny<string>()), Times.Exactly(2));
 
-            Logger.Verify(x => x.Warn($"The Account API Http request threw an exception:\r\n{e}"));
+            Logger.Verify(x => x.Error(e, $"Exception while retrieving details for account ID {accountWithBalanceViewModels.First().AccountHashId}"));
 
             Assert.IsNotNull(actual);
             var list = actual.ToList();
@@ -104,7 +101,6 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
         }
 
 
-        [Ignore("TODO")]
         [Test]
         public async Task ItShouldReturnTheEntireListOfAccounts()
         {

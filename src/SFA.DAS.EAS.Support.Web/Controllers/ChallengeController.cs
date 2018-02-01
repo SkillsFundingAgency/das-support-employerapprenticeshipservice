@@ -44,7 +44,7 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             Response.StatusCode = 403;
             var model = new ChallengeViewModel
             {
-                Characters = new List<int> {challengeEntry.Challenge1, challengeEntry.Challenge2},
+                Characters = new List<int> {challengeEntry.FirstCharacterPosition, challengeEntry.SecondCharacterPosition},
                 Id = challengeEntry.Id,
                 Url = challengeEntry.Url,
                 HasError = true

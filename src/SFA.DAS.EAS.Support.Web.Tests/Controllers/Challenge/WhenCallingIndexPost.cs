@@ -23,10 +23,10 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
             {
                 Id = "123",
                 Balance = "£1000",
-                Challenge1 = 1,
-                Challenge2 = 2,
-                FirstCharacterPosition = "0",
-                SecondCharacterPosition = "1",
+                Challenge1 = "1",
+                Challenge2 = "A",
+                FirstCharacterPosition = 0,
+                SecondCharacterPosition = 1,
                 Url = "https://tempuri.org/challenge/me/to/a/deul/any/time"
             };
 
@@ -35,9 +35,9 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
                 Id = "123",
                 Balance = "£1000",
                 ChallengeElement1 = "1",
-                ChallengeElement2 = "2",
-                FirstCharacterPosition = "0",
-                SecondCharacterPosition = "1",
+                ChallengeElement2 = "A",
+                FirstCharacterPosition = 1,
+                SecondCharacterPosition = 2,
                 Url = "https://tempuri.org/challenge/me/to/a/deul/any/time"
             };
 
@@ -66,10 +66,10 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
             {
                 Id = "123",
                 Balance = "£1000",
-                Challenge1 = 1,
-                Challenge2 = 2,
-                FirstCharacterPosition = "0",
-                SecondCharacterPosition = "1",
+                Challenge1 = "1",
+                Challenge2 = "A",
+                FirstCharacterPosition = 1,
+                SecondCharacterPosition = 4,
                 Url = "https://tempuri.org/challenge/me/to/a/deul/any/time"
             };
 
@@ -78,9 +78,9 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
                 Id = "123",
                 Balance = "£1000",
                 ChallengeElement1 = "1",
-                ChallengeElement2 = "2",
-                FirstCharacterPosition = "0",
-                SecondCharacterPosition = "1",
+                ChallengeElement2 = "B",
+                FirstCharacterPosition = 1,
+                SecondCharacterPosition = 4,
                 Url = "https://tempuri.org/challenge/me/to/a/deul/any/time"
             };
 

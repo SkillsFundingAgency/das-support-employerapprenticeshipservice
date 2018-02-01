@@ -55,7 +55,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             var results = new List<Core.Models.Account>();
             try
             {
-                var pageNumber = 1;
+                var pageNumber = 0;
                 var accountFirstPageModel = await _accountApiClient.GetPageOfAccounts(pageNumber, _accountsPerPage);
 
                 if (accountFirstPageModel?.Data?.Count > 0)
@@ -144,7 +144,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             switch (selection)
             {
                 case AccountFieldsSelection.Organisations:
-                    var legalEntities = await GetLegalEntities(response.LegalEntities);
+                    var legalEntities = await GetLegalEntities(response.LegalEntities?? new ResourceList(new List<ResourceViewModel>()));
                     result.LegalEntities = legalEntities;
                     break;
                 case AccountFieldsSelection.TeamMembers:
@@ -200,7 +200,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
         private async Task<IEnumerable<PayeSchemeViewModel>> GetPayeSchemes(AccountDetailViewModel response)
         {
             var result = new List<PayeSchemeViewModel>();
-            foreach (var payeScheme in response.PayeSchemes)
+            foreach (var payeScheme in response.PayeSchemes?? new ResourceList(new List<ResourceViewModel>())  )
             {
                 var obscured = _payeSchemeObfuscator.ObscurePayeScheme(payeScheme.Id).Replace("/", "%252f");
                 var paye = payeScheme.Id.Replace("/", "%252f");
