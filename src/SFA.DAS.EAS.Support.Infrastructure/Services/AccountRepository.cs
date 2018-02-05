@@ -55,7 +55,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             var results = new List<Core.Models.Account>();
             try
             {
-                var pageNumber = 0;
+                var pageNumber = 1;
                 var accountFirstPageModel = await _accountApiClient.GetPageOfAccounts(pageNumber, _accountsPerPage);
 
                 if (accountFirstPageModel?.Data?.Count > 0)

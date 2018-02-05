@@ -15,17 +15,35 @@
         </ul>
         <div id="tab-1" class="js-tab-pane">
 
-            <table class="responsive">
-                <thead>
-                    <tr>
-                        <th scope="col" class="">PAYE ref</th>
-                        <th scope="col" class="">Name</th>
-                        <th scope="col" class="">Date added</th>
-                        <th scope="col" class=""></th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            @if (Model.Account.PayeSchemes.Any())
+            {
+                <table class="responsive">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="">PAYE ref</th>
+                            <th scope="col" class="">Name</th>
+                            <th scope="col" class="">Date added</th>
+                            <th scope="col" class=""></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var paye in Model.Account.PayeSchemes)
+                        {
+                            <tr>
+                                <td data-label="Paye Schene Ref" id="PayeSchemeRef">
+                                    @paye.Ref
+                                </td>
+                                <td data-label="Name" id="PayeSchemeName">
+                                    @paye.Name
+                                </td>
+                                <td data-label="Date Added" id="PayeSchemeDateAdded">
+                                    @paye.AddedDate
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
 
         </div>
 
