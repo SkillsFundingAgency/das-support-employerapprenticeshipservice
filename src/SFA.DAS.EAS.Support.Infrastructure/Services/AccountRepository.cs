@@ -55,7 +55,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             var results = new List<Core.Models.Account>();
             try
             {
-                var pageNumber = 0;
+                var pageNumber = 1;
                 var accountFirstPageModel = await _accountApiClient.GetPageOfAccounts(pageNumber, _accountsPerPage);
 
                 if (accountFirstPageModel?.Data?.Count > 0)
@@ -181,11 +181,18 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
 
             while (financialYearIterator <= endDate)
             {
-                var transactions = await _accountApiClient.GetTransactions(accountId, financialYearIterator.Year,
-                    financialYearIterator.Month);
+                try
+                {
+                    var transactions = await _accountApiClient.GetTransactions(accountId, financialYearIterator.Year,
+                        financialYearIterator.Month);
 
-                response.AddRange(transactions);
-                financialYearIterator = financialYearIterator.AddMonths(1);
+                    response.AddRange(transactions);
+                    financialYearIterator = financialYearIterator.AddMonths(1);
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, $"Exception occured in Account API type of {nameof(TransactionsViewModel)} for period {financialYearIterator.Year}.{financialYearIterator.Month} id {accountId}");
+                }
             }
 
             return GetFilteredTransactions(response);
@@ -206,19 +213,26 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                 var paye = payeScheme.Id.Replace("/", "%252f");
                 _logger.Debug(
                     $"IAccountApiClient.GetResource<PayeSchemeViewModel>(\"{payeScheme.Href.Replace(paye, obscured)}\");");
-                var payeSchemeViewModel = await _accountApiClient.GetResource<PayeSchemeViewModel>(payeScheme.Href);
-
-                if (IsValidPayeScheme(payeSchemeViewModel))
+                try
                 {
-                    var item = new PayeSchemeViewModel
+                    var payeSchemeViewModel = await _accountApiClient.GetResource<PayeSchemeViewModel>(payeScheme.Href);
+
+                    if (IsValidPayeScheme(payeSchemeViewModel))
                     {
-                        Ref = payeSchemeViewModel.Ref,
-                        DasAccountId = payeSchemeViewModel.DasAccountId,
-                        AddedDate = payeSchemeViewModel.AddedDate,
-                        RemovedDate = payeSchemeViewModel.RemovedDate,
-                        Name = payeSchemeViewModel.Name
-                    };
-                    result.Add(item);
+                        var item = new PayeSchemeViewModel
+                        {
+                            Ref = payeSchemeViewModel.Ref,
+                            DasAccountId = payeSchemeViewModel.DasAccountId,
+                            AddedDate = payeSchemeViewModel.AddedDate,
+                            RemovedDate = payeSchemeViewModel.RemovedDate,
+                            Name = payeSchemeViewModel.Name
+                        };
+                        result.Add(item);
+                    }
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, $"Exception occured in Account API type of {nameof(LegalEntityViewModel)} at  {payeScheme.Href} id {payeScheme.Id}");
                 }
             }
 
@@ -284,12 +298,19 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             {
                 _logger.Debug(
                     $"{nameof(IAccountApiClient)}.{nameof(_accountApiClient.GetResource)}<{nameof(LegalEntityViewModel)}>(\"{legalEntity.Href}\");");
-                var legalResponse = await _accountApiClient.GetResource<LegalEntityViewModel>(legalEntity.Href);
+                try
+                {
+                    var legalResponse = await _accountApiClient.GetResource<LegalEntityViewModel>(legalEntity.Href);
 
-                if (legalResponse.AgreementStatus == EmployerAgreementStatus.Signed ||
-                    legalResponse.AgreementStatus == EmployerAgreementStatus.Pending ||
-                    legalResponse.AgreementStatus == EmployerAgreementStatus.Superseded)
-                    legalEntitiesList.Add(legalResponse);
+                    if (legalResponse.AgreementStatus == EmployerAgreementStatus.Signed ||
+                        legalResponse.AgreementStatus == EmployerAgreementStatus.Pending ||
+                        legalResponse.AgreementStatus == EmployerAgreementStatus.Superseded)
+                        legalEntitiesList.Add(legalResponse);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex,  $"Exception occured calling Account API for type of {nameof(LegalEntityViewModel)} at {legalEntity.Href} id {legalEntity.Id}");
+                }
             }
 
             return legalEntitiesList;
