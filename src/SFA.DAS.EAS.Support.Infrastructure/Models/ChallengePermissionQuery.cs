@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace SFA.DAS.EAS.Support.ApplicationServices.Models
+namespace SFA.DAS.EAS.Support.Infrastructure.Models
 {
     [ExcludeFromCodeCoverage]
     public class ChallengePermissionQuery

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SFA.DAS.EAS.Account.Api.Types;
-using SFA.DAS.EAS.Support.ApplicationServices;
-using SFA.DAS.EAS.Support.ApplicationServices.Models;
-using SFA.DAS.EAS.Support.ApplicationServices.Services;
+using SFA.DAS.EAS.Support.Infrastructure.Models;
 
 namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {

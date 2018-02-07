@@ -5,8 +5,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using SFA.DAS.EAS.Account.Api.Client;
 using SFA.DAS.EAS.Account.Api.Types;
-using SFA.DAS.EAS.Support.ApplicationServices;
-using SFA.DAS.EAS.Support.ApplicationServices.Services;
 using SFA.DAS.EAS.Support.Core.Models;
 using SFA.DAS.EAS.Support.Core.Services;
 using SFA.DAS.NLog.Logger;
@@ -64,7 +62,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                     results.AddRange(accountsFirstPageDetails);
 
                     pageNumber++;
-                    while (accountFirstPageModel.TotalPages > pageNumber)
+                    while (accountFirstPageModel.TotalPages >= pageNumber)
                     {
                         try
                         {

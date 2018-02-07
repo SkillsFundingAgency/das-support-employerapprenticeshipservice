@@ -3,6 +3,7 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.Core.Models;
+using SFA.DAS.EAS.Support.Infrastructure.Models;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
 {

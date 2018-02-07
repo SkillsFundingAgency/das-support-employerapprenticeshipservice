@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using SFA.DAS.EAS.Support.Core.Models;
 
-namespace SFA.DAS.EAS.Support.ApplicationServices
+namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {
     public interface IAccountRepository
     {

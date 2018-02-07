@@ -33,6 +33,19 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
             For<IChallengeRepository>().Use<ChallengeRepository>();
 
             For<IAccountApiClient>().Use<AccountApiClient>();
+
+
+            For<IApprenticeshipLevyApiClient>().Use("", (ctx) =>
+            {
+                var levySubmissionsApiConfiguration = ctx.GetInstance<ITokenServiceApiClientConfiguration>();
+                var hmrcConfig = ctx.GetInstance<IHmrcClientConfiguration>();
+                var httpClient = GetLevyHttpClient(levySubmissionsApiConfiguration, hmrcConfig);
+
+                return new ApprenticeshipLevyApiClient(httpClient);
+            });
+
+
+
         }
     }
 }

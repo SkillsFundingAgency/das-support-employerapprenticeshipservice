@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.Core.Models;
+using SFA.DAS.EAS.Support.Infrastructure.Services;
 using SFA.DAS.Support.Shared.SearchIndexModel;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices.Services
@@ -92,6 +93,24 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
             {
                 response.StatusCode = SearchResponseCodes.Success;
                 response.Account = account;
+            }
+
+            return response;
+        }
+
+        public async Task<AccountPayeSchemesResponse> FindPayeLevyDeclarations(string id, string payeId)
+        {
+            var response = new AccountPayeSchemesResponse
+            {
+                StatusCode = SearchResponseCodes.NoSearchResultsFound
+            };
+
+            var record = await _accountRepository.Get(id, AccountFieldsSelection.PayeSchemes);
+
+            if (record != null)
+            {
+                response.StatusCode = SearchResponseCodes.Success;
+                response.Account = record;
             }
 
             return response;

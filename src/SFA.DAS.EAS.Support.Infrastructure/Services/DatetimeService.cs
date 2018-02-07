@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SFA.DAS.EAS.Support.ApplicationServices.Services
+namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {
     public class DatetimeService : IDatetimeService
     {

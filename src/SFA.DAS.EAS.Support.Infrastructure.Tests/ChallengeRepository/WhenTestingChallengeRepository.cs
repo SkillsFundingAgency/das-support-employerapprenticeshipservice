@@ -6,6 +6,8 @@ using NUnit.Framework;
 using SFA.DAS.EAS.Account.Api.Types;
 using SFA.DAS.EAS.Support.ApplicationServices;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
+using SFA.DAS.EAS.Support.Infrastructure.Models;
+using SFA.DAS.EAS.Support.Infrastructure.Services;
 
 namespace SFA.DAS.EAS.Support.Infrastructure.Tests.ChallengeRepository
 {
