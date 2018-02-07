@@ -7,19 +7,24 @@ using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
 using SFA.DAS.EAS.Support.Web.Controllers;
 using SFA.DAS.EAS.Support.Web.Models;
+using SFA.DAS.NLog.Logger;
 
 namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Account
 {
     public abstract class WhenTestingAccountController
     {
         protected Mock<IAccountHandler> AccountHandler;
+        protected Mock<IPayeLevySubmissionsHandler> _payeLevySubmissionsHandler;
+        protected Mock<ILog> _logger;
         protected AccountController Unit;
 
         [SetUp]
         public void Setup()
         {
             AccountHandler = new Mock<IAccountHandler>();
-            Unit = new AccountController(AccountHandler.Object);
+            _payeLevySubmissionsHandler = new Mock<IPayeLevySubmissionsHandler>();
+            _logger = new Mock<ILog>();
+            Unit = new AccountController(AccountHandler.Object, _payeLevySubmissionsHandler.Object, _logger.Object);
         }
     }
 
@@ -47,10 +52,10 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Account
             Assert.IsNotNull(actual);
             Assert.IsNotNull(actual);
             Assert.IsInstanceOf<ViewResult>(actual);
-            Assert.AreEqual("", ((ViewResult) actual).ViewName);
-            Assert.IsInstanceOf<AccountDetailViewModel>(((ViewResult) actual).Model);
-            Assert.AreEqual(reponse.Account, ((AccountDetailViewModel) ((ViewResult) actual).Model).Account);
-            Assert.IsNull(((AccountDetailViewModel) ((ViewResult) actual).Model).SearchUrl);
+            Assert.AreEqual("", ((ViewResult)actual).ViewName);
+            Assert.IsInstanceOf<AccountDetailViewModel>(((ViewResult)actual).Model);
+            Assert.AreEqual(reponse.Account, ((AccountDetailViewModel)((ViewResult)actual).Model).Account);
+            Assert.IsNull(((AccountDetailViewModel)((ViewResult)actual).Model).SearchUrl);
         }
 
         [Test]

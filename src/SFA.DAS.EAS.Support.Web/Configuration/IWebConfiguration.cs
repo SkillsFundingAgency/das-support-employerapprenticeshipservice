@@ -7,5 +7,6 @@ namespace SFA.DAS.EAS.Support.Web.Configuration
     {
         AccountApiConfiguration AccountApi { get; set; }
         SiteValidatorSettings SiteValidator { get; set; }
+        LevySubmissionsSettings LevySubmission { get; set; }
     }
 }

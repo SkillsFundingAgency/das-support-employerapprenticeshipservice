@@ -25,6 +25,7 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
     using SFA.DAS.EAS.Account.Api.Client;
     using SFA.DAS.EAS.Support.Web.Configuration;
     using SFA.DAS.Support.Shared.SiteConnection;
+    using SFA.DAS.TokenService.Api.Client;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
     using System.Diagnostics.CodeAnalysis;
@@ -46,12 +47,11 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
                 });
 
             WebConfiguration configuration = GetConfiguration();
-           
 
             For<IWebConfiguration>().Use(configuration);
             For<IAccountApiConfiguration>().Use(configuration.AccountApi);
             For<ISiteValidatorSettings>().Use(configuration.SiteValidator);
-
+        
 
         }
 
