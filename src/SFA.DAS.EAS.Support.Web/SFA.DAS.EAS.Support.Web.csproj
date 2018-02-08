@@ -224,6 +224,7 @@
     <Compile Include="Controllers\ChallengeController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="DependencyResolution\ApplicationRegistry.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\CoreRegistry.cs" />
@@ -271,6 +272,7 @@
     <Folder Include="Content\" />
     <Folder Include="Views\Search\" />
     <Folder Include="Views\Shared\" />
+    <Folder Include="Views\Status\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SFA.DAS.EAS.Support.ApplicationServices\SFA.DAS.EAS.Support.ApplicationServices.csproj">
