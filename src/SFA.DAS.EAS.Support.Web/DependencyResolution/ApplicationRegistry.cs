@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using SFA.DAS.EAS.Support.ApplicationServices;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
+using SFA.DAS.EAS.Support.Core.Services;
 using SFA.DAS.EAS.Support.Infrastructure.Services;
 using StructureMap.Configuration.DSL;
 
@@ -16,9 +17,8 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
             For<IChallengeService>().Use<ChallengeService>();
             For<IDatetimeService>().Use<DatetimeService>();
             For<IChallengeHandler>().Use<ChallengeHandler>();
-            For<IPayeLevySubmissionsHandler>().Use<PayeLevySubmissionsHandler>();
             For<ILevySubmissionsRepository>().Use<LevySubmissionsRepository>();
-            
+            For<IPayeLevySubmissionsHandler>().Use<PayeLevySubmissionsHandler>();
         }
     }
 }

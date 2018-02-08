@@ -96,8 +96,12 @@
     <Compile Include="Services\IChallengeRepository.cs" />
     <Compile Include="Services\IDatetimeService.cs" />
     <Compile Include="Services\ILevySubmissionsRepository.cs" />
+    <Compile Include="Services\ILevyTokenHttpClientFactory.cs" />
     <Compile Include="Services\LevySubmissionsRepository.cs" />
+    <Compile Include="Services\LevyTokenHttpClientMaker.cs" />
     <Compile Include="Settings\AccountApiConfiguration.cs" />
+    <Compile Include="Settings\HmrcApiBaseUrlConfig.cs" />
+    <Compile Include="Settings\IHmrcApiBaseUrlConfig.cs" />
     <Compile Include="Settings\ILevySubmissionsSettings.cs" />
     <Compile Include="Settings\LevySubmissionsApiConfiguration.cs" />
     <Compile Include="Settings\LevySubmissionsSettings.cs" />

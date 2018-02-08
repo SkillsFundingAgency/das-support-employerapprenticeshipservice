@@ -33,7 +33,10 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Configuration
                 },
                 LevySubmission = new LevySubmissionsSettings
                 {
-                   HmrcApiBaseUrl  = "--- configuration value goes here ---",
+                   HmrcApiBaseUrlSetting  = new HmrcApiBaseUrlConfig
+                   {
+                       HmrcApiBaseUrl ="--- configuration value goes here ---"
+                   },
                     LevySubmissionsApiConfig = new LevySubmissionsApiConfiguration
                     {
                         ApiBaseUrl = "",

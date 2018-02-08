@@ -12,13 +12,14 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {
     public sealed class LevySubmissionsRepository : ILevySubmissionsRepository
     {
-        private readonly IApprenticeshipLevyApiClient _levyApiClient;
+        private  IApprenticeshipLevyApiClient _levyApiClient;
         private readonly ILog _logger;
+        private readonly ILevyTokenHttpClientFactory _levyTokenHttpClientFactory;
 
-        public LevySubmissionsRepository(ILog logger, IApprenticeshipLevyApiClient levyApiClient)
+        public LevySubmissionsRepository(ILog logger, ILevyTokenHttpClientFactory levyTokenHttpClientFactory)
         {
             _logger = logger;
-            _levyApiClient = levyApiClient;
+            _levyTokenHttpClientFactory = levyTokenHttpClientFactory;
         }
 
 
@@ -28,6 +29,9 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
 
             try
             {
+
+                _levyApiClient = await _levyTokenHttpClientFactory.GetLevyHttpClient();
+
                 var response = await _levyApiClient.GetEmployerLevyDeclarations(payeScheme);
                 var filteredDeclarations = GetFilteredDeclarations(response.Declarations);
 

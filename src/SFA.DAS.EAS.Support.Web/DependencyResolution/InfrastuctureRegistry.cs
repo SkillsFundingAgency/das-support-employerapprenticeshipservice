@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using HMRC.ESFA.Levy.Api.Client;
 using SFA.DAS.EAS.Account.Api.Client;
 using SFA.DAS.EAS.Support.Infrastructure.DependencyResolution;
 using SFA.DAS.EAS.Support.Infrastructure.Services;
+using SFA.DAS.EAS.Support.Infrastructure.Settings;
 using SFA.DAS.EAS.Support.Web.Configuration;
 using SFA.DAS.NLog.Logger;
 using SFA.DAS.TokenService.Api.Client;
@@ -38,29 +40,21 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
 
             For<IAccountApiClient>().Use<AccountApiClient>();
 
+            For<ILevyTokenHttpClientFactory>().Use<LevyTokenHttpClientMaker>();
+
+            For<IHmrcApiBaseUrlConfig>().Use(string.Empty, (ctx) =>
+            {
+                return ctx.GetInstance<IWebConfiguration>().LevySubmission.HmrcApiBaseUrlSetting;
+            });
+
             For<ITokenServiceApiClientConfiguration>().Use(string.Empty, (ctx) =>
             {
-                var levySettings = ctx.GetInstance<IWebConfiguration>().LevySubmission.LevySubmissionsApiConfig;
-                return levySettings;
+              return ctx.GetInstance<IWebConfiguration>().LevySubmission.LevySubmissionsApiConfig;
             });
-
-            For<IApprenticeshipLevyApiClient>().Use("", (ctx) =>
-            {
-                var levySubmissionsApiConfiguration = ctx.GetInstance<ITokenServiceApiClientConfiguration>();
-                var hmrcApiBaseUrl = ctx.GetInstance<IWebConfiguration>().LevySubmission.HmrcApiBaseUrl;
-                var httpClient = GetLevyHttpClient(levySubmissionsApiConfiguration, hmrcApiBaseUrl);
-
-                return new ApprenticeshipLevyApiClient(httpClient);
-            });
-
+            
         }
 
-        private HttpClient GetLevyHttpClient(ITokenServiceApiClientConfiguration levySubmissionsApiConfiguration, string hmrcApiBaseUrl)
-        {
-            var tokenService = new TokenServiceApiClient(levySubmissionsApiConfiguration);
-            var tokenResult = tokenService.GetPrivilegedAccessTokenAsync().Result;
-            return ApprenticeshipLevyApiClient.CreateHttpClient(tokenResult.AccessCode, hmrcApiBaseUrl);
-        }
+       
 
     }
 }

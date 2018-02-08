@@ -10,7 +10,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Settings
     {
         LevySubmissionsApiConfiguration LevySubmissionsApiConfig { get; set; }
 
-        string HmrcApiBaseUrl { get; set; }
+        HmrcApiBaseUrlConfig HmrcApiBaseUrlSetting { get; set; }
 
     }
 
