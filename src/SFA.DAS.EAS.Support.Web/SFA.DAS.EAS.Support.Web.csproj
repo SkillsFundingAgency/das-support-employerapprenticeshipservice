@@ -224,6 +224,7 @@
     <Compile Include="Controllers\ChallengeController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="DependencyResolution\ApplicationRegistry.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\CoreRegistry.cs" />
