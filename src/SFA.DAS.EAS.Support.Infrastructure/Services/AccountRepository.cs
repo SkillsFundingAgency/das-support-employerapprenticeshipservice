@@ -63,7 +63,6 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                     var accountsFirstPageDetails = await GetAccountSearchDetails(accountFirstPageModel.Data);
                     results.AddRange(accountsFirstPageDetails);
 
-                    pageNumber++;
                     while (accountFirstPageModel.TotalPages > pageNumber)
                     {
                         try

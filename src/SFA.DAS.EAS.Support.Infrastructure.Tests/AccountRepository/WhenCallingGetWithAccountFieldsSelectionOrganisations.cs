@@ -169,7 +169,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Verify(x => x.GetResource<LegalEntityViewModel>(It.IsAny<string>()),
                 Times.Exactly(accountResponse.LegalEntities.Count));
 
-            Assert.IsNull(actual);
+            Assert.IsNotNull(actual);
+            Assert.IsEmpty(actual.LegalEntities);
         }
     }
 }

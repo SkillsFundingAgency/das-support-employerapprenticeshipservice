@@ -81,6 +81,7 @@
     <Compile Include="AccountRepository\WhenCallingFindAllDetails.cs" />
     <Compile Include="AccountRepository\WhenCallingGetAccountBalance.cs" />
     <Compile Include="AccountRepository\WhenCallingGetWithAccountFieldSelectionNone.cs" />
+    <Compile Include="AccountRepository\WhenCallingGetWithAccountFieldSelectionTeamMembers.cs" />
     <Compile Include="AccountRepository\WhenCallingGetWithAccountFieldsSelectionChallengePayeSchemes.cs" />
     <Compile Include="AccountRepository\WhenCallingGetWithAccountFieldsSelectionFinance.cs" />
     <Compile Include="AccountRepository\WhenCallingGetWithAccountFieldsSelectionOrganisations.cs" />
