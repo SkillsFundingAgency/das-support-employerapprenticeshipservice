@@ -12,5 +12,8 @@ namespace SFA.DAS.EAS.Support.Web.Configuration
 
         [JsonRequired] public LevySubmissionsSettings LevySubmission { get; set; }
 
+        [JsonRequired] public HashingServiceConfig HashingService { get; set; }
+        
+
     }
 }

@@ -98,24 +98,6 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
             return response;
         }
 
-        public async Task<AccountPayeSchemesResponse> FindPayeLevyDeclarations(string id, string payeId)
-        {
-            var response = new AccountPayeSchemesResponse
-            {
-                StatusCode = SearchResponseCodes.NoSearchResultsFound
-            };
-
-            var record = await _accountRepository.Get(id, AccountFieldsSelection.PayeSchemes);
-
-            if (record != null)
-            {
-                response.StatusCode = SearchResponseCodes.Success;
-                response.Account = record;
-            }
-
-            return response;
-        }
-
         public AccountSearchModel Map(Core.Models.Account account)
         {
             return new AccountSearchModel

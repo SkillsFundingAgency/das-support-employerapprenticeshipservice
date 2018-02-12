@@ -59,7 +59,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
             };
             _accountRepository.Setup(x =>
                     x.Get(message.Id,
-                        AccountFieldsSelection.ChallengePayeSchemes))
+                        AccountFieldsSelection.RawPayeSchemes))
                 .ReturnsAsync(null as Core.Models.Account);
 
             var actual = await _unit.Handle(message);
@@ -84,7 +84,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
             };
             _accountRepository.Setup(x =>
                     x.Get(message.Id,
-                        AccountFieldsSelection.ChallengePayeSchemes))
+                        AccountFieldsSelection.RawPayeSchemes))
                 .ReturnsAsync(account);
 
             _challengeRepository.Setup(x => x.CheckData(account, message)).ReturnsAsync(false);
@@ -114,7 +114,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
             };
             _accountRepository.Setup(x =>
                     x.Get(message.Id,
-                        AccountFieldsSelection.ChallengePayeSchemes))
+                        AccountFieldsSelection.RawPayeSchemes))
                 .ReturnsAsync(account);
 
             _challengeRepository.Setup(x => x.CheckData(account, message)).ReturnsAsync(true);

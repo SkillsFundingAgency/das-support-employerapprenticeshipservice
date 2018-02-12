@@ -1,0 +1,49 @@
+﻿@model SFA.DAS.EAS.Support.Web.Models.PayeSchemeLevyDeclarationViewModel
+
+
+<h2 class="heading-xlarge">@Model.PayeSchemeRef Levy declarations</h2>
+
+@if (!string.IsNullOrWhiteSpace(Model.PayeSchemeFormatedAddedDate))
+{
+    <h4 class="heading-medium"> @Model.PayeSchemeName</h4>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.PayeSchemeFormatedAddedDate))
+{
+    <h4 class="heading-medium">PAYE scheme added @Model.PayeSchemeFormatedAddedDate</h4>
+}
+
+@if (Model.LevyDeclarations != null && Model.LevyDeclarations.Any())
+{
+    <table id="submission-details">
+        <tr>
+            <th scope="col">Submission date</th>
+            <th scope="col">Payroll date</th>
+            <th scope="col">Id</th>
+            <th scope="col">Description</th>
+            <th scope="col">Levy YTD</th>
+        </tr>
+
+        @foreach (var levySubmission in Model.LevyDeclarations)
+        {
+
+            <tr>
+                <td class="@levySubmission.RowClass">
+                    @levySubmission.SubmissionDate
+                </td>
+                <td class="@levySubmission.RowClass">
+                    @levySubmission.PayrollDate
+                </td>
+                <td class="@levySubmission.RowClass">
+                    @levySubmission.LevySubmissionId
+                </td>
+                <td class="@levySubmission.RowClass">
+                    @levySubmission.LevyDeclarationDescription
+                </td>
+                <td class="@levySubmission.RowClass">
+                    @levySubmission.YearToDateAmount
+                </td>
+            </tr>
+        }
+    </table>
+}

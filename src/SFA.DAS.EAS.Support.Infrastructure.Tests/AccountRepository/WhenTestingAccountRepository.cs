@@ -5,6 +5,7 @@ using SFA.DAS.EAS.Support.ApplicationServices;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
 using SFA.DAS.EAS.Support.Core.Services;
 using SFA.DAS.EAS.Support.Infrastructure.Services;
+using SFA.DAS.HashingService;
 using SFA.DAS.NLog.Logger;
 
 namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
@@ -15,6 +16,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
         protected Mock<IDatetimeService> DatetimeService;
         protected Mock<ILog> Logger;
         protected Mock<IPayeSchemeObfuscator> PayeSchemeObfuscator;
+        protected Mock<IHashingService> HashingService;
+
         protected IAccountRepository Unit;
 
         [SetUp]
@@ -24,12 +27,14 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             DatetimeService = new Mock<IDatetimeService>();
             Logger = new Mock<ILog>();
             PayeSchemeObfuscator = new Mock<IPayeSchemeObfuscator>();
+            HashingService = new Mock<IHashingService>();
+
             Unit = new Services.AccountRepository(
                 AccountApiClient.Object,
                 PayeSchemeObfuscator.Object,
                 DatetimeService.Object,
-                Logger.Object
-            );
+                Logger.Object,
+                HashingService.Object);
         }
     }
 }

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using SFA.DAS.EAS.Account.Api.Types;
+using SFA.DAS.EAS.Support.Core.Models;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices.Services
 {
     public class ChallengeService : IChallengeService
     {
-        public List<int> GetPayeSchemesCharacters(IEnumerable<PayeSchemeViewModel> payeSchemes)
+        public List<int> GetPayeSchemesCharacters(IEnumerable<PayeSchemeModel> payeSchemes)
         {
             var schemes = payeSchemes.Select(payeSchemeViewModel =>
                     payeSchemeViewModel.Ref.Substring(1, payeSchemeViewModel.Ref.Length - 2).Replace("/", string.Empty))

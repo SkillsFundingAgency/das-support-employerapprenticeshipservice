@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
 using SFA.DAS.EAS.Support.Web.Models;
+using SFA.DAS.EAS.Support.Web.Services;
 using SFA.DAS.NLog.Logger;
 
 namespace SFA.DAS.EAS.Support.Web.Controllers
@@ -12,16 +13,20 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
         private readonly IAccountHandler _accountHandler;
         private readonly IPayeLevySubmissionsHandler _payeLevySubmissionsHandler;
         private readonly ILog _log;
+        private readonly IPayeLevyDeclarationMapper _payeLevyDeclarationMapper;
 
         public AccountController(IAccountHandler accountHandler,
             IPayeLevySubmissionsHandler payeLevySubmissionsHandler,
-            ILog log)
+            ILog log,
+            IPayeLevyDeclarationMapper payeLevyDeclarationMapper)
         {
             _accountHandler = accountHandler;
             _payeLevySubmissionsHandler = payeLevySubmissionsHandler;
             _log = log;
+            _payeLevyDeclarationMapper = payeLevyDeclarationMapper;
         }
 
+        [Route("account/{id}/{parent}")]
         public async Task<ActionResult> Index(string id, string parent)
         {
             var response = await _accountHandler.FindOrganisations(id);
@@ -39,6 +44,7 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             return HttpNotFound();
         }
 
+        [Route("account/payeschemes/{id}")]
         public async Task<ActionResult> PayeSchemes(string id)
         {
             var response = await _accountHandler.FindPayeSchemes(id);
@@ -56,6 +62,7 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             return new HttpNotFoundResult();
         }
 
+        [Route("account/header/{id}")]
         public async Task<ActionResult> Header(string id)
         {
             var response = await _accountHandler.Find(id);
@@ -66,6 +73,7 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             return View("SubHeader", response.Account);
         }
 
+        [Route("account/finance/{id}")]
         public async Task<ActionResult> Finance(string id)
         {
             var response = await _accountHandler.FindFinance(id);
@@ -84,17 +92,13 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             return HttpNotFound();
         }
 
+        [Route("account/levysubmissions/{id}/{parentId}")]
         public async Task<ActionResult> PayeSchemeLevySubmissions(string id, string parentId)
         {
             var response = await _payeLevySubmissionsHandler.Handle(id, parentId);
-
-            if (response.StatusCode == PayeLevySubmissionsResponseCodes.DeclarationsNotFound)
-            {
-                _log.Error(response.ResponseException, $"Unable to load Levy Declarations for Account Id {id} ");
-            }
-
-
-            return View();
+            var model = _payeLevyDeclarationMapper.MapPayeLevyDeclaration(response);
+            
+            return View(model);
         }
     }
 }

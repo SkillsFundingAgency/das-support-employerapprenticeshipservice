@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Hashids.net, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hashids.net.1.2.2\lib\net45\Hashids.net.dll</HintPath>
+    </Reference>
     <Reference Include="HMRC.ESFA.Levy.Api.Client, Version=1.0.43.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HMRC.ESFA.Levy.Api.Client.1.0.43\lib\net452\HMRC.ESFA.Levy.Api.Client.dll</HintPath>
     </Reference>
@@ -57,6 +60,9 @@
     </Reference>
     <Reference Include="SFA.DAS.EAS.Account.Api.Types, Version=1.0.0.54237, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SFA.DAS.Account.Api.Types.1.0.0.54237\lib\net45\SFA.DAS.EAS.Account.Api.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="SFA.DAS.HashingService, Version=1.0.0.57835, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SFA.DAS.HashingService.1.0.0.57835\lib\net45\SFA.DAS.HashingService.dll</HintPath>
     </Reference>
     <Reference Include="SFA.DAS.NLog.Logger, Version=1.0.0.56651, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SFA.DAS.NLog.Logger.1.0.0.56651\lib\net45\SFA.DAS.NLog.Logger.dll</HintPath>
@@ -100,6 +106,7 @@
     <Compile Include="Services\LevySubmissionsRepository.cs" />
     <Compile Include="Services\LevyTokenHttpClientMaker.cs" />
     <Compile Include="Settings\AccountApiConfiguration.cs" />
+    <Compile Include="Settings\HashingServiceConfig.cs" />
     <Compile Include="Settings\HmrcApiBaseUrlConfig.cs" />
     <Compile Include="Settings\IHmrcApiBaseUrlConfig.cs" />
     <Compile Include="Settings\ILevySubmissionsSettings.cs" />

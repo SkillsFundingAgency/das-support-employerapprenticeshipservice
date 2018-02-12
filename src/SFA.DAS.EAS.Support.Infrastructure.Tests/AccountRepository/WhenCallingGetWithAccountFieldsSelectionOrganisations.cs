@@ -146,7 +146,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
                 LegalEntities = new ResourceList(
                     new List<ResourceViewModel>
                     {
-                        new ResourceViewModel {Href = "https://tempuri.org/legalEntity/{id}", Id = "ABC"}
+                        new ResourceViewModel {Href = "https://tempuri.org/legalEntity/{id}", Id = id}
                     })
             };
 
@@ -169,7 +169,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Verify(x => x.GetResource<LegalEntityViewModel>(It.IsAny<string>()),
                 Times.Exactly(accountResponse.LegalEntities.Count));
 
-            Assert.IsNull(actual);
+            Assert.IsNotNull(actual);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             _levySubmissionsApiConfiguration = levySubmissionsApiConfiguration;
         }
 
-        public async  Task<ApprenticeshipLevyApiClient> GetLevyHttpClient()
+        public async  Task<IApprenticeshipLevyApiClient> GetLevyHttpClient()
         {
             var tokenService = new TokenServiceApiClient(_levySubmissionsApiConfiguration);
             var tokenResult = await tokenService.GetPrivilegedAccessTokenAsync();

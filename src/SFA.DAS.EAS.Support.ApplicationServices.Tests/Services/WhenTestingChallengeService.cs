@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using SFA.DAS.EAS.Account.Api.Types;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
+using SFA.DAS.EAS.Support.Core.Models;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.Services
 {
@@ -20,9 +21,9 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.Services
         [Test]
         public void ItShouldObtainAnIndexlistFromTheListOfPayeSchemDetails()
         {
-            var payeSchemeViewModels = new List<PayeSchemeViewModel>
+            var payeSchemeModel = new List<PayeSchemeModel>
             {
-                new PayeSchemeViewModel
+                new PayeSchemeModel
                 {
                     AddedDate = DateTime.Today.AddMonths(-12),
                     Name = "Account 123",
@@ -32,7 +33,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.Services
                 }
             };
 
-            var actual = _unit.GetPayeSchemesCharacters(payeSchemeViewModels);
+            var actual = _unit.GetPayeSchemesCharacters(payeSchemeModel);
 
             Assert.IsNotNull(actual);
             CollectionAssert.IsNotEmpty(actual);

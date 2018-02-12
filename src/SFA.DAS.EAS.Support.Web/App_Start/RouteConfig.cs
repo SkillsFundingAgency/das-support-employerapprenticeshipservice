@@ -11,17 +11,14 @@ namespace SFA.DAS.EAS.Support.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                "id",
-                "{controller}/{id}",
-                new {controller = "Home", action = "Index"}
-            );
+            routes.MapMvcAttributeRoutes();
 
-            routes.MapRoute(
-                "Default",
-                "{controller}/{action}/{id}",
-                new {controller = "Home", action = "Index", id = UrlParameter.Optional}
-            );
+            //routes.MapRoute(
+            //    "Default",
+            //    "{controller}/{action}/{id}/{parent}",
+            //    new { controller = "Home", action = "Index", id = UrlParameter.Optional, parent = UrlParameter.Optional }
+            //);
+            
         }
     }
 }

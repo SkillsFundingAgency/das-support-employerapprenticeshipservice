@@ -7,6 +7,7 @@ using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
 using SFA.DAS.EAS.Support.Web.Controllers;
 using SFA.DAS.EAS.Support.Web.Models;
+using SFA.DAS.EAS.Support.Web.Services;
 using SFA.DAS.NLog.Logger;
 
 namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Account
@@ -16,7 +17,9 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Account
         protected Mock<IAccountHandler> AccountHandler;
         protected Mock<IPayeLevySubmissionsHandler> _payeLevySubmissionsHandler;
         protected Mock<ILog> _logger;
+        protected Mock<IPayeLevyDeclarationMapper> _payeLevyDeclarationMapper;
         protected AccountController Unit;
+
 
         [SetUp]
         public void Setup()
@@ -24,7 +27,12 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Account
             AccountHandler = new Mock<IAccountHandler>();
             _payeLevySubmissionsHandler = new Mock<IPayeLevySubmissionsHandler>();
             _logger = new Mock<ILog>();
-            Unit = new AccountController(AccountHandler.Object, _payeLevySubmissionsHandler.Object, _logger.Object);
+            _payeLevyDeclarationMapper = new Mock<IPayeLevyDeclarationMapper>();
+
+            Unit = new AccountController(AccountHandler.Object,
+                _payeLevySubmissionsHandler.Object,
+                _logger.Object,
+                _payeLevyDeclarationMapper.Object);
         }
     }
 

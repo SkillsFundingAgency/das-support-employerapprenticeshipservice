@@ -69,7 +69,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Setup(x => x.GetResource<PayeSchemeViewModel>(It.IsAny<string>()))
                 .ReturnsAsync(payeSchemeViewModel);
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.ChallengePayeSchemes);
+            var actual = await Unit.Get(id, AccountFieldsSelection.RawPayeSchemes);
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));
 

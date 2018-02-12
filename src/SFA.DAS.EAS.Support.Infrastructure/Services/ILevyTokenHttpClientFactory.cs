@@ -11,6 +11,6 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {
     public interface ILevyTokenHttpClientFactory
     {
-        Task<ApprenticeshipLevyApiClient> GetLevyHttpClient();
+        Task<IApprenticeshipLevyApiClient> GetLevyHttpClient();
     }
 }

@@ -60,7 +60,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices
                 || message.ChallengeElement2.Length != 1)
                 return response;
 
-            var record = await _accountRepository.Get(message.Id, AccountFieldsSelection.ChallengePayeSchemes);
+            var record = await _accountRepository.Get(message.Id, AccountFieldsSelection.RawPayeSchemes);
 
             if (record != null)
             {

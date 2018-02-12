@@ -46,6 +46,11 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Configuration
                         Tenant = "",
                         LevyTokenCertificatethumprint = ""
                      }
+                },
+                HashingService = new HashingServiceConfig
+                {
+                    AllowedCharacters = "",
+                    Hashstring = ""
                 }
             };
         }
