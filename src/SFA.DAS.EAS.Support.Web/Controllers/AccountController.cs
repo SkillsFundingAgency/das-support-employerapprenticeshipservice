@@ -59,6 +59,24 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             return View("SubHeader", response.Account);
         }
 
+        public async Task<ActionResult> Team(string id)
+        {
+            var response = await _handler.FindTeamMembers(id);
+
+            if (response.StatusCode == SearchResponseCodes.Success)
+            {
+                var vm = new AccountDetailViewModel
+                {
+                    Account = response.Account
+                };
+
+                return View(vm);
+            }
+
+            return HttpNotFound();
+        }
+
+
         public async Task<ActionResult> Finance(string id)
         {
             var response = await _handler.FindFinance(id);

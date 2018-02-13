@@ -1,0 +1,42 @@
+﻿@model SFA.DAS.EAS.Support.Web.Models.AccountDetailViewModel
+
+@if (Model.Account != null)
+{
+    <h1 class="heading-xlarge">
+        Team  Members
+    </h1>
+
+    if (Model.Account.TeamMembers.Any())
+    {
+        <table  class="responsive">
+            <thead>
+                <tr>
+                    <th scope="col" class="">Name</th>
+                    <th scope="col" class="">Status</th>
+                    <th scope="col" class="">Role</th>
+                    <th scope="col" class="">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Account.TeamMembers)
+                {
+                    <tr>
+                        <td data-label="User Name" id="Name">@item.Name</td>
+                        <td data-label="User Status" id="Status">@item.Status</td>
+                        <td data-label="User Role" id="Role">@item.Role</td>
+                        <td data-label="User Email" id="Email">@item.Email</td>
+                    </tr>
+                    <hr />
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Team Members available</p>
+    }
+}
+else
+{
+    <p>Account not found</p>
+}

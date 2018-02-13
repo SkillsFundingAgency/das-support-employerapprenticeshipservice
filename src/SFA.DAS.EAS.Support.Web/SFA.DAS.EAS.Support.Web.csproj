@@ -260,6 +260,7 @@
     <Content Include="Views\Account\SubHeader.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Error\Error.cshtml" />
+    <Content Include="Views\Account\Team.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

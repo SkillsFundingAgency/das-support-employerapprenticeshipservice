@@ -12,5 +12,6 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
         Task<AccountFinanceResponse> FindFinance(string id);
         Task<IEnumerable<AccountSearchModel>> FindSearchItems();
         Task<AccountReponse> Find(string id);
+        Task<AccountReponse> FindTeamMembers(string id);
     }
 }

@@ -37,9 +37,9 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             try
             {
                 _logger.Debug(
-                    $"{nameof(IAccountApiClient)}.{nameof(IAccountApiClient.GetResource)}<{nameof(AccountDetailViewModel)}>(\"/api/accounts/{id}\");");
+                    $"{nameof(IAccountApiClient)}.{nameof(IAccountApiClient.GetResource)}<{nameof(AccountDetailViewModel)}>(\"/api/accounts/{id.ToUpper()}\");");
 
-                var response = await _accountApiClient.GetResource<AccountDetailViewModel>($"/api/accounts/{id}");
+                var response = await _accountApiClient.GetResource<AccountDetailViewModel>($"/api/accounts/{id.ToUpper()}");
 
                 return await GetAdditionalFields(response, selection);
             }
@@ -63,7 +63,6 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                     var accountsFirstPageDetails = await GetAccountSearchDetails(accountFirstPageModel.Data);
                     results.AddRange(accountsFirstPageDetails);
 
-                    pageNumber++;
                     while (accountFirstPageModel.TotalPages > pageNumber)
                     {
                         try
