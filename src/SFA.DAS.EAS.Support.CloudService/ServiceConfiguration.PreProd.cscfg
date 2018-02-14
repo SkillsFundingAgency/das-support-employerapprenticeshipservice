@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ServiceConfiguration serviceName="SFA.DAS.EAS.Support.CloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="5" osVersion="*" schemaVersion="2015-04.2.6">
   <Role name="SFA.DAS.EAS.Support.Web">
-    <Instances count="2" />
+    <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="__StorageConnectionString__" />
       <Setting name="ConfigurationStorageConnectionString" value="__ConfigurationStorageConnectionString__" />
@@ -10,7 +10,7 @@
       <Setting name="InstrumentationKey" value="__InstrumentationKey__" />
     </ConfigurationSettings>
     <Certificates>
-      <Certificate name="WebSslCert" thumbprint="A2FEC613BC54AEFFA6202869DBC9D0170EF25947" thumbprintAlgorithm="sha1" />
+      <Certificate name="WebSslCert" thumbprint="EC0255EC53FFB6DD6BBC1CBBA982E2309AF731BC" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
   <NetworkConfiguration>
@@ -24,7 +24,7 @@
     </AddressAssignments>
     <LoadBalancers>
       <LoadBalancer name="__ilbname__">
-        <FrontendIPConfiguration type="private" subnet="__subnet__" staticVirtualNetworkIPAddress="10.78.124.126" />
+        <FrontendIPConfiguration type="private" subnet="__subnet__" staticVirtualNetworkIPAddress="10.78.124.243" />
       </LoadBalancer>
     </LoadBalancers>
   </NetworkConfiguration>

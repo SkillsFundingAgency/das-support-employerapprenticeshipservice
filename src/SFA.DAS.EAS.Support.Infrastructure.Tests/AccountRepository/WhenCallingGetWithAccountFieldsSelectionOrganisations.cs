@@ -146,7 +146,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
                 LegalEntities = new ResourceList(
                     new List<ResourceViewModel>
                     {
-                        new ResourceViewModel {Href = "https://tempuri.org/legalEntity/{id}", Id = id}
+                        new ResourceViewModel {Href = "https://tempuri.org/legalEntity/{id}", Id = "ABC"}
                     })
             };
 
@@ -170,6 +170,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
                 Times.Exactly(accountResponse.LegalEntities.Count));
 
             Assert.IsNotNull(actual);
+            Assert.IsEmpty(actual.LegalEntities);
         }
     }
 }

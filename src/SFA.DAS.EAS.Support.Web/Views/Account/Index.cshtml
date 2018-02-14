@@ -2,24 +2,38 @@
 
 @if (Model.Account != null)
 {
-    <h1>
+    <h1 class="heading-xlarge">
         Organisations
     </h1>
-    foreach (var organisation in Model.Account.LegalEntities)
+
+    if (Model.Account.LegalEntities.Any())
     {
-        <dl>
-
-            <dt>Name:</dt>
-            <dd>@organisation.Name</dd>
-
-            <dt>Address:</dt>
-            <dd>@organisation.Address</dd>
-
-            <dt>Source:</dt>
-            <dd>@organisation.Source</dd>
-        </dl>
-
-        <hr/>
+        <table class="responsive">
+            <thead>
+                <tr>
+                    <th scope="col" class="">Name</th>
+                    <th scope="col" class="">Address</th>
+                    <th scope="col" class="">Source</th>
+                    <th scope="col" class="">Agreement Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Account.LegalEntities)
+                {
+                    <tr>
+                        <td data-label="User Name" id="Name">@item.Name</td>
+                        <td data-label="User Status" id="Status">@item.Address</td>
+                        <td data-label="User Role" id="Role">@item.Source</td>
+                        <td data-label="User Role" id="Role">@item.AgreementStatus</td>
+                    </tr>
+                    <hr />
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Organisations found</p>
     }
 }
 else

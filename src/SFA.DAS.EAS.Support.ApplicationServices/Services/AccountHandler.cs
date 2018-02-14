@@ -97,7 +97,23 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
 
             return response;
         }
+        public async Task<AccountReponse> FindTeamMembers(string id)
+        {
+            var response = new AccountReponse
+            {
+                StatusCode = SearchResponseCodes.NoSearchResultsFound
+            };
 
+            var account = await _accountRepository.Get(id, AccountFieldsSelection.TeamMembers);
+
+            if (account != null)
+            {
+                response.StatusCode = SearchResponseCodes.Success;
+                response.Account = account;
+            }
+
+            return response;
+        }
         public AccountSearchModel Map(Core.Models.Account account)
         {
             return new AccountSearchModel
