@@ -102,113 +102,20 @@ if (Get-Module -ListAvailable | Where-Object { $_.Name -eq $Azure }) {
     [Reflection.Assembly]::LoadWithPartialName("Microsoft.WindowsAzure.ServiceRuntime")
     $ConfigurationStorageConnectionString = [Microsoft.WindowsAzure.ServiceRuntime.RoleEnvironment]::GetConfigurationSettingValue("ConfigurationStorageConnectionString")
     $EnvironmentName = [Microsoft.WindowsAzure.ServiceRuntime.RoleEnvironment]::GetConfigurationSettingValue("EnvironmentName")
-    $Thumbprint = [Microsoft.WindowsAzure.ServiceRuntime.RoleEnvironment]::GetConfigurationSettingValue("EmpUserApiCertificateThumbprint")
 
-    $checkcert = (Get-ChildItem cert:\LocalMachine\My | Where thumbprint -eq $thumbprint).Thumbprint
     $Ctx = New-AzureStorageContext -ConnectionString "$ConfigurationStorageConnectionString"
-    $BlobName = "$environmentname/EmployerUsersCert.pfx"
-    $BlobNamePassword = "$environmentname/EmployerUsersCertPassword.txt"
+
     $ContainerName = "certs"
     $localTargetDirectory = "C:\Cert"
 			 
-    if ($checkcert) {
-        Write-Warning -Message "Certificate already installed"
-        #Apply Permissions Just Incase#
-        permissions 
-        $logger.Info("Certificate already Installed with thumbprint $Thumbprint")
-    }
-    else {
-        #If Certificate doesnt exist do the below#
-
-        #Create Folder#
-        New-Item $localTargetDirectory -type directory -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-
-        #Download Certifacte & Password#
-        $error.clear()
-        Try {Get-AzureStorageBlobContent -Blob $BlobName -Container $ContainerName -Destination $localTargetDirectory -Context $ctx -Force }
-        catch {
-            "There has been an error downloading the file"
-            $logger.Error("There has been an error downloading the file")
-            break
-        }
-
-        $error.clear()
-        Try {Get-AzureStorageBlobContent -Blob $BlobNamePassword -Container $ContainerName -Destination $localTargetDirectory -Context $ctx -Force }
-        catch {
-            "There has been an error downloading the file"
-            $logger.Error("There has been an error downloading the password file")
-            break
-        }
-
-        $CertPassword = Get-Content "C:\Cert\$environmentname\EmployerUsersCertPassword.txt"
-
-        $mypwd = ConvertTo-SecureString -String "$CertPassword" -Force -AsPlainText
-
-        Import-PfxCertificate -FilePath C:\Cert\$environmentname\EmployerUsersCert.pfx cert:\localMachine\my -Password $mypwd
-        $logger.Info("Importing the certificate")
-        #Setting Permission on the Cert for ReadAccess#
-        Permissions
-        $logger.Info("Setting Permissions on the certificate")
-        #Removing the Certificate download location#
-
-        Remove-Item $localTargetDirectory -Force -Recurse
-        $logger.Info("Removing local folder")	
-    }
-
-    $checkcert2 = (Get-ChildItem cert:\LocalMachine\Root | Where thumbprint -eq $thumbprint).Thumbprint
-
-    if ($checkcert2) {
-        Write-Warning -Message "Root Certificate already installed"
-        #Apply Permissions Just Incase#
-        permissions 
-        $logger.Info("Root Certificate already Installed with thumbprint $Thumbprint")
-    }
-    else {
-        #If Certificate doesnt exist do the below#
-
-        #Create Folder#
-        New-Item $localTargetDirectory -type directory -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-
-        #Download Certifacte & Password#
-        $error.clear()
-        Try {Get-AzureStorageBlobContent -Blob $BlobName -Container $ContainerName -Destination $localTargetDirectory -Context $ctx -Force }
-        catch {
-            "There has been an error downloading the file"
-            $logger.Error("There has been an error downloading the file")
-            break
-        }
-
-        $error.clear()
-        Try {Get-AzureStorageBlobContent -Blob $BlobNamePassword -Container $ContainerName -Destination $localTargetDirectory -Context $ctx -Force }
-        catch {
-            "There has been an error downloading the file"
-            $logger.Error("There has been an error downloading the password file")
-            break
-        }
-
-        $CertPassword = Get-Content "C:\Cert\$environmentname\EmployerUsersCertPassword.txt"
-
-        $mypwd = ConvertTo-SecureString -String "$CertPassword" -Force -AsPlainText
-
-        Import-PfxCertificate -FilePath C:\Cert\$environmentname\EmployerUsersCert.pfx cert:\localMachine\root -Password $mypwd
-        $logger.Info("Importing the root certificate")
-        #Setting Permission on the Cert for ReadAccess#
-        Permissions
-        $logger.Info("Setting Permissions on the root certificate")
-        #Removing the Certificate download location#
-
-        Remove-Item $localTargetDirectory -Force -Recurse
-        $logger.Info("Removing local folder")	
-    }
-
-    $Thumbprint = [Microsoft.WindowsAzure.ServiceRuntime.RoleEnvironment]::GetConfigurationSettingValue("LevyTokenCertificate")
-    $checkcert3 = (Get-ChildItem cert:\LocalMachine\My | Where thumbprint -eq $thumbprint).Thumbprint
+    $Thumbprint = [Microsoft.WindowsAzure.ServiceRuntime.RoleEnvironment]::GetConfigurationSettingValue("LevySubmissionLevySubmissionsApiConfigurationLevyTokenCertificatethumprint")
+    $checkcert = (Get-ChildItem cert:\LocalMachine\My | Where thumbprint -eq $thumbprint).Thumbprint
     $BlobName = "$environmentname/TokenServiceCert.pfx"
     $BlobNamePassword = "$environmentname/TokenServiceCertPassword.txt"
     $ContainerName = "certs"
     $localTargetDirectory = "C:\Cert"
 
-    if ($checkcert3) {
+    if ($checkcert) {
         Write-Warning -Message "Certificate already installed"
         #Apply Permissions Just Incase#
         permissions 

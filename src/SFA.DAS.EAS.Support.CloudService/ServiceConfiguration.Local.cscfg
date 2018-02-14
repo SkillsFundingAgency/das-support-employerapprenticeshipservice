@@ -8,6 +8,7 @@
       <Setting name="LoggingRedisConnectionString" value="" />
       <Setting name="EnvironmentName" value="LOCAL" />
       <Setting name="InstrumentationKey" value="" />
+      <Setting name="LevySubmissionLevySubmissionsApiConfigurationLevyTokenCertificatethumprint" value="" />
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="WebSslCert" thumbprint="A2FEC613BC54AEFFA6202869DBC9D0170EF25947" thumbprintAlgorithm="sha1" />
