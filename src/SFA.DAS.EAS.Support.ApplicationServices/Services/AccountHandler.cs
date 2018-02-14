@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.Core.Models;
+using SFA.DAS.EAS.Support.Infrastructure.Services;
 using SFA.DAS.Support.Shared.SearchIndexModel;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices.Services
@@ -120,7 +121,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
                 Account = account.DasAccountName,
                 AccountID = account.HashedAccountId,
                 SearchType = SearchCategory.Account,
-                PayeSchemeIds = account.PayeSchemes?.Select(p => p.Ref).ToList()
+                PayeSchemeIds = account.PayeSchemes?.Select(p => p.PayeRefWithOutSlash).ToList()
             };
         }
     }

@@ -117,7 +117,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
                 .ReturnsAsync(transactionsViewModel
                 );
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.Finance);
+            var actual = await _sut.Get(id, AccountFieldsSelection.Finance);
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));
 

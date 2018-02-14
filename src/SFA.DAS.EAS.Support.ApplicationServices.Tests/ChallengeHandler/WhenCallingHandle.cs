@@ -3,6 +3,7 @@ using Moq;
 using NUnit.Framework;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.Core.Models;
+using SFA.DAS.EAS.Support.Infrastructure.Models;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
 {
@@ -56,9 +57,8 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
                 ChallengeElement1 = "1",
                 ChallengeElement2 = "2"
             };
-            _accountRepository.Setup(x =>
-                    x.Get(message.Id,
-                        AccountFieldsSelection.ChallengePayeSchemes))
+            _accountRepository
+                .Setup(x =>x.Get(message.Id, AccountFieldsSelection.PayeSchemes))
                 .ReturnsAsync(null as Core.Models.Account);
 
             var actual = await _unit.Handle(message);
@@ -81,9 +81,8 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
                 HashedAccountId = "ASDAS",
                 AccountId = 123
             };
-            _accountRepository.Setup(x =>
-                    x.Get(message.Id,
-                        AccountFieldsSelection.ChallengePayeSchemes))
+            _accountRepository
+                .Setup(x =>x.Get(message.Id, AccountFieldsSelection.PayeSchemes))
                 .ReturnsAsync(account);
 
             _challengeRepository.Setup(x => x.CheckData(account, message)).ReturnsAsync(false);
@@ -111,9 +110,8 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.ChallengeHandler
                 HashedAccountId = "ASDAS",
                 AccountId = 123
             };
-            _accountRepository.Setup(x =>
-                    x.Get(message.Id,
-                        AccountFieldsSelection.ChallengePayeSchemes))
+            _accountRepository
+                .Setup(x =>x.Get(message.Id, AccountFieldsSelection.PayeSchemes))
                 .ReturnsAsync(account);
 
             _challengeRepository.Setup(x => x.CheckData(account, message)).ReturnsAsync(true);

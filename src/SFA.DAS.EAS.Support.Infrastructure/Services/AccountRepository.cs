@@ -5,10 +5,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using SFA.DAS.EAS.Account.Api.Client;
 using SFA.DAS.EAS.Account.Api.Types;
-using SFA.DAS.EAS.Support.ApplicationServices;
-using SFA.DAS.EAS.Support.ApplicationServices.Services;
 using SFA.DAS.EAS.Support.Core.Models;
 using SFA.DAS.EAS.Support.Core.Services;
+using SFA.DAS.HashingService;
 using SFA.DAS.NLog.Logger;
 
 namespace SFA.DAS.EAS.Support.Infrastructure.Services
@@ -20,16 +19,19 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
         private readonly IDatetimeService _datetimeService;
         private readonly ILog _logger;
         private readonly IPayeSchemeObfuscator _payeSchemeObfuscator;
+        private readonly IHashingService _hashingService;
 
         public AccountRepository(IAccountApiClient accountApiClient,
             IPayeSchemeObfuscator payeSchemeObfuscator,
             IDatetimeService datetimeService,
-            ILog logger)
+            ILog logger,
+            IHashingService hashingService)
         {
             _accountApiClient = accountApiClient;
             _payeSchemeObfuscator = payeSchemeObfuscator;
             _datetimeService = datetimeService;
             _logger = logger;
+            _hashingService = hashingService;
         }
 
         public async Task<Core.Models.Account> Get(string id, AccountFieldsSelection selection)
@@ -63,7 +65,8 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                     var accountsFirstPageDetails = await GetAccountSearchDetails(accountFirstPageModel.Data);
                     results.AddRange(accountsFirstPageDetails);
 
-                    while (accountFirstPageModel.TotalPages > pageNumber)
+                    pageNumber++;
+                    while (accountFirstPageModel.TotalPages >= pageNumber)
                     {
                         try
                         {
@@ -125,7 +128,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                 try
                 {
                     var accountViewModel = await _accountApiClient.GetAccount(account.AccountHashId);
-                    var accountWithDetails = await GetAdditionalFields(accountViewModel, AccountFieldsSelection.RawSearchPayeSchemes);
+                    var accountWithDetails = await GetAdditionalFields(accountViewModel, AccountFieldsSelection.PayeSchemes);
                     accountsWithDetails.Add(accountWithDetails);
                 }
                 catch (Exception e)
@@ -151,21 +154,11 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                     result.TeamMembers = teamMembers;
                     break;
                 case AccountFieldsSelection.PayeSchemes:
-                    var payeSchemes = await GetObscuredPayeSchemes(response);
-                    result.PayeSchemes = payeSchemes;
-                    return result;
-                case AccountFieldsSelection.ChallengePayeSchemes:
-                    var challengePayeSchemes = await GetPayeSchemes(response);
-                    result.PayeSchemes = challengePayeSchemes;
-                    return result;
-                case AccountFieldsSelection.RawSearchPayeSchemes:
-                    result.PayeSchemes = await GetRawSearchPayeSchemes(response);
+                    result.PayeSchemes = await MapToDomainPayeSchemeAsync(response);
                     return result;
                 case AccountFieldsSelection.Finance:
-                    var payeSchemeData = await GetObscuredPayeSchemes(response);
-                    result.PayeSchemes = payeSchemeData;
-                    var transactions = await GetAccountTransactions(response.HashedAccountId);
-                    result.Transactions = transactions;
+                    result.PayeSchemes = await MapToDomainPayeSchemeAsync(response);
+                    result.Transactions = await GetAccountTransactions(response.HashedAccountId); ;
                     return result;
             }
 
@@ -199,8 +192,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
 
         private List<TransactionViewModel> GetFilteredTransactions(IEnumerable<TransactionViewModel> response)
         {
-            return response.Where(x => x.Description != null && x.Amount != 0).OrderByDescending(x => x.DateCreated)
-                .ToList();
+            return response.Where(x => x.Description != null && x.Amount != 0).OrderByDescending(x => x.DateCreated).ToList();
         }
 
         private async Task<IEnumerable<PayeSchemeViewModel>> GetPayeSchemes(AccountDetailViewModel response)
@@ -236,34 +228,6 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             }
 
             return result.OrderBy(x => x.Ref);
-        }
-
-        private async Task<IEnumerable<PayeSchemeViewModel>> GetRawSearchPayeSchemes(AccountDetailViewModel response)
-        {
-            var payeSchemes = await GetPayeSchemes(response);
-            return payeSchemes.Select(payeScheme => new PayeSchemeViewModel
-            {
-                Ref = payeScheme.Ref.Replace("/", string.Empty),
-                DasAccountId = payeScheme.DasAccountId,
-                AddedDate = payeScheme.AddedDate,
-                RemovedDate = payeScheme.RemovedDate,
-                Name = payeScheme.Name
-            }).ToList();
-        }
-
-        private async Task<IEnumerable<PayeSchemeViewModel>> GetObscuredPayeSchemes(AccountDetailViewModel response)
-        {
-            var payeSchemes = await GetPayeSchemes(response);
-
-            return payeSchemes.Select(payeScheme => new PayeSchemeViewModel
-                {
-                    Ref = _payeSchemeObfuscator.ObscurePayeScheme(payeScheme.Ref),
-                    DasAccountId = payeScheme.DasAccountId,
-                    AddedDate = payeScheme.AddedDate,
-                    RemovedDate = payeScheme.RemovedDate,
-                    Name = payeScheme.Name
-                })
-                .ToList();
         }
 
         private bool IsValidPayeScheme(PayeSchemeViewModel result)
@@ -326,5 +290,23 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                 OwnerEmail = accountDetailViewModel.OwnerEmail
             };
         }
+
+        private async Task<IEnumerable<PayeSchemeModel>> MapToDomainPayeSchemeAsync(AccountDetailViewModel response)
+        {
+            var mainPayeSchemes = await GetPayeSchemes(response);
+
+            return mainPayeSchemes?.Select(payeScheme => new PayeSchemeModel
+            {
+                Ref = payeScheme.Ref,
+                DasAccountId = payeScheme.DasAccountId,
+                AddedDate = payeScheme.AddedDate,
+                RemovedDate = payeScheme.RemovedDate,
+                Name = payeScheme.Name,
+                HashedPayeRef = _hashingService.HashValue(payeScheme.Ref),
+                ObscuredPayeRef = _payeSchemeObfuscator.ObscurePayeScheme(payeScheme.Ref)
+            }).ToList();
+        }
+      
+
     }
 }

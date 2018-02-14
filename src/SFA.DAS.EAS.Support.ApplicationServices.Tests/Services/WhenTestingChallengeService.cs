@@ -3,36 +3,39 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using SFA.DAS.EAS.Account.Api.Types;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
+using SFA.DAS.EAS.Support.Core.Models;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.Services
 {
     [TestFixture]
     public class WhenTestingChallengeService
     {
+
+      private ChallengeService _sut;
+
         [SetUp]
         public void Setup()
         {
-            _unit = new ChallengeService();
+            _sut = new ChallengeService();
         }
-
-        private ChallengeService _unit;
 
         [Test]
         public void ItShouldObtainAnIndexlistFromTheListOfPayeSchemDetails()
         {
-            var payeSchemeViewModels = new List<PayeSchemeViewModel>
+            var payeSchemeModel = new List<PayeSchemeModel>
             {
-                new PayeSchemeViewModel
+                new PayeSchemeModel
                 {
                     AddedDate = DateTime.Today.AddMonths(-12),
                     Name = "Account 123",
                     DasAccountId = "123",
                     Ref = "123/123456",
+                    ObscuredPayeRef="1**/*****6",
                     RemovedDate = null
                 }
             };
 
-            var actual = _unit.GetPayeSchemesCharacters(payeSchemeViewModels);
+            var actual = _sut.GetPayeSchemesCharacters(payeSchemeModel);
 
             Assert.IsNotNull(actual);
             CollectionAssert.IsNotEmpty(actual);

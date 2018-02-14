@@ -1,11 +1,16 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
+using HMRC.ESFA.Levy.Api.Client;
 using SFA.DAS.EAS.Account.Api.Client;
-using SFA.DAS.EAS.Support.ApplicationServices;
-using SFA.DAS.EAS.Support.ApplicationServices.Services;
 using SFA.DAS.EAS.Support.Infrastructure.DependencyResolution;
 using SFA.DAS.EAS.Support.Infrastructure.Services;
+using SFA.DAS.EAS.Support.Infrastructure.Settings;
+using SFA.DAS.EAS.Support.Web.Configuration;
+using SFA.DAS.HashingService;
 using SFA.DAS.NLog.Logger;
+using SFA.DAS.TokenService.Api.Client;
 using StructureMap.Configuration.DSL;
 
 namespace SFA.DAS.EAS.Support.Web.DependencyResolution
@@ -33,6 +38,31 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
             For<IChallengeRepository>().Use<ChallengeRepository>();
 
             For<IAccountApiClient>().Use<AccountApiClient>();
+
+            For<IAccountApiClient>().Use<AccountApiClient>();
+
+            For<ILevyTokenHttpClientFactory>().Use<LevyTokenHttpClientMaker>();
+
+            For<IHmrcApiBaseUrlConfig>().Use(string.Empty, (ctx) =>
+            {
+                return ctx.GetInstance<IWebConfiguration>().LevySubmission.HmrcApiBaseUrlSetting;
+            });
+
+            For<ITokenServiceApiClientConfiguration>().Use(string.Empty, (ctx) =>
+            {
+                return ctx.GetInstance<IWebConfiguration>().LevySubmission.LevySubmissionsApiConfig;
+            });
+
+
+            For<IHashingService>().Use(string.Empty, (ctx) =>
+            {
+                var hashServiceconfig = ctx.GetInstance<IWebConfiguration>().HashingService;
+                return new HashingService.HashingService(hashServiceconfig.AllowedCharacters, hashServiceconfig.Hashstring);
+            });
+            
         }
+
+       
+
     }
 }

@@ -6,6 +6,9 @@ using NUnit.Framework;
 using SFA.DAS.EAS.Account.Api.Types;
 using SFA.DAS.EAS.Support.ApplicationServices;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
+using SFA.DAS.EAS.Support.Core.Models;
+using SFA.DAS.EAS.Support.Infrastructure.Models;
+using SFA.DAS.EAS.Support.Infrastructure.Services;
 
 namespace SFA.DAS.EAS.Support.Infrastructure.Tests.ChallengeRepository
 {
@@ -32,14 +35,14 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.ChallengeRepository
                     new TransactionViewModel {Balance = 300m},
                     new TransactionViewModel {Balance = 700m}
                 },
-                PayeSchemes = new List<PayeSchemeViewModel>
+                PayeSchemes = new List<PayeSchemeModel>
                 {
-                    new PayeSchemeViewModel
+                    new PayeSchemeModel
                     {
                         AddedDate = DateTime.Today.AddMonths(-12),
                         Ref = "123/456789"
                     },
-                    new PayeSchemeViewModel
+                    new PayeSchemeModel
                     {
                         AddedDate = DateTime.Today.AddMonths(-12),
                         Ref = "124/456789"
@@ -76,14 +79,14 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.ChallengeRepository
                     new TransactionViewModel {Balance = 300m},
                     new TransactionViewModel {Balance = 700m}
                 },
-                PayeSchemes = new List<PayeSchemeViewModel>
+                PayeSchemes = new List<PayeSchemeModel>
                 {
-                    new PayeSchemeViewModel
+                    new PayeSchemeModel
                     {
                         AddedDate = DateTime.Today.AddMonths(-12),
                         Ref = "123/456789"
                     },
-                    new PayeSchemeViewModel
+                    new PayeSchemeModel
                     {
                         AddedDate = DateTime.Today.AddMonths(-12),
                         Ref = "124/AA6789"
@@ -120,14 +123,14 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.ChallengeRepository
                     new TransactionViewModel {Balance = 300m},
                     new TransactionViewModel {Balance = 700m}
                 },
-                PayeSchemes = new List<PayeSchemeViewModel>
+                PayeSchemes = new List<PayeSchemeModel>
                 {
-                    new PayeSchemeViewModel
+                    new PayeSchemeModel
                     {
                         AddedDate = DateTime.Today.AddMonths(-12),
                         Ref = "123/456789"
                     },
-                    new PayeSchemeViewModel
+                    new PayeSchemeModel
                     {
                         AddedDate = DateTime.Today.AddMonths(-12),
                         Ref = "124/456789"
@@ -164,14 +167,14 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.ChallengeRepository
                     new TransactionViewModel {Balance = 300m},
                     new TransactionViewModel {Balance = 700m}
                 },
-                PayeSchemes = new List<PayeSchemeViewModel>
+                PayeSchemes = new List<PayeSchemeModel>
                 {
-                    new PayeSchemeViewModel
+                    new PayeSchemeModel
                     {
                         AddedDate = DateTime.Today.AddMonths(-12),
                         Ref = "123/456789"
                     },
-                    new PayeSchemeViewModel
+                    new PayeSchemeModel
                     {
                         AddedDate = DateTime.Today.AddMonths(-12),
                         Ref = "124/45A789"

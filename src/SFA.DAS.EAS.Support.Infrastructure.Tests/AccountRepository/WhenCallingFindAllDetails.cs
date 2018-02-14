@@ -43,7 +43,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
                 .ThrowsAsync(e);
 
 
-            var actual = await Unit.FindAllDetails();
+            var actual = await _sut.FindAllDetails();
 
 
             AccountApiClient.Verify(x => x.GetPageOfAccounts(It.IsAny<int>(), It.IsAny<int>(), null), Times.Exactly(2));
@@ -87,7 +87,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
                 .ThrowsAsync(e);
 
 
-            var actual = await Unit.FindAllDetails();
+            var actual = await _sut.FindAllDetails();
 
 
             AccountApiClient.Verify(x => x.GetPageOfAccounts(It.IsAny<int>(), It.IsAny<int>(), null), Times.Exactly(2));
@@ -131,7 +131,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
                 .ReturnsAsync(new AccountDetailViewModel());
 
 
-            var actual = await Unit.FindAllDetails();
+            var actual = await _sut.FindAllDetails();
 
 
             AccountApiClient.Verify(x => x.GetPageOfAccounts(It.IsAny<int>(), It.IsAny<int>(), null), Times.Exactly(2));

@@ -2,6 +2,8 @@
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
 using SFA.DAS.EAS.Support.Core.Models;
+using SFA.DAS.EAS.Support.Infrastructure.Models;
+using SFA.DAS.EAS.Support.Infrastructure.Services;
 
 namespace SFA.DAS.EAS.Support.ApplicationServices
 {
@@ -58,7 +60,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices
                 || message.ChallengeElement2.Length != 1)
                 return response;
 
-            var record = await _accountRepository.Get(message.Id, AccountFieldsSelection.ChallengePayeSchemes);
+            var record = await _accountRepository.Get(message.Id, AccountFieldsSelection.PayeSchemes);
 
             if (record != null)
             {

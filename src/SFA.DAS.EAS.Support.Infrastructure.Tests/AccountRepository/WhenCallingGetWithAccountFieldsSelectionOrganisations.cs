@@ -42,7 +42,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Setup(x => x.GetResource<LegalEntityViewModel>(legalEntity.Href))
                 .ReturnsAsync(legalEntityResponse);
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.Organisations);
+            var actual = await _sut.Get(id, AccountFieldsSelection.Organisations);
 
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(accountResponse.LegalEntities.Count + 1));
@@ -88,7 +88,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Setup(x => x.GetResource<LegalEntityViewModel>(legalEntity.Href))
                 .ReturnsAsync(legalEntityResponse);
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.Organisations);
+            var actual = await _sut.Get(id, AccountFieldsSelection.Organisations);
 
 
             Logger.Verify(
@@ -122,7 +122,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
                 .ThrowsAsync(new Exception());
 
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.Organisations);
+            var actual = await _sut.Get(id, AccountFieldsSelection.Organisations);
 
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Once);
@@ -159,7 +159,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Setup(x => x.GetResource<LegalEntityViewModel>(legalEntity.Href))
                 .ThrowsAsync(new Exception());
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.Organisations);
+            var actual = await _sut.Get(id, AccountFieldsSelection.Organisations);
 
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));

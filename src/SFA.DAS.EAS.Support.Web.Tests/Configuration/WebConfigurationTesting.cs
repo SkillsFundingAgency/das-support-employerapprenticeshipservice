@@ -30,6 +30,27 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Configuration
                     Audience = "--- configuration value goes here ---",
                     Scope = "--- configuration value goes here ---",
                     Tenant = "--- configuration value goes here ---"
+                },
+                LevySubmission = new LevySubmissionsSettings
+                {
+                   HmrcApiBaseUrlSetting  = new HmrcApiBaseUrlConfig
+                   {
+                       HmrcApiBaseUrl ="--- configuration value goes here ---"
+                   },
+                    LevySubmissionsApiConfig = new LevySubmissionsApiConfiguration
+                    {
+                        ApiBaseUrl = "",
+                        ClientId = "",
+                        ClientSecret = "",
+                        IdentifierUri = "",
+                        Tenant = "",
+                        LevyTokenCertificatethumprint = ""
+                     }
+                },
+                HashingService = new HashingServiceConfig
+                {
+                    AllowedCharacters = "",
+                    Hashstring = ""
                 }
             };
         }

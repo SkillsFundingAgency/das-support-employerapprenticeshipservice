@@ -14,7 +14,7 @@ namespace SFA.DAS.EAS.Support.Core.Models
         public DateTime DateRegistered { get; set; }
         public string OwnerEmail { get; set; }
         public IEnumerable<LegalEntityViewModel> LegalEntities { get; set; }
-        public IEnumerable<PayeSchemeViewModel> PayeSchemes { get; set; }
+        public IEnumerable<PayeSchemeModel> PayeSchemes { get; set; }
         public ICollection<TeamMemberViewModel> TeamMembers { get; set; }
         public IEnumerable<TransactionViewModel> Transactions { get; set; }
     }

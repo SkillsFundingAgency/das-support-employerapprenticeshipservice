@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SFA.DAS.EAS.Account.Api.Types;
-using SFA.DAS.EAS.Support.ApplicationServices;
-using SFA.DAS.EAS.Support.ApplicationServices.Models;
-using SFA.DAS.EAS.Support.ApplicationServices.Services;
+using SFA.DAS.EAS.Support.Core.Models;
+using SFA.DAS.EAS.Support.Infrastructure.Models;
 
 namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {
@@ -32,7 +31,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
             return Math.Truncate(balance) == Math.Truncate(Convert.ToDecimal(messageBalance)) && validPayeSchemesData;
         }
 
-        private bool CheckPayeSchemesData(IEnumerable<PayeSchemeViewModel> recordPayeSchemes,
+        private bool CheckPayeSchemesData(IEnumerable<PayeSchemeModel> recordPayeSchemes,
             ChallengePermissionQuery message)
         {
             var challengeInput = new List<string>
@@ -41,7 +40,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                 message.ChallengeElement2.ToLower()
             };
 
-            var list = recordPayeSchemes.Select(x => x.Ref.Replace("/", string.Empty));
+            var list = recordPayeSchemes.Select(x => x.PayeRefWithOutSlash);
             var index1 = message.FirstCharacterPosition;
             var index2 = message.SecondCharacterPosition;
 

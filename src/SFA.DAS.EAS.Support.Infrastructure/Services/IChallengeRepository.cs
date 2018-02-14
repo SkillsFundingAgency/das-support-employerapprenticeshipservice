@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
-using SFA.DAS.EAS.Support.ApplicationServices.Models;
+﻿using SFA.DAS.EAS.Support.Infrastructure.Models;
+using System.Threading.Tasks;
 
-namespace SFA.DAS.EAS.Support.ApplicationServices.Services
+
+namespace SFA.DAS.EAS.Support.Infrastructure.Services
 {
     public interface IChallengeRepository
     {
