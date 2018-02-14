@@ -2,6 +2,7 @@
 using SFA.DAS.EAS.Account.Api.Types;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.Web.Models;
+using SFA.DAS.Support.Shared.Discovery;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,37 +11,29 @@ using System.Web;
 
 namespace SFA.DAS.EAS.Support.Web.Services
 {
-    public class PayeLevyDeclarationMapper: IPayeLevyDeclarationMapper
+    public class PayeLevyMapper : IPayeLevyMapper
     {
 
         public PayeSchemeLevyDeclarationViewModel MapPayeLevyDeclaration(PayeLevySubmissionsResponse model)
-        { 
-            var payeLevyDeclaration = new PayeSchemeLevyDeclarationViewModel
+        {
+            var payeLevyDeclaration = new PayeSchemeLevyDeclarationViewModel();
+
+            if (model == null)
             {
-                PayeSchemeName = model.PayeScheme?.Name,
-                PayeSchemeRef = model.PayeScheme?.Ref,
-                LevyDeclarations = model.LevySubmissions?.Declarations?.Select(o => MapLevyDeclarationViewModel(o)).ToList(),
-                PayeSchemeFormatedAddedDate = model.PayeScheme?.AddedDate == DateTime.MinValue ?
-                                              string.Empty :
-                                              ConvertDateTimeToDdmmyyyyFormat(model.PayeScheme.AddedDate)
-            };
+                return payeLevyDeclaration;
+            }
 
-
+            payeLevyDeclaration.PayeSchemeName = model.PayeScheme?.Name;
+            payeLevyDeclaration.PayeSchemeRef = model.PayeScheme?.ObscuredPayeRef;
+            payeLevyDeclaration.LevyDeclarations = model.LevySubmissions?.Declarations?.Select(o => MapLevyDeclarationViewModel(o)).ToList();
+            payeLevyDeclaration.PayeSchemeFormatedAddedDate = model.PayeScheme?.AddedDate == DateTime.MinValue ?
+                                          string.Empty :
+                                          ConvertDateTimeToDdmmyyyyFormat(model.PayeScheme.AddedDate);
             return payeLevyDeclaration;
         }
 
         private DeclarationViewModel MapLevyDeclarationViewModel(Declaration declaration)
         {
-            var rowClassToUse = "unprocessed-submission";
-
-            if (declaration.LevyDeclarationSubmissionStatus == LevyDeclarationSubmissionStatus.LateSubmission)
-            {
-                rowClassToUse = "late";
-            }
-            if (declaration.LevyDeclarationSubmissionStatus == LevyDeclarationSubmissionStatus.LatestSubmission)
-            {
-                rowClassToUse = "strong";
-            }
 
             var levy = new DeclarationViewModel
             {
@@ -49,7 +42,7 @@ namespace SFA.DAS.EAS.Support.Web.Services
                 LevySubmissionId = declaration.Id,
                 LevyDeclarationDescription = GetLevyDeclarationDescription(declaration),
                 YearToDateAmount = GetYearToDateAmount(declaration),
-                RowClass = rowClassToUse
+                SubmissionStatus = declaration.LevyDeclarationSubmissionStatus
             };
 
             return levy;

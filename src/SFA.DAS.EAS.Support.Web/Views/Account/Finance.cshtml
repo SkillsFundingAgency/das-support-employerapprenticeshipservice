@@ -1,4 +1,5 @@
 ﻿@using System.Globalization
+@using SFA.DAS.Support.Shared.Discovery
 @model SFA.DAS.EAS.Support.Web.Models.FinanceViewModel
 
 @{
@@ -29,9 +30,12 @@
                     <tbody>
                         @foreach (var paye in Model.Account.PayeSchemes)
                         {
+
+                            string portallink = $"/resource/index/{Model.Account.HashedAccountId}/?childId={paye.HashedPayeRef}&key={SupportServiceResourceKey.EmployerAccountPayeSchemeLevys}";
+
                         <tr>
                             <td data-label="Paye Schene Ref" id="PayeSchemeRef">
-                                @paye.Ref
+                                @paye.ObscuredPayeRef
                             </td>
                             <td data-label="Name" id="PayeSchemeName">
                                 @paye.Name
@@ -40,8 +44,7 @@
                                 @paye.AddedDate
                             </td>
                             <td data-label="View" id="view">
-                             
-                                @Html.ActionLink("view", "Index", "Resource", new { id = Model.Account.AccountId, parentId = paye.HashedPayeRef }, null)
+                                <a href="@portallink"> view</a>
                             </td>
                         </tr>
                         }
@@ -99,3 +102,4 @@ else
 {
     <p>Account not found</p>
 }
+

@@ -3,7 +3,7 @@ using SFA.DAS.EAS.Support.Web.Models;
 
 namespace SFA.DAS.EAS.Support.Web.Services
 {
-    public interface IPayeLevyDeclarationMapper
+    public interface IPayeLevyMapper
     {
         PayeSchemeLevyDeclarationViewModel MapPayeLevyDeclaration(PayeLevySubmissionsResponse model);
     }

@@ -15,5 +15,12 @@ namespace SFA.DAS.EAS.Support.Core.Models
         public DateTime AddedDate { get; set; }
         public DateTime? RemovedDate { get; set; }
         public string HashedPayeRef { get; set; }
+        public string ObscuredPayeRef { get; set; }
+        public string BasicPayeRef {
+            get
+            {
+                return Ref.Replace("/", string.Empty);
+            }
+        }
     }
 }

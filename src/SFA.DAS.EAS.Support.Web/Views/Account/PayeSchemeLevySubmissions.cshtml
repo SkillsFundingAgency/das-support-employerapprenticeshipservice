@@ -1,49 +1,82 @@
-﻿@model SFA.DAS.EAS.Support.Web.Models.PayeSchemeLevyDeclarationViewModel
+﻿@using HMRC.ESFA.Levy.Api.Types
+@model SFA.DAS.EAS.Support.Web.Models.PayeSchemeLevyDeclarationViewModel
+
+<style>
+
+    .late {
+        color: #b10e1e !important;
+    }
+
+    .latestSubmission {
+        font-weight: bold !important;
+    }
+</style>
 
 
-<h2 class="heading-xlarge">@Model.PayeSchemeRef Levy declarations</h2>
+<h2 class="heading-large"> @Model.PayeSchemeRef Levy declarations</h2>
 
-@if (!string.IsNullOrWhiteSpace(Model.PayeSchemeFormatedAddedDate))
-{
-    <h4 class="heading-medium"> @Model.PayeSchemeName</h4>
-}
+    @if (!string.IsNullOrWhiteSpace(Model.PayeSchemeFormatedAddedDate))
+    {
+        <h5 class="heading-small"> @Model.PayeSchemeName</h5>
+    }
+    @if (!string.IsNullOrWhiteSpace(Model.PayeSchemeFormatedAddedDate))
+    {
+        <p> Paye scheme added @Model.PayeSchemeFormatedAddedDate  </p>  
+    }
 
-@if (!string.IsNullOrWhiteSpace(Model.PayeSchemeFormatedAddedDate))
-{
-    <h4 class="heading-medium">PAYE scheme added @Model.PayeSchemeFormatedAddedDate</h4>
-}
+<br />
+
 
 @if (Model.LevyDeclarations != null && Model.LevyDeclarations.Any())
 {
-    <table id="submission-details">
-        <tr>
-            <th scope="col">Submission date</th>
-            <th scope="col">Payroll date</th>
-            <th scope="col">Id</th>
-            <th scope="col">Description</th>
-            <th scope="col">Levy YTD</th>
-        </tr>
+    <div class="column-full">
 
-        @foreach (var levySubmission in Model.LevyDeclarations)
-        {
+        <table id="submission-details" class="responsive">
+            <thead>
+                <tr>
+                    <th scope="col" class="">Submission date</th>
+                    <th scope="col" class="">Payroll date</th>
+                    <th scope="col" class="">Id</th>
+                    <th scope="col" class="">Description</th>
+                    <th scope="col" class="">Levy YTD</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var levySubmission in Model.LevyDeclarations)
+                {
+                    var rowClassToUse = "unprocessed-submission";
 
-            <tr>
-                <td class="@levySubmission.RowClass">
-                    @levySubmission.SubmissionDate
-                </td>
-                <td class="@levySubmission.RowClass">
-                    @levySubmission.PayrollDate
-                </td>
-                <td class="@levySubmission.RowClass">
-                    @levySubmission.LevySubmissionId
-                </td>
-                <td class="@levySubmission.RowClass">
-                    @levySubmission.LevyDeclarationDescription
-                </td>
-                <td class="@levySubmission.RowClass">
-                    @levySubmission.YearToDateAmount
-                </td>
-            </tr>
-        }
-    </table>
+                    if (levySubmission.SubmissionStatus == LevyDeclarationSubmissionStatus.LateSubmission)
+                    {
+                        rowClassToUse = "late";
+                    }
+                    if (levySubmission.SubmissionStatus == LevyDeclarationSubmissionStatus.LatestSubmission)
+                    {
+                        rowClassToUse = "latestSubmission";
+                    }
+
+                    <tr>
+                        <td class="@rowClassToUse">
+                            @levySubmission.SubmissionDate
+                        </td>
+                        <td class="@rowClassToUse">
+                            @levySubmission.PayrollDate
+                        </td>
+                        <td class="@rowClassToUse">
+                            @levySubmission.LevySubmissionId
+                        </td>
+                        <td class="@rowClassToUse">
+                            @levySubmission.LevyDeclarationDescription
+                        </td>
+                        <td class="@rowClassToUse">
+                            @levySubmission.YearToDateAmount
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+
 }

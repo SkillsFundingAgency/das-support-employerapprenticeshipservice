@@ -13,17 +13,17 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
         private readonly IAccountHandler _accountHandler;
         private readonly IPayeLevySubmissionsHandler _payeLevySubmissionsHandler;
         private readonly ILog _log;
-        private readonly IPayeLevyDeclarationMapper _payeLevyDeclarationMapper;
+        private readonly IPayeLevyMapper _payeLevyMapper;
 
         public AccountController(IAccountHandler accountHandler,
             IPayeLevySubmissionsHandler payeLevySubmissionsHandler,
             ILog log,
-            IPayeLevyDeclarationMapper payeLevyDeclarationMapper)
+            IPayeLevyMapper payeLevyDeclarationMapper)
         {
             _accountHandler = accountHandler;
             _payeLevySubmissionsHandler = payeLevySubmissionsHandler;
             _log = log;
-            _payeLevyDeclarationMapper = payeLevyDeclarationMapper;
+            _payeLevyMapper = payeLevyDeclarationMapper;
         }
 
         [Route("account/{id}/{parent}")]
@@ -96,7 +96,7 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
         public async Task<ActionResult> PayeSchemeLevySubmissions(string id, string parentId)
         {
             var response = await _payeLevySubmissionsHandler.Handle(id, parentId);
-            var model = _payeLevyDeclarationMapper.MapPayeLevyDeclaration(response);
+            var model = _payeLevyMapper.MapPayeLevyDeclaration(response);
             
             return View(model);
         }

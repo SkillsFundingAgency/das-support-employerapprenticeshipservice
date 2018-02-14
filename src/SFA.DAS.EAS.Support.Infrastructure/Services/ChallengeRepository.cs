@@ -40,7 +40,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                 message.ChallengeElement2.ToLower()
             };
 
-            var list = recordPayeSchemes.Select(x => x.Ref.Replace("/", string.Empty));
+            var list = recordPayeSchemes.Select(x => x.BasicPayeRef);
             var index1 = message.FirstCharacterPosition;
             var index2 = message.SecondCharacterPosition;
 

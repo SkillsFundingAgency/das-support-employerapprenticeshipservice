@@ -105,7 +105,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
                 Account = account.DasAccountName,
                 AccountID = account.HashedAccountId,
                 SearchType = SearchCategory.Account,
-                PayeSchemeIds = account.PayeSchemes?.Select(p => p.Ref).ToList()
+                PayeSchemeIds = account.PayeSchemes?.Select(p => p.BasicPayeRef).ToList()
             };
         }
     }

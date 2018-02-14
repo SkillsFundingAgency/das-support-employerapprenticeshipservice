@@ -10,8 +10,8 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
     {
         public List<int> GetPayeSchemesCharacters(IEnumerable<PayeSchemeModel> payeSchemes)
         {
-            var schemes = payeSchemes.Select(payeSchemeViewModel =>
-                    payeSchemeViewModel.Ref.Substring(1, payeSchemeViewModel.Ref.Length - 2).Replace("/", string.Empty))
+            var schemes = payeSchemes
+                .Select(p =>p.ObscuredPayeRef.Substring(1, p.ObscuredPayeRef.Length - 2).Replace("/", string.Empty))
                 .ToList();
 
             var range = GetMinimumNumberOfCharacters(schemes);

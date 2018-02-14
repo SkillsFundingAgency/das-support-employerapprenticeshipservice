@@ -6,8 +6,6 @@
         PayeSchemes = 1,
         TeamMembers = 2,
         Finance = 3,
-        RawPayeSchemes = 4,
-        SearchPayeSchemes = 5,
         None
     }
 }

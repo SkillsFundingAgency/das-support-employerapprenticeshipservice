@@ -42,7 +42,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.PayeSchemeLevySubmission
 
 
         [Test]
-        public void ShouldReturnLevyResponseAndCallRequiredMethods()
+        public async Task ShouldReturnLevyResponseAndCallRequiredMethods()
         {
 
             var levyDeclarations = new LevyDeclarations
@@ -65,7 +65,14 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.PayeSchemeLevySubmission
             var accountModel = new Core.Models.Account
             {
                 HashedAccountId = _accountId,
-                DasAccountName = "TEST"
+                DasAccountName = "TEST",
+                PayeSchemes = new List<PayeSchemeModel>
+                {
+                    new PayeSchemeModel
+                    {
+                        Ref = _actualPayeRef
+                    }
+               }
             };
 
             _accountRepository
@@ -91,7 +98,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.PayeSchemeLevySubmission
                                                     _hashingService.Object);
 
 
-            var response = _sut.Handle(_accountId, _hashedPayeRef);
+            var response = await _sut.Handle(_accountId, _hashedPayeRef);
 
             _payeSchemeObfuscator
               .Verify(x => x.ObscurePayeScheme(_actualPayeRef), Times.Once);
@@ -99,8 +106,12 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.PayeSchemeLevySubmission
             _hashingService
                 .Verify(x => x.DecodeValueToString(_hashedPayeRef), Times.Once);
 
+            _levySubmissionsRepository
+                .Verify(x => x.Get(_actualPayeRef), Times.Once);
 
-
+            Assert.NotNull(response);
+            Assert.IsNotNull(response.LevySubmissions);
+            Assert.AreEqual(2, response.LevySubmissions.Declarations.Count());
         }
 
     }

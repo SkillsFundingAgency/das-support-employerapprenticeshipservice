@@ -17,7 +17,7 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Account
         protected Mock<IAccountHandler> AccountHandler;
         protected Mock<IPayeLevySubmissionsHandler> _payeLevySubmissionsHandler;
         protected Mock<ILog> _logger;
-        protected Mock<IPayeLevyDeclarationMapper> _payeLevyDeclarationMapper;
+        protected Mock<IPayeLevyMapper> _payeLevyDeclarationMapper;
         protected AccountController Unit;
 
 
@@ -27,7 +27,7 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Account
             AccountHandler = new Mock<IAccountHandler>();
             _payeLevySubmissionsHandler = new Mock<IPayeLevySubmissionsHandler>();
             _logger = new Mock<ILog>();
-            _payeLevyDeclarationMapper = new Mock<IPayeLevyDeclarationMapper>();
+            _payeLevyDeclarationMapper = new Mock<IPayeLevyMapper>();
 
             Unit = new AccountController(AccountHandler.Object,
                 _payeLevySubmissionsHandler.Object,

@@ -20,7 +20,7 @@ namespace SFA.DAS.EAS.Support.Web.DependencyResolution
             For<IChallengeHandler>().Use<ChallengeHandler>();
             For<ILevySubmissionsRepository>().Use<LevySubmissionsRepository>();
             For<IPayeLevySubmissionsHandler>().Use<PayeLevySubmissionsHandler>();
-            For<IPayeLevyDeclarationMapper>().Use<PayeLevyDeclarationMapper>();
+            For<IPayeLevyMapper>().Use<PayeLevyMapper>();
         }
     }
 }

@@ -36,7 +36,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
 
         public async Task<PayeLevySubmissionsResponse> Handle(string accountId, string hashedPayeRef)
         {
-            var account = await _accountRepository.Get(accountId, AccountFieldsSelection.RawPayeSchemes);
+            var account = await _accountRepository.Get(accountId, AccountFieldsSelection.PayeSchemes);
 
             if (account == null)
             {
