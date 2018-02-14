@@ -98,7 +98,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.PayeSchemeLevySubmission
                                                     _hashingService.Object);
 
 
-            var response = await _sut.Handle(_accountId, _hashedPayeRef);
+            var response = await _sut.FindPayeSchemeLevySubmissions(_accountId, _hashedPayeRef);
 
             _payeSchemeObfuscator
               .Verify(x => x.ObscurePayeScheme(_actualPayeRef), Times.Once);

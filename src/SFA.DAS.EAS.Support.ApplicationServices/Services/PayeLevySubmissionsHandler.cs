@@ -34,7 +34,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
             _hashingService = hashingService;
         }
 
-        public async Task<PayeLevySubmissionsResponse> Handle(string accountId, string hashedPayeRef)
+        public async Task<PayeLevySubmissionsResponse> FindPayeSchemeLevySubmissions(string accountId, string hashedPayeRef)
         {
             var account = await _accountRepository.Get(accountId, AccountFieldsSelection.PayeSchemes);
 

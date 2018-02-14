@@ -5,6 +5,6 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
 {
     public interface IPayeLevySubmissionsHandler
     {
-        Task<PayeLevySubmissionsResponse> Handle(string accountId, string payeId);
+        Task<PayeLevySubmissionsResponse> FindPayeSchemeLevySubmissions(string accountId, string payeId);
     }
 }

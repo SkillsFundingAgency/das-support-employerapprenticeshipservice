@@ -76,7 +76,7 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
         [Route("account/team/{id}")]
         public async Task<ActionResult> Team(string id)
         {
-            var response = await _handler.FindTeamMembers(id);
+            var response = await _accountHandler.FindTeamMembers(id);
 
             if (response.StatusCode == SearchResponseCodes.Success)
             {
@@ -111,13 +111,18 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             return HttpNotFound();
         }
 
-        [Route("account/levysubmissions/{id}/{parentId}")]
-        public async Task<ActionResult> PayeSchemeLevySubmissions(string id, string parentId)
+        [Route("account/levysubmissions/{id}/{payeSchemeId}")]
+        public async Task<ActionResult> PayeSchemeLevySubmissions(string id, string payeSchemeId)
         {
-            var response = await _payeLevySubmissionsHandler.Handle(id, parentId);
-            var model = _payeLevyMapper.MapPayeLevyDeclaration(response);
-            
-            return View(model);
+            var response = await _payeLevySubmissionsHandler.FindPayeSchemeLevySubmissions(id, payeSchemeId);
+
+            if (response.StatusCode != PayeLevySubmissionsResponseCodes.AccountNotFound)
+            {
+                var model = _payeLevyMapper.MapPayeLevyDeclaration(response);
+                return View(model);
+            }
+
+            return HttpNotFound();
         }
     }
 }
