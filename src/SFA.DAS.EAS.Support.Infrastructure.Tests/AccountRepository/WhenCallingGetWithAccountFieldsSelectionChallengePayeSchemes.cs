@@ -69,11 +69,11 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Setup(x => x.GetResource<PayeSchemeViewModel>(It.IsAny<string>()))
                 .ReturnsAsync(payeSchemeViewModel);
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.RawPayeSchemes);
+            var actual = await _sut.Get(id, AccountFieldsSelection.PayeSchemes);
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));
 
-            PayeSchemeObfuscator.Verify(x => x.ObscurePayeScheme(It.IsAny<string>()), Times.Exactly(1));
+            PayeSchemeObfuscator.Verify(x => x.ObscurePayeScheme(It.IsAny<string>()), Times.Exactly(2));
 
 
             Assert.IsNotNull(actual);

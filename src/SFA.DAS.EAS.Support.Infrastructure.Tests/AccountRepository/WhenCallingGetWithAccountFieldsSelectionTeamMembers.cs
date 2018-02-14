@@ -33,7 +33,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Setup(x => x.GetAccountUsers(accountDetailViewModel.HashedAccountId))
                 .ThrowsAsync(new Exception("Some Exception"));
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.TeamMembers);
+            var actual = await _sut.Get(id, AccountFieldsSelection.TeamMembers);
 
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));
@@ -68,7 +68,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Setup(x => x.GetAccountUsers(accountDetailViewModel.HashedAccountId))
                 .ReturnsAsync(teamMemberResponse);
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.TeamMembers);
+            var actual = await _sut.Get(id, AccountFieldsSelection.TeamMembers);
 
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));

@@ -76,7 +76,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.PayeSchemeLevySubmission
             };
 
             _accountRepository
-                .Setup(x => x.Get(_accountId, AccountFieldsSelection.RawPayeSchemes))
+                .Setup(x => x.Get(_accountId, AccountFieldsSelection.PayeSchemes))
                 .Returns(Task.FromResult(accountModel));
 
             _hashingService

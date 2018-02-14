@@ -24,7 +24,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             Logger.Setup(x => x.Debug(It.IsAny<string>()));
             Logger.Setup(x => x.Error(It.IsAny<Exception>(), It.IsAny<string>()));
 
-            var actual = await Unit.GetAccountBalance(id);
+            var actual = await _sut.GetAccountBalance(id);
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Never);
             Logger.Verify(x => x.Error(exception, $"Account Balance with id {id} not found"), Times.Once);
@@ -49,7 +49,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Setup(x => x.GetResource<AccountWithBalanceViewModel>($"/api/accounts/{id}"))
                 .ReturnsAsync(response);
 
-            var actual = await Unit.GetAccountBalance(id);
+            var actual = await _sut.GetAccountBalance(id);
 
             Logger.Verify(x =>
                 x.Debug(

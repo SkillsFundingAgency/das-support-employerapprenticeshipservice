@@ -20,7 +20,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Setup(x => x.GetResource<AccountDetailViewModel>($"/api/accounts/{id}"))
                 .ThrowsAsync(new Exception());
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.PayeSchemes);
+            var actual = await _sut.Get(id, AccountFieldsSelection.PayeSchemes);
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Once);
             Logger.Verify(x => x.Error(It.IsAny<Exception>(), $"Account with id {id} not found"));
@@ -82,7 +82,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Setup(x => x.GetResource<PayeSchemeViewModel>(It.IsAny<string>()))
                 .ReturnsAsync(payeSchemeViewModel);
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.PayeSchemes);
+            var actual = await _sut.Get(id, AccountFieldsSelection.PayeSchemes);
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));
 

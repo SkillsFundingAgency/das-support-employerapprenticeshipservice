@@ -34,7 +34,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
 
             } );
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.TeamMembers);
+            var actual = await _sut.Get(id, AccountFieldsSelection.TeamMembers);
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Exactly(2));
 
@@ -54,7 +54,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             AccountApiClient.Setup(x => x.GetResource<AccountDetailViewModel>($"/api/accounts/{id}"))
                 .ThrowsAsync(new Exception());
 
-            var actual = await Unit.Get(id, AccountFieldsSelection.TeamMembers);
+            var actual = await _sut.Get(id, AccountFieldsSelection.TeamMembers);
 
             Logger.Verify(x => x.Debug(It.IsAny<string>()), Times.Once);
             Logger.Verify(x => x.Error(It.IsAny<Exception>(), $"Account with id {id} not found"));

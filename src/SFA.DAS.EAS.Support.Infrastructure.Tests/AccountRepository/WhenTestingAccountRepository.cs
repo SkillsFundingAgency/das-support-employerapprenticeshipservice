@@ -18,7 +18,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
         protected Mock<IPayeSchemeObfuscator> PayeSchemeObfuscator;
         protected Mock<IHashingService> HashingService;
 
-        protected IAccountRepository Unit;
+        protected IAccountRepository _sut;
 
         [SetUp]
         public void Setup()
@@ -29,7 +29,7 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
             PayeSchemeObfuscator = new Mock<IPayeSchemeObfuscator>();
             HashingService = new Mock<IHashingService>();
 
-            Unit = new Services.AccountRepository(
+            _sut = new Services.AccountRepository(
                 AccountApiClient.Object,
                 PayeSchemeObfuscator.Object,
                 DatetimeService.Object,

@@ -10,13 +10,14 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.Services
     [TestFixture]
     public class WhenTestingChallengeService
     {
+
+      private ChallengeService _sut;
+
         [SetUp]
         public void Setup()
         {
-            _unit = new ChallengeService();
+            _sut = new ChallengeService();
         }
-
-        private ChallengeService _unit;
 
         [Test]
         public void ItShouldObtainAnIndexlistFromTheListOfPayeSchemDetails()
@@ -29,11 +30,12 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.Services
                     Name = "Account 123",
                     DasAccountId = "123",
                     Ref = "123/123456",
+                    ObscuredPayeRef="1**/*****6",
                     RemovedDate = null
                 }
             };
 
-            var actual = _unit.GetPayeSchemesCharacters(payeSchemeModel);
+            var actual = _sut.GetPayeSchemesCharacters(payeSchemeModel);
 
             Assert.IsNotNull(actual);
             CollectionAssert.IsNotEmpty(actual);
