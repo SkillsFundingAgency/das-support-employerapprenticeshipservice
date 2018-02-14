@@ -20,7 +20,7 @@
       <Setting name="LoggingRedisConnectionString" />
       <Setting name="EnvironmentName"/>
       <Setting name="InstrumentationKey"/>
-      <Setting name-"LevySubmissionLevySubmissionsApiConfigurationLevyTokenCertificatethumprint" />      
+      <Setting name="LevySubmissionLevySubmissionsApiConfigurationLevyTokenCertificatethumprint" />      
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="Endpoint1" protocol="https" port="443" certificate="WebSslCert" loadBalancer="das-seas-ilb" />
