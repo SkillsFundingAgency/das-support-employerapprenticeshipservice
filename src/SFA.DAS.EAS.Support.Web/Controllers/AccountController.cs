@@ -26,8 +26,8 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             _payeLevyMapper = payeLevyDeclarationMapper;
         }
 
-        [Route("account/{id}/{parent}")]
-        public async Task<ActionResult> Index(string id, string parent)
+        [Route("account/{id}")]
+        public async Task<ActionResult> Index(string id)
         {
             var response = await _accountHandler.FindOrganisations(id);
 
