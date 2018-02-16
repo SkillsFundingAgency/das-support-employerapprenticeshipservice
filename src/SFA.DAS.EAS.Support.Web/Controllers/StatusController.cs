@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using SFA.DAS.Support.Shared;
 
 namespace SFA.DAS.EAS.Support.Web.Controllers
 {
@@ -15,11 +17,23 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             return Ok(new
             {
                 ServiceName = AddServiceName(),
+                ServiceVersion = AddServiceVersion(),
                 ServiceTime = AddServerTime(),
                 Request = AddRequestContext()
             });
         }
-
+        
+        private string AddServiceVersion()
+        {
+            try
+            {
+                return Assembly.GetExecutingAssembly().Version();
+            }
+            catch (Exception e)
+            {
+                return "Unknown";
+            }
+        }
         private string AddRequestContext()
         {
             try
