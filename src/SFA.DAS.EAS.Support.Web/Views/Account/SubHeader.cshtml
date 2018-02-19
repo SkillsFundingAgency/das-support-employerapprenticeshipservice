@@ -9,7 +9,7 @@
             @(Model?.DasAccountName)
             @if (!string.IsNullOrEmpty(Model?.HashedAccountId))
             {
-                <span class="heading-secondary"> Account ID @(Model?.HashedAccountId)</span>
+                <span class="heading-secondary"> Account ID @(Model?.HashedAccountId), created @Model.DateRegistered.ToString("dd/MM/yyyy")</span>
             }
         </h1>
     </div>
