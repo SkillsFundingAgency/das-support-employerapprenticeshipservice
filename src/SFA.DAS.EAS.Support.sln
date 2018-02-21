@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "SFA.DAS.EAS.Support.CloudService", "SFA.DAS.EAS.Support.CloudService\SFA.DAS.EAS.Support.CloudService.ccproj", "{E33EAE3E-3261-4031-B074-2F80FBD5588B}"
 EndProject
@@ -22,6 +22,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.EAS.Support.Web.Tests", "SFA.DAS.EAS.Support.Web.Tests\SFA.DAS.EAS.Support.Web.Tests.csproj", "{3A12B307-CF89-4E81-BE7B-E072CC5B8052}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.EAS.Support.Core.Tests", "SFA.DAS.EAS.Support.Core.Tests\SFA.DAS.EAS.Support.Core.Tests.csproj", "{337A1239-3D03-4D22-B665-11D038691E51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E52508D6-BBFF-40D2-8545-20A348EA330C}"
+	ProjectSection(SolutionItems) = preProject
+		Build.fsx = Build.fsx
+		CustomTargets.fsx = CustomTargets.fsx
+		DefaultTargets.fsx = DefaultTargets.fsx
+		RunBuild.bat = RunBuild.bat
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
