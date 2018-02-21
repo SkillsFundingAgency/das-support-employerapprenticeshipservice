@@ -21,10 +21,10 @@
                 @foreach (var item in Model.Account.LegalEntities)
                 {
                     <tr>
-                        <td data-label="User Name" id="Name">@item.Name</td>
-                        <td data-label="User Status" id="Status">@item.Address</td>
-                        <td data-label="User Role" id="Role">@item.Source</td>
-                        <td data-label="User Role" id="Role">@item.AgreementStatus</td>
+                        <td data-label="Name" id="NameColumn">@item.Name</td>
+                        <td data-label="Address" id="AddressColumn">@item.Address</td>
+                        <td data-label="Source" id="SourceColumn">@item.Source</td>
+                        <td data-label="AgreementStatus" id="AgreementStatusColumn">@item.AgreementStatus</td>
                     </tr>
                 }
             </tbody>
