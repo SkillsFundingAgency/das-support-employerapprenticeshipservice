@@ -7,5 +7,7 @@ namespace SFA.DAS.EAS.Support.Web.Models
     {
         public Core.Models.Account Account { get; set; }
         public string SearchUrl { get; set; }
+
+        public string AccountUri { get; set; }
     }
 }
