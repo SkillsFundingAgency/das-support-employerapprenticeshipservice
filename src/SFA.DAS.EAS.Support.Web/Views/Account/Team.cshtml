@@ -1,9 +1,10 @@
-﻿@model SFA.DAS.EAS.Support.Web.Models.AccountDetailViewModel
+﻿@using SFA.DAS.EAS.Support.Web.Models
+@model AccountDetailViewModel
 
 @if (Model.Account != null)
 {
     <h1 class="heading-xlarge">
-        Team  Members
+        Team  members
     </h1>
 
     if (Model.Account.TeamMembers.Any())
@@ -12,27 +13,28 @@
             <thead>
                 <tr>
                     <th scope="col" class="">Name</th>
-                    <th scope="col" class="">Status</th>
-                    <th scope="col" class="">Role</th>
                     <th scope="col" class="">Email</th>
+                    <th scope="col" class="">Role</th>
+                    <th scope="col" class="">Status</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model.Account.TeamMembers)
                 {
-                    <tr>
-                        <td data-label="User Name" id="Name">@item.Name</td>
-                        <td data-label="User Status" id="Status">@item.Status</td>
-                        <td data-label="User Role" id="Role">@item.Role</td>
-                        <td data-label="User Email" id="Email">@item.Email</td>
-                    </tr>
+                <tr>
+                    <td data-label="User Name" id="Name">@item.Name</td>
+                    <td data-label="User Email" id="Email">@item.Email</td>
+                    <td data-label="User Role" id="Role">@item.Role</td>
+                    <td data-label="User Status" id="Status">@item.Status.GetTeamMemberStatus()</td>
+
+                </tr>
                 }
             </tbody>
         </table>
     }
     else
     {
-        <p>No Team Members available</p>
+        <p>No Team members available</p>
     }
 }
 else
