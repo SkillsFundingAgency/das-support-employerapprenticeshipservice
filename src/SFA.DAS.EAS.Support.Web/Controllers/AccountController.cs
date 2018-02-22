@@ -5,6 +5,7 @@ using SFA.DAS.EAS.Support.ApplicationServices.Services;
 using SFA.DAS.EAS.Support.Web.Models;
 using SFA.DAS.EAS.Support.Web.Services;
 using SFA.DAS.NLog.Logger;
+using SFA.DAS.Support.Shared.Discovery;
 
 namespace SFA.DAS.EAS.Support.Web.Controllers
 {
@@ -35,7 +36,9 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             {
                 var vm = new AccountDetailViewModel
                 {
-                    Account = response.Account
+                    Account = response.Account,
+                    AccountUri = $"/resource/index/{{0}}?key={SupportServiceResourceKey.EmployerUser}"
+
                 };
 
                 return View(vm);
@@ -53,7 +56,8 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             {
                 var vm = new AccountDetailViewModel
                 {
-                    Account = response.Account
+                    Account = response.Account,
+                    AccountUri = $"/resource/index/{{0}}?key={SupportServiceResourceKey.EmployerUser}"
                 };
 
                 return View(vm);
@@ -82,7 +86,8 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             {
                 var vm = new AccountDetailViewModel
                 {
-                    Account = response.Account
+                    Account = response.Account,
+                    AccountUri = $"/resource/index/{{0}}?key={SupportServiceResourceKey.EmployerUser}"
                 };
 
                 return View(vm);
