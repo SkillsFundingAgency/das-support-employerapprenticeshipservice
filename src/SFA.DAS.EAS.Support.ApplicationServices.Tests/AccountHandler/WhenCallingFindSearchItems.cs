@@ -28,9 +28,9 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.AccountHandler
                 }
             };
 
-            MockAccountRepository.Setup(r => r.FindAllDetails()).ReturnsAsync(accountDetailModels);
+            MockAccountRepository.Setup(r => r.FindAllDetails(10,1)).ReturnsAsync(accountDetailModels);
 
-            var actual = await Unit.FindSearchItems();
+            var actual = await Unit.FindAllAccounts(10,1);
             Assert.IsNotNull(actual);
             Assert.AreEqual(2, actual.Count());
         }
@@ -40,9 +40,9 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.AccountHandler
         {
             var accountDetailModels = new List<Core.Models.Account>();
 
-            MockAccountRepository.Setup(r => r.FindAllDetails()).ReturnsAsync(accountDetailModels);
+            MockAccountRepository.Setup(r => r.FindAllDetails(10,1)).ReturnsAsync(accountDetailModels);
 
-            var actual = await Unit.FindSearchItems();
+            var actual = await Unit.FindAllAccounts(10,1);
             Assert.IsNotNull(actual);
             Assert.AreEqual(0, actual.Count());
         }
