@@ -12,11 +12,14 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
     [TestFixture]
     public class WhenCallingFindAllDetails : WhenTestingAccountRepository
     {
-        [Test]
-        public async Task ItShouldReturnAnEmptyListIfGetAccountsThrowsAnException()
+
+        PagedApiResponseViewModel<AccountWithBalanceViewModel> _pagedApiResponseViewModel;
+        List<AccountWithBalanceViewModel> _accountWithBalanceViewModels;
+
+        [SetUp]
+        public void InitialiseTest()
         {
-            var id = "123";
-            var accountWithBalanceViewModels = new List<AccountWithBalanceViewModel>
+            _accountWithBalanceViewModels = new List<AccountWithBalanceViewModel>
             {
                 new AccountWithBalanceViewModel
                 {
@@ -26,30 +29,55 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
                     Href = "http://tempuri.org/account/ERERE",
                     AccountName = "Test Account",
                     IsLevyPayer = true
+                },
+                new AccountWithBalanceViewModel
+                {
+                    AccountId = 345,
+                    AccountHashId = "CNDFJ",
+                    Balance = 1000m,
+                    Href = "http://tempuri.org/account/CNDFJ",
+                    AccountName = "Test Account 2",
+                    IsLevyPayer = true
                 }
             };
-            var pagedApiResponseViewModel = new PagedApiResponseViewModel<AccountWithBalanceViewModel>
+
+            _pagedApiResponseViewModel = new PagedApiResponseViewModel<AccountWithBalanceViewModel>
             {
-                Data = accountWithBalanceViewModels,
+                Data = _accountWithBalanceViewModels,
                 Page = 1,
                 TotalPages = 2
             };
 
-            AccountApiClient.Setup(x => x.GetPageOfAccounts(It.IsAny<int>(), 10, null))
-                .ReturnsAsync(pagedApiResponseViewModel);
+            Setup();
+        }
+
+
+        [Test]
+        public async Task ItShouldReturnAnEmptyListIfGetAccountsThrowsAnException()
+        {
+            AccountApiClient
+                .Setup(x => x.GetPageOfAccounts(It.IsAny<int>(), 10, null))
+                 .ReturnsAsync(_pagedApiResponseViewModel);
 
             var e = new Exception("Some exception message");
-            AccountApiClient.Setup(x => x.GetAccount(It.IsAny<string>()))
+            AccountApiClient
+                .Setup(x => x.GetAccount(It.IsAny<string>()))
                 .ThrowsAsync(e);
 
+            _sut = new Services.AccountRepository(
+                             AccountApiClient.Object,
+                             PayeSchemeObfuscator.Object,
+                             DatetimeService.Object,
+                             Logger.Object,
+                             HashingService.Object);
 
-            var actual = await _sut.FindAllDetails();
+            var actual = await _sut.FindAllDetails(10, 1);
 
 
-            AccountApiClient.Verify(x => x.GetPageOfAccounts(It.IsAny<int>(), It.IsAny<int>(), null), Times.Exactly(2));
-            AccountApiClient.Verify(x => x.GetAccount(It.IsAny<string>()), Times.Exactly(2));
+            AccountApiClient.Verify(x => x.GetPageOfAccounts(It.IsAny<int>(), It.IsAny<int>(), null), Times.AtLeastOnce);
+            AccountApiClient.Verify(x => x.GetAccount(It.IsAny<string>()), Times.AtLeastOnce);
 
-            Logger.Verify(x => x.Error(e, $"Exception while retrieving details for account ID {accountWithBalanceViewModels.First().AccountHashId}"));
+            Logger.Verify(x => x.Error(e, $"Exception while retrieving details for account ID {_accountWithBalanceViewModels.First().AccountHashId}"));
 
             Assert.IsNotNull(actual);
             var list = actual.ToList();
@@ -59,84 +87,54 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
         [Test]
         public async Task ItShouldReturnAnEmptyListIfGetAccountsThrowsAnHttpRequestException()
         {
-            var id = "123";
-            var accountWithBalanceViewModels = new List<AccountWithBalanceViewModel>
-            {
-                new AccountWithBalanceViewModel
-                {
-                    AccountId = 123,
-                    AccountHashId = "ERERE",
-                    Balance = 1000m,
-                    Href = "http://tempuri.org/account/ERERE",
-                    AccountName = "Test Account",
-                    IsLevyPayer = true
-                }
-            };
-            var pagedApiResponseViewModel = new PagedApiResponseViewModel<AccountWithBalanceViewModel>
-            {
-                Data = accountWithBalanceViewModels,
-                Page = 1,
-                TotalPages = 2
-            };
-
-            AccountApiClient.Setup(x => x.GetPageOfAccounts(It.IsAny<int>(), 10, null))
-                .ReturnsAsync(pagedApiResponseViewModel);
+            AccountApiClient
+             .Setup(x => x.GetPageOfAccounts(It.IsAny<int>(), 10, null))
+              .ReturnsAsync(_pagedApiResponseViewModel);
 
             var e = new HttpRequestException("Some exception message");
-            AccountApiClient.Setup(x => x.GetAccount(It.IsAny<string>()))
+            AccountApiClient
+                .Setup(x => x.GetAccount(It.IsAny<string>()))
                 .ThrowsAsync(e);
 
+            _sut = new Services.AccountRepository(
+                             AccountApiClient.Object,
+                             PayeSchemeObfuscator.Object,
+                             DatetimeService.Object,
+                             Logger.Object,
+                             HashingService.Object);
 
-            var actual = await _sut.FindAllDetails();
+            var actual = await _sut.FindAllDetails(10, 1);
 
-
-            AccountApiClient.Verify(x => x.GetPageOfAccounts(It.IsAny<int>(), It.IsAny<int>(), null), Times.Exactly(2));
-            AccountApiClient.Verify(x => x.GetAccount(It.IsAny<string>()), Times.Exactly(2));
-
-            Logger.Verify(x => x.Error(e, $"Exception while retrieving details for account ID {accountWithBalanceViewModels.First().AccountHashId}"));
-
+            AccountApiClient.Verify(x => x.GetPageOfAccounts(It.IsAny<int>(), It.IsAny<int>(), null), Times.AtLeastOnce);
+            AccountApiClient.Verify(x => x.GetAccount(It.IsAny<string>()), Times.AtLeastOnce);
+            Logger.Verify(x => x.Error(e, $"Exception while retrieving details for account ID {_accountWithBalanceViewModels.First().AccountHashId}"));
             Assert.IsNotNull(actual);
-            var list = actual.ToList();
-            CollectionAssert.IsEmpty(list);
+            CollectionAssert.IsEmpty(actual.ToList());
+
         }
 
 
         [Test]
         public async Task ItShouldReturnTheEntireListOfAccounts()
         {
-            var id = "123";
-            var accountWithBalanceViewModels = new List<AccountWithBalanceViewModel>
-            {
-                new AccountWithBalanceViewModel
-                {
-                    AccountId = 123,
-                    AccountHashId = "ERERE",
-                    Balance = 1000m,
-                    Href = "http://tempuri.org/account/ERERE",
-                    AccountName = "Test Account",
-                    IsLevyPayer = true
-                }
-            };
-            var pagedApiResponseViewModel = new PagedApiResponseViewModel<AccountWithBalanceViewModel>
-            {
-                Data = accountWithBalanceViewModels,
-                Page = 1,
-                TotalPages = 2
-            };
-
             AccountApiClient.Setup(x => x.GetPageOfAccounts(It.IsAny<int>(), 10, null))
-                .ReturnsAsync(pagedApiResponseViewModel);
+                .ReturnsAsync(_pagedApiResponseViewModel);
 
-            AccountApiClient.Setup(x => x.GetAccount(It.IsAny<string>()))
+            AccountApiClient
+                .Setup(x => x.GetAccount(It.IsAny<string>()))
                 .ReturnsAsync(new AccountDetailViewModel());
 
+            _sut = new Services.AccountRepository(
+                            AccountApiClient.Object,
+                            PayeSchemeObfuscator.Object,
+                            DatetimeService.Object,
+                            Logger.Object,
+                            HashingService.Object);
 
-            var actual = await _sut.FindAllDetails();
+            var actual = await _sut.FindAllDetails(10, 1);
 
-
-            AccountApiClient.Verify(x => x.GetPageOfAccounts(It.IsAny<int>(), It.IsAny<int>(), null), Times.Exactly(2));
+            AccountApiClient.Verify(x => x.GetPageOfAccounts(It.IsAny<int>(), It.IsAny<int>(), null), Times.Once);
             AccountApiClient.Verify(x => x.GetAccount(It.IsAny<string>()), Times.Exactly(2));
-
             Assert.IsNotNull(actual);
             var list = actual.ToList();
             CollectionAssert.IsNotEmpty(list);

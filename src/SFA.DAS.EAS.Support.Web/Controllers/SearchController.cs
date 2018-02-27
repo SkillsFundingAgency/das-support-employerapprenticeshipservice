@@ -4,7 +4,6 @@ using SFA.DAS.EAS.Support.ApplicationServices.Services;
 
 namespace SFA.DAS.EAS.Support.Web.Controllers
 {
-    [RoutePrefix("api/search")]
     public class SearchController : ApiController
     {
         private readonly IAccountHandler _handler;
@@ -15,9 +14,18 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> Organisations()
+        [Route("api/search/accounts/{pagesize}/{pagenumber}")]
+        public async Task<IHttpActionResult> Accounts(int pageSize, int pageNumber)
         {
-            var accounts = await _handler.FindSearchItems();
+            var accounts = await _handler.FindAllAccounts(pageSize, pageNumber);
+            return Json(accounts);
+        }
+
+        [HttpGet]
+        [Route("api/search/accounts/totalCount/{pageSize}")]
+        public async Task<IHttpActionResult> AllAccountsTotalCount(int pageSize)
+        {
+            var accounts = await _handler.TotalAccountRecords(pageSize);
             return Json(accounts);
         }
     }

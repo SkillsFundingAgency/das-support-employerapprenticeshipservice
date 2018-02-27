@@ -74,10 +74,10 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
             return response;
         }
 
-        public async Task<IEnumerable<AccountSearchModel>> FindSearchItems()
+        public async Task<IEnumerable<AccountSearchModel>> FindAllAccounts(int pagesize, int pageNumber)
         {
-            var models = await _accountRepository.FindAllDetails();
-            return models.Select(x => Map(x)).ToList();
+            var models = await _accountRepository.FindAllDetails(pagesize, pageNumber);
+            return models.Select(x => Map(x));
         }
 
         public async Task<AccountReponse> Find(string id)
@@ -114,7 +114,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
 
             return response;
         }
-        public AccountSearchModel Map(Core.Models.Account account)
+        private AccountSearchModel Map(Core.Models.Account account)
         {
             return new AccountSearchModel
             {
@@ -123,6 +123,11 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
                 SearchType = SearchCategory.Account,
                 PayeSchemeIds = account.PayeSchemes?.Select(p => p.PayeRefWithOutSlash).ToList()
             };
+        }
+
+        public async Task<int> TotalAccountRecords(int pagesize)
+        {
+            return await _accountRepository.TotalAccountRecords(pagesize);
         }
     }
 }
