@@ -61,8 +61,8 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             {
                 Id = challengeEntry.Id,
                 Url = challengeEntry.Url,
-                ChallengeElement1 = challengeEntry.Challenge1.ToString(),
-                ChallengeElement2 = challengeEntry.Challenge2.ToString(),
+                ChallengeElement1 = challengeEntry.Challenge1,
+                ChallengeElement2 = challengeEntry.Challenge2,
                 Balance = challengeEntry.Balance,
                 FirstCharacterPosition = challengeEntry.FirstCharacterPosition,
                 SecondCharacterPosition = challengeEntry.SecondCharacterPosition
