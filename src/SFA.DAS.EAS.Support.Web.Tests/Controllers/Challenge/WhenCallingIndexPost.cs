@@ -52,7 +52,7 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
             MockChallengeHandler.Setup(x => x.Handle(It.IsAny<ChallengePermissionQuery>()))
                 .ReturnsAsync(response);
 
-            var actual = await Unit.Index(challengeEntry);
+            var actual = await Unit.Index(challengeEntry.Id, challengeEntry);
 
             Assert.IsNotNull(actual);
             Assert.IsInstanceOf<ViewResult>(actual);
@@ -95,7 +95,7 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
             MockChallengeHandler.Setup(x => x.Handle(It.IsAny<ChallengePermissionQuery>()))
                 .ReturnsAsync(response);
 
-            var actual = await Unit.Index(challengeEntry);
+            var actual = await Unit.Index(challengeEntry.Id, challengeEntry);
 
             Assert.IsNotNull(actual);
             Assert.IsInstanceOf<ContentResult>(actual);

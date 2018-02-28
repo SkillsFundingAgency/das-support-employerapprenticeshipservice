@@ -18,7 +18,9 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             _handler = handler;
         }
 
-        public async Task<ActionResult> Index(string id, string url, bool hasError = false)
+        [HttpGet]
+        [Route("challenge/{id}")]
+        public async Task<ActionResult> Index(string id)
         {
             var response = await _handler.Get(id);
 
@@ -28,14 +30,13 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             return View(new ChallengeViewModel
             {
                 Characters = response.Characters,
-                Id = id,
-                Url = url,
-                HasError = hasError
+                Id = id
             });
         }
 
         [HttpPost]
-        public async Task<ActionResult> Index(ChallengeEntry challengeEntry)
+        [Route("challenge/{id}")]
+        public async Task<ActionResult> Index(string id,  ChallengeEntry challengeEntry)
         {
             var response = await _handler.Handle(Map(challengeEntry));
 
