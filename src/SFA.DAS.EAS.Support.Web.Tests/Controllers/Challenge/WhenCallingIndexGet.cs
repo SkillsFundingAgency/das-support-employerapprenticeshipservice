@@ -24,7 +24,7 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
             MockChallengeHandler.Setup(x => x.Get(id))
                 .ReturnsAsync(challengeResponse);
 
-            var actual = await Unit.Index(id, "http:/temprui.org/callback", false);
+            var actual = await Unit.Index(id);
 
             Assert.IsInstanceOf<HttpNotFoundResult>(actual);
         }
@@ -43,7 +43,7 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
             MockChallengeHandler.Setup(x => x.Get(id))
                 .ReturnsAsync(challengeResponse);
 
-            var actual = await Unit.Index(id, "http:/temprui.org/callback", false);
+            var actual = await Unit.Index(id);
 
             Assert.IsInstanceOf<HttpNotFoundResult>(actual);
         }
@@ -67,7 +67,7 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
             MockChallengeHandler.Setup(x => x.Get(id))
                 .ReturnsAsync(challengeResponse);
 
-            var actual = await Unit.Index(id, "http:/temprui.org/callback", false);
+            var actual = await Unit.Index(id);
 
             Assert.IsInstanceOf<ViewResult>(actual);
             var viewResult = (ViewResult) actual;
