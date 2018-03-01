@@ -43,8 +43,6 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             if (response.IsValid)
                 return Content(string.Empty);
 
-            //Response.StatusCode = 403;
-
             var model = new ChallengeViewModel
             {
                 Characters = new List<int> {challengeEntry.FirstCharacterPosition, challengeEntry.SecondCharacterPosition},
