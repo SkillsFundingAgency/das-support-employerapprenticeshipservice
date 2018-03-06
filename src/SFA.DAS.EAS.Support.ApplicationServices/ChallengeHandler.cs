@@ -47,10 +47,12 @@ namespace SFA.DAS.EAS.Support.ApplicationServices
 
             var challenegModel = await Get(message.Id);
 
+            int balance;
+
             var isValidInput = !(string.IsNullOrEmpty(message.Balance)
                             || string.IsNullOrEmpty(message.ChallengeElement1)
                             || string.IsNullOrEmpty(message.ChallengeElement2)
-                            || !int.TryParse(message.Balance.Split('.')[0].Replace("£", string.Empty), out int balance)
+                            || !int.TryParse(message.Balance.Split('.')[0].Replace("£", string.Empty), out balance)
                             || message.ChallengeElement1.Length != 1
                             || message.ChallengeElement2.Length != 1
                            );
