@@ -6,6 +6,7 @@ using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.Core.Models;
 using SFA.DAS.EAS.Support.Infrastructure.Models;
 using SFA.DAS.EAS.Support.Web.Models;
+using SFA.DAS.Support.Shared.Authentication;
 
 namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
 {
@@ -61,7 +62,7 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
         }
 
         [Test]
-        public async Task ItShouldReturnEmptyStringContentWhenTheChallengeEntryIsValid()
+        public async Task ItShouldReturnChallengeValidationJsonResultWhenTheChallengeEntryIsValid()
         {
             var challengeEntry = new ChallengeEntry
             {
@@ -98,9 +99,11 @@ namespace SFA.DAS.EAS.Support.Web.Tests.Controllers.Challenge
             var actual = await Unit.Index(challengeEntry.Id, challengeEntry);
 
             Assert.IsNotNull(actual);
-            Assert.IsInstanceOf<ContentResult>(actual);
-            Assert.IsInstanceOf<string>(((ContentResult) actual).Content);
-            Assert.AreEqual(string.Empty, ((ContentResult) actual).Content);
+            Assert.IsInstanceOf<JsonResult>(actual);
+
+            var result = ((JsonResult)actual).Data as ChallengeValidationResult;
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.IsValidResponse);
         }
     }
 }

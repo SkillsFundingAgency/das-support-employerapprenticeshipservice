@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
 using SFA.DAS.EAS.Support.Core.Models;
@@ -43,6 +44,20 @@ namespace SFA.DAS.EAS.Support.ApplicationServices
 
         public async Task<ChallengePermissionResponse> Handle(ChallengePermissionQuery message)
         {
+
+            var challenegModel = await Get(message.Id);
+
+            int balance;
+
+            var isValidInput = !(string.IsNullOrEmpty(message.Balance)
+                            || string.IsNullOrEmpty(message.ChallengeElement1)
+                            || string.IsNullOrEmpty(message.ChallengeElement2)
+                            || !int.TryParse(message.Balance.Split('.')[0].Replace("£", string.Empty), out balance)
+                            || message.ChallengeElement1.Length != 1
+                            || message.ChallengeElement2.Length != 1
+                           );
+
+
             var response = new ChallengePermissionResponse
             {
                 Id = message.Id,
@@ -50,24 +65,16 @@ namespace SFA.DAS.EAS.Support.ApplicationServices
                 IsValid = false
             };
 
-            int balance;
-
-            if (string.IsNullOrEmpty(message.Balance)
-                || string.IsNullOrEmpty(message.ChallengeElement1)
-                || string.IsNullOrEmpty(message.ChallengeElement2)
-                || !int.TryParse(message.Balance.Split('.')[0].Replace("£", string.Empty), out balance)
-                || message.ChallengeElement1.Length != 1
-                || message.ChallengeElement2.Length != 1)
-                return response;
-
-            var record = await _accountRepository.Get(message.Id, AccountFieldsSelection.PayeSchemes);
-
-            if (record != null)
+            if (challenegModel.StatusCode == SearchResponseCodes.Success)
             {
-                var isValid = await _challengeRepository.CheckData(record, message);
+                if (isValidInput)
+                {
+                    response.IsValid = await _challengeRepository.CheckData(challenegModel.Account, message);
+                }
 
-                response.IsValid = isValid;
+                response.Characters = challenegModel.Characters;
             }
+
 
             return response;
         }

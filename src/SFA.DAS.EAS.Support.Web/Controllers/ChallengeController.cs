@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using SFA.DAS.EAS.Support.ApplicationServices;
@@ -6,6 +7,7 @@ using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.Core.Models;
 using SFA.DAS.EAS.Support.Infrastructure.Models;
 using SFA.DAS.EAS.Support.Web.Models;
+using SFA.DAS.Support.Shared.Authentication;
 
 namespace SFA.DAS.EAS.Support.Web.Controllers
 {
@@ -36,16 +38,22 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
 
         [HttpPost]
         [Route("challenge/{id}")]
-        public async Task<ActionResult> Index(string id,  ChallengeEntry challengeEntry)
+        public async Task<ActionResult> Index(string id, ChallengeEntry challengeEntry)
         {
             var response = await _handler.Handle(Map(challengeEntry));
 
             if (response.IsValid)
-                return Content(string.Empty);
+            {
+                return Json(new ChallengeValidationResult
+                {
+                    IsValidResponse = true
+                });
+            }
+
 
             var model = new ChallengeViewModel
             {
-                Characters = new List<int> {challengeEntry.FirstCharacterPosition, challengeEntry.SecondCharacterPosition},
+                Characters = response.Characters,
                 Id = challengeEntry.Id,
                 Url = challengeEntry.Url,
                 HasError = true

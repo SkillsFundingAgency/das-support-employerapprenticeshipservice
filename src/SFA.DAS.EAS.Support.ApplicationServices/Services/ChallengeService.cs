@@ -10,6 +10,11 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
     {
         public List<int> GetPayeSchemesCharacters(IEnumerable<PayeSchemeModel> payeSchemes)
         {
+            if(payeSchemes == null || !payeSchemes.Any())
+            {
+                return new List<int>();
+            }
+
             var schemes = payeSchemes
                 .Select(p =>p.ObscuredPayeRef.Substring(1, p.ObscuredPayeRef.Length - 2).Replace("/", string.Empty))
                 .ToList();
