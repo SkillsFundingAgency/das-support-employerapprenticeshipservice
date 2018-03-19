@@ -82,5 +82,12 @@
 }
 else
 {
-    <p>There are no levy declarations for this PAYE scheme </p>
+    if (this.Model.UnexpectedError)
+    {
+        <p>The system is currently busy. Please try again later</p>
+    }
+    else
+    {
+        <p>There are no levy declarations for this PAYE scheme </p>
+    }
 }
