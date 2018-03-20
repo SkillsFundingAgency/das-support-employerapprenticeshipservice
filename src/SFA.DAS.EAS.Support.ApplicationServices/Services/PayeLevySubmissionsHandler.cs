@@ -53,7 +53,6 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
 
             try
             {
-
                 var levySubmissions = await _levySubmissionsRepository.Get(actualPayeId);
 
                 return new PayeLevySubmissionsResponse
@@ -70,7 +69,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Services
 
                 return new PayeLevySubmissionsResponse
                 {
-                    StatusCode = PayeLevySubmissionsResponseCodes.DeclarationsNotFound,
+                    StatusCode = PayeLevySubmissionsResponseCodes.UnexpectedError,
                     PayeScheme = selectedPayeScheme,
                 };
             }

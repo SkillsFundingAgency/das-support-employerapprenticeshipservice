@@ -4,6 +4,6 @@
     {
         Success,
         AccountNotFound,
-        DeclarationsNotFound
+        UnexpectedError
     }
 }

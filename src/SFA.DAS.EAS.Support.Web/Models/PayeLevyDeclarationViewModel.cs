@@ -11,6 +11,7 @@ namespace SFA.DAS.EAS.Support.Web.Models
         public string PayeSchemeFormatedAddedDate { get; set; }
         public string PayeSchemeRef { get; set; }
         public List<DeclarationViewModel> LevyDeclarations { get; set; }
+        public bool UnexpectedError { get; set; }
 
     }
 }

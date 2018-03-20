@@ -1,6 +1,7 @@
 ﻿using HMRC.ESFA.Levy.Api.Types;
 using Moq;
 using NUnit.Framework;
+using SFA.DAS.EAS.Support.ApplicationServices.Models;
 using SFA.DAS.EAS.Support.ApplicationServices.Services;
 using SFA.DAS.EAS.Support.Core.Models;
 using SFA.DAS.EAS.Support.Core.Services;
@@ -40,6 +41,46 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.PayeSchemeLevySubmission
 
         }
 
+        [Test]
+        public async Task ShouldReturnLevyResponseWithUnexpectedErrorStatusCodeWhenExceptionOccursWithHmrcApiClient()
+        {
+            // Arrange
+            IPayeLevySubmissionsHandler payeLevySubmissionsHandler =
+                new PayeLevySubmissionsHandler(
+                    _accountRepository.Object,
+                    _levySubmissionsRepository.Object,
+                    _payeSchemeObfuscator.Object,
+                    _log.Object,
+                    _hashingService.Object);
+            PayeLevySubmissionsResponse payeLevySubmissionsResponse = null;
+            PayeLevySubmissionsResponseCodes? expectedStatusCode = PayeLevySubmissionsResponseCodes.UnexpectedError;
+            PayeLevySubmissionsResponseCodes? actualStatusCode = null;
+
+            _hashingService
+                .Setup(x => x.DecodeValueToString(_hashedPayeRef))
+                .Returns(_actualPayeRef);
+            _accountRepository
+                .Setup(x => x.Get(
+                    It.Is<string>(y => y == _accountId),
+                    It.Is<AccountFieldsSelection>(y => y == AccountFieldsSelection.PayeSchemes)))
+                .Returns(Task.FromResult(this.GenerateTestAccount()));
+            _levySubmissionsRepository
+                .Setup(x => x.Get(It.Is<string>(y => y == _actualPayeRef)))
+                .Callback(() =>
+                {
+                    throw new Exception("Some HRMC Exception!");
+                });
+
+            // Act
+            payeLevySubmissionsResponse = await payeLevySubmissionsHandler.FindPayeSchemeLevySubmissions(
+                _accountId,
+                _hashedPayeRef);
+
+            actualStatusCode = payeLevySubmissionsResponse.StatusCode;
+
+            // Assert
+            Assert.AreEqual(expectedStatusCode, actualStatusCode);
+        }
 
         [Test]
         public async Task ShouldReturnLevyResponseAndCallRequiredMethods()
@@ -62,18 +103,7 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.PayeSchemeLevySubmission
                     }
             };
 
-            var accountModel = new Core.Models.Account
-            {
-                HashedAccountId = _accountId,
-                DasAccountName = "TEST",
-                PayeSchemes = new List<PayeSchemeModel>
-                {
-                    new PayeSchemeModel
-                    {
-                        Ref = _actualPayeRef
-                    }
-               }
-            };
+            var accountModel = this.GenerateTestAccount();
 
             _accountRepository
                 .Setup(x => x.Get(_accountId, AccountFieldsSelection.PayeSchemes))
@@ -112,6 +142,24 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.PayeSchemeLevySubmission
             Assert.NotNull(response);
             Assert.IsNotNull(response.LevySubmissions);
             Assert.AreEqual(2, response.LevySubmissions.Declarations.Count());
+        }
+
+        private Core.Models.Account GenerateTestAccount()
+        {
+            Core.Models.Account toReturn = new Core.Models.Account
+            {
+                HashedAccountId = _accountId,
+                DasAccountName = "TEST",
+                PayeSchemes = new List<PayeSchemeModel>
+                {
+                    new PayeSchemeModel
+                    {
+                        Ref = _actualPayeRef
+                    }
+               }
+            };
+
+            return toReturn;
         }
 
     }
