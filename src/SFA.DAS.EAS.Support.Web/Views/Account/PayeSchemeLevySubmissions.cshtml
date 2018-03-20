@@ -1,4 +1,5 @@
 ﻿@using HMRC.ESFA.Levy.Api.Types
+@using SFA.DAS.Support.Shared.Discovery
 @model SFA.DAS.EAS.Support.Web.Models.PayeSchemeLevyDeclarationViewModel
 
 <style>
@@ -15,14 +16,14 @@
 
 <h2 class="heading-large"> @Model.PayeSchemeRef Levy declarations</h2>
 
-    @if (!string.IsNullOrWhiteSpace(Model.PayeSchemeFormatedAddedDate))
-    {
-        <h5 class="heading-small"> @Model.PayeSchemeName</h5>
-    }
-    @if (!string.IsNullOrWhiteSpace(Model.PayeSchemeFormatedAddedDate))
-    {
-        <p> PAYE scheme added @Model.PayeSchemeFormatedAddedDate  </p>  
-    }
+@if (!string.IsNullOrWhiteSpace(Model.PayeSchemeFormatedAddedDate))
+{
+    <h5 class="heading-small"> @Model.PayeSchemeName</h5>
+}
+@if (!string.IsNullOrWhiteSpace(Model.PayeSchemeFormatedAddedDate))
+{
+    <p> PAYE scheme added @Model.PayeSchemeFormatedAddedDate  </p>
+}
 
 <br />
 
@@ -84,7 +85,7 @@ else
 {
     if (Model.UnexpectedError)
     {
-        <p>The system is currently busy. Please try again later</p>
+        <p>The data feed from HMRC timed out. <a href="javascript:location.reload();">Retry</a></p>
     }
     else
     {

@@ -124,9 +124,6 @@ namespace SFA.DAS.EAS.Support.Web.Controllers
             {
                 var model = _payeLevyMapper.MapPayeLevyDeclaration(response);
 
-                model.UnexpectedError =
-                    response.StatusCode == PayeLevySubmissionsResponseCodes.UnexpectedError;
-
                 return View(model);
             }
 
