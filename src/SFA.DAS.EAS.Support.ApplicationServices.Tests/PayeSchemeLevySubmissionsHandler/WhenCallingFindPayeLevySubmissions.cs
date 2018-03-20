@@ -47,24 +47,24 @@ namespace SFA.DAS.EAS.Support.ApplicationServices.Tests.PayeSchemeLevySubmission
             // Arrange
             IPayeLevySubmissionsHandler payeLevySubmissionsHandler =
                 new PayeLevySubmissionsHandler(
-                    this._accountRepository.Object,
-                    this._levySubmissionsRepository.Object,
-                    this._payeSchemeObfuscator.Object,
-                    this._log.Object,
-                    this._hashingService.Object);
+                    _accountRepository.Object,
+                    _levySubmissionsRepository.Object,
+                    _payeSchemeObfuscator.Object,
+                    _log.Object,
+                    _hashingService.Object);
             PayeLevySubmissionsResponse payeLevySubmissionsResponse = null;
             PayeLevySubmissionsResponseCodes? expectedStatusCode = PayeLevySubmissionsResponseCodes.UnexpectedError;
             PayeLevySubmissionsResponseCodes? actualStatusCode = null;
 
-            this._hashingService
+            _hashingService
                 .Setup(x => x.DecodeValueToString(_hashedPayeRef))
                 .Returns(_actualPayeRef);
-            this._accountRepository
+            _accountRepository
                 .Setup(x => x.Get(
                     It.Is<string>(y => y == _accountId),
                     It.Is<AccountFieldsSelection>(y => y == AccountFieldsSelection.PayeSchemes)))
                 .Returns(Task.FromResult(this.GenerateTestAccount()));
-            this._levySubmissionsRepository
+            _levySubmissionsRepository
                 .Setup(x => x.Get(It.Is<string>(y => y == _actualPayeRef)))
                 .Callback(() =>
                 {
