@@ -29,6 +29,9 @@ namespace SFA.DAS.EAS.Support.Web.Services
             payeLevyDeclaration.PayeSchemeFormatedAddedDate = model.PayeScheme?.AddedDate == DateTime.MinValue ?
                                           string.Empty :
                                           ConvertDateTimeToDdmmyyyyFormat(model.PayeScheme.AddedDate);
+            payeLevyDeclaration.UnexpectedError =
+                    model.StatusCode == PayeLevySubmissionsResponseCodes.UnexpectedError;
+
             return payeLevyDeclaration;
         }
 
