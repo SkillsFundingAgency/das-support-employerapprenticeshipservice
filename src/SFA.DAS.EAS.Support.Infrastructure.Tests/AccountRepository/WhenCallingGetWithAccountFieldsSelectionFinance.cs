@@ -73,26 +73,15 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Tests.AccountRepository
              * because our collegues used DateTime.Now in the code! 
              * See ASCS-83 for a fix
              */
-            var now = DateTime.Now;
-            var yearOffset = now.Month <= 4 ? -1 : 0;
-            var startOfFinancialYear = new DateTime(now.Year + yearOffset, 4, 1);
+            var now = DateTime.Now.Date;
+            var startOfFirstFinancialYear = new DateTime(2017, 4, 1);
+            var monthsToQuery = (now.Year - startOfFirstFinancialYear.Year) * 12 +
+                                            (now.Month - startOfFirstFinancialYear.Month) + 1;
+            
+            DatetimeService.Setup(x => x.GetBeginningFinancialYear(startOfFirstFinancialYear))
+                .Returns(startOfFirstFinancialYear);
 
-            DatetimeService.Setup(x => x.GetBeginningFinancialYear(It.IsAny<DateTime>()))
-                .Returns(startOfFinancialYear);
-
-            // Q: 2016,4,1 -> 2016,11,1    
-            // A: (2016 - 2016 = 1 ) * 12  = 0
-            //    + 11 - 4 + 1             = 8 (4,5,6,7,8,9,10,11)
-
-            // Q: 2016,4,1 -> 2017,3,31    
-            // A: 2017 - 2016 = 1 * 12     = 12
-            //    3 - 4 = -1 + 1           = 0
-            //                             = 12 (4,5,6,7,8,9,10,11,12,1,2,3)
-
-            var monthsToQuery = (now.Year - startOfFinancialYear.Year) * 12 +
-                                (now.Month - startOfFinancialYear.Month) + 1;
-            ;
-
+            
             var isNotZero = 100m;
             var isTxDateCreated = DateTime.Today;
             var transactionsViewModel = new TransactionsViewModel
