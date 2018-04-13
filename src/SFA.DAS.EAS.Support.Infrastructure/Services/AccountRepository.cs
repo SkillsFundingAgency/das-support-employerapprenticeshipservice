@@ -172,15 +172,13 @@ namespace SFA.DAS.EAS.Support.Infrastructure.Services
                 {
                     var transactions = await _accountApiClient.GetTransactions(accountId, financialYearIterator.Year,
                         financialYearIterator.Month);
-
                     response.AddRange(transactions);
-                    financialYearIterator = financialYearIterator.AddMonths(1);
-
                 }
                 catch (Exception e)
                 {
                     _logger.Error(e, $"Exception occured in Account API type of {nameof(TransactionsViewModel)} for period {financialYearIterator.Year}.{financialYearIterator.Month} id {accountId}");
                 }
+                financialYearIterator = financialYearIterator.AddMonths(1);
             }
 
             return GetFilteredTransactions(response);
